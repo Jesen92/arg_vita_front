@@ -1,0 +1,84 @@
+<div class="single contact">
+
+  <div class="container">
+    <div class="single-main">
+      <div class="col-md-12 single-main-left">
+        <div class="sngl-top">
+          <div class="col-md-4 single-top-left">
+
+            <!--TODO: postotak na modal dialogu-->
+
+            <div id="modal-photo" class="owl-carousel">
+
+              <% if !@auction.complement.pictures.first.nil? %>
+                  <% @ind = @auction.complement.picture.image.url(:picture) %>
+                  <div class="item"><%=image_tag( @auction.complement.picture.image.url(:picture) , class: "Product_photo" ) %></div>
+                  <% @auction.complement.pictures.each do |pic| %>
+
+                      <% if @ind != pic.image.url(:picture) %>
+                          <div class="item"><%=image_tag( pic.image.url(:picture) , class: "Product_photo" ) %></div>
+                      <% end %>
+                  <% end %>
+              <% end %>
+
+            </div>
+
+
+          </div>
+          <div class="col-md-7 details">
+
+            <div class="product-bottom">
+              <div class="productboxkat">Komplet</div>
+              <div class="row naslov-site">
+                <div class="productbox"><%= @auction.complement.title %></div>
+
+              </div>
+              <div class="productboxopis-site">
+                <p><h3>Preostalo:</h3><h4 ><div data-countdown="<%= @auction.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></h4><%= @auction.complement.description %></p>
+              </div>
+
+
+
+              <%= simple_form_for @auction, url: new_bid_auctions_path, :method => :put, html: {class: ""} do |f| %>
+
+                  <%= f.input :id, :as => :hidden %>
+
+                  <%= f.input :article_id, :as => :hidden %>
+
+
+                  <div class="row" style="margin-bottom:30px;">
+                    <div class="col-md-6 productboxcart" style="margin-top:20px;">
+                      <div class="hcart">
+                        <div class="productboxcolor">Trenutna ponuda </div>
+                        <% if f.object.highest_bid != nil %>
+                            <%= f.input :highest_bid, label: false ,placeholder: number_to_currency(f.object.highest_bid.round(2), :unit => 'Kn', :format => "%n %u"), class: "ddboje",:include_blank => false, input_html: { value: nil}  %>
+                        <% else %>
+                            <%= f.input :highest_bid, label: false, placeholder: number_to_currency(f.object.starting_price.round(2), :unit => 'Kn', :format => "%n %u") , class: "ddboje",:include_blank => false  %>
+                        <% end %>
+                        <small>Nova ponuda mora biti veća od trenutne</small>
+                        <h4><span><%= link_to "", class: "item_add" do %> <i></i> <%= f.button :submit,"Licitiraj" %> <% end %></span></h4></div>
+                    </div>
+
+                  </div>
+                  </div>
+
+
+                  </div>
+                  <div class="clearfix"> </div>
+                  </div>
+                  </div>
+                  <div class="clearfix"> </div>
+                  </div>
+                  </div>
+              <% end %>
+              </div>
+
+<script>
+
+  $('[data-countdown]').each(function() {
+    var $this = $(this), finalDate = $(this).data('countdown');
+    $this.countdown(finalDate, function(event) {
+      $this.html(event.strftime('%D dana %H:%M:%S'));
+    });
+  })
+</script>

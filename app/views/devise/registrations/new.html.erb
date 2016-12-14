@@ -1,0 +1,44 @@
+<div class="prdt" style="padding-top: 10px">
+  <div class="container">
+    <div class="page-header head-page">
+      <h2>Registracija</h2>
+    </div>
+      <div style="margin: 30px 30px 30px 30px;" >
+<%= simple_form_for(resource, html: { class: 'form-horizontal' }, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+      <%= f.input :name, autofocus: true %>
+
+      <%= f.input :date_of_birth, :as => :date, start_year: Date.today.year - 100, end_year: Date.today.year %>
+
+      <div class="form-group">
+        <label>Država</label>
+          <%= country_select("user", "state", {priority_countries: ["HR"]}, { class: 'form-control', data: { attribute: "value" } })  %>
+      </div>
+
+      <%= f.input :city, autofocus: true %>
+
+      <%= f.input :address, autofocus: true %>
+
+      <%= f.input :postcode, autofocus: true %>
+
+      <%= f.input :phone, autofocus: true %>
+
+    <%= f.input :email, autofocus: true %>
+
+
+    <%= f.input :password, autocomplete: "off" %>
+            <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+    <%= f.input :password_confirmation, autocomplete: "off" %>
+
+  <div class="actions">
+    <%= f.button :submit, "Registriraj se", class:"btn btn-success" %>
+  </div>
+<% end %>
+
+
+</div>
+  </div>
+</div>

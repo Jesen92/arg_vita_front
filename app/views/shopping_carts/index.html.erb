@@ -1,0 +1,12 @@
+
+<% @shopping_cart.each do |id| %>
+
+  <% article = Article.find.find_by_id(id) %>
+  <%= link_to article.title, article_path %>
+
+<% end %>
+
+<%= link_to 'emty your cart', shopping_carts_clear_path %>
+
+
+

@@ -1,0 +1,222 @@
+<!--start-breadcrumbs-->
+<div class="breadcrumbs">
+  <div class="container">
+    <div class="breadcrumbs-main">
+      <ol class="breadcrumb">
+        <%= render_breadcrumbs :separator => '/' %>
+        <!--TODO: staviti naziv artikla koji je na stranici-->
+        <li class="active">/<%= @article.title %></li>
+      </ol>
+    </div>
+  </div>
+</div>
+<!--end-breadcrumbs-->
+
+<!--start-single-->
+
+<div class="single contact">
+  <div class="container">
+    <div class="single-main">
+      <div class="col-md-12 single-main-left">
+        <div class="sngl-top">
+          <div class="col-md-4 single-top-left">
+
+            <% if @article.on_discount == true && @article.discount != 0 %>
+                <div class="dialog-srch srch">
+                  <span><%= @article.discount %>%</span>
+                </div>
+            <% end %>
+            <!--TODO: postotak na modal dialogu-->
+            <div class="item">
+              <div class="clearfix" style="max-width:474px;">
+                <ul id="image-gallery" class="thumbnail gallery list-unstyled cS-hidden">
+                  <% if !@article.pictures.first.nil? %>
+                      <% @ind = @article.picture.image.url(:picture) %>
+                      <li   data-thumb="<%=  @article.picture.image.url(:thumbgal) %>">
+                        <%= image_tag(@article.picture.image.url(:picture)) %>
+                      </li>
+                      <% @article.pictures.each do |pic| %>
+
+                          <% if @ind != pic.image.url(:picture) %>
+
+                              <li data-thumb="<%=  pic.image.url(:thumbgal) %>">
+                                <%= image_tag(pic.image.url(:picture)) %>
+                              </li>
+
+                          <% end %>
+                      <% end %>
+                  <% end %>
+
+                </ul>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="col-md-7 details">
+
+            <div class="product-bottom">
+              <div class="productboxkat"><%= @article.subcategory.title %></div>
+              <div class="row naslov-site">
+                <% if @article.on_discount %>
+                  <div class="productboxkat"><strong><div data-countdown="<%= @article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div>
+                <% end %>
+                    <div class="productbox"><%= @article.title %></div>
+
+                <% if @article.on_discount == true && @article.discount != 0 %>
+                    <div class="productboxprice" style="margin-left: 10px;"><span class=" item_price"><%= number_to_currency(@article.cost-(@article.cost*@article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div>
+                    <div class="productboxprice"><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(@article.cost, :unit => 'Kn', :format => "%n %u") %></span></div>
+                <% else %>
+                    <div class="productboxprice"><span class=" item_price"><%= number_to_currency(@article.cost, :unit => 'Kn', :format => "%n %u") %></span></div>
+                <% end %>
+              </div>
+              <div class="row">
+                <div class="productboxkata"><strong>Kod Artikla:</strong> <%= @article.code %></div>
+              </div>
+              <div class="productboxopis-site">
+                <p><%= @article.description %></p>
+              </div>
+              <div class="productboxopis-site">
+                <% if !@article.weight.nil? %>
+                    <p><strong>Težina:</strong> <%= @article.weight %>g </p>
+                <% end %>
+
+                <% if !@article.dimension.nil? %>
+                    <p><strong>Dimenzije:</strong> <%= @article.dimension %></p>
+                <% end %>
+              </div>
+
+              <%= simple_form_for @article, url:  @article.single_articles.first != nil ?  create_single_carts_articles_path : carts_articles_path, :method => :post, html: {class: ""} do |f| %>
+
+                  <%= f.input :id, :as => :hidden %>
+
+                  <div class="row" style="margin-bottom:20px;">
+
+
+
+                    <div class="row" >
+
+                      <% if @article.single_articles.first != nil %>
+                          <% if @article.single_articles.first.size != "" && @article.single_articles.first.size != nil %>
+
+                              <div class="col-md-6 artikli_margin_none">
+                                <div class="productboxcolor">Veličina* </div>
+
+                                <%= f.input :size, label: false, collection: SingleArticle.where(article_id: f.object.id).pluck(:size), class: "ddboje",:include_blank => false  %>
+
+                              </div>
+                          <% end %>
+                      <% end %>
+
+
+                    </div>
+
+                    <div class="row" >
+
+                      <div class="col-md-6 artikli_margin_none">
+                        <div class="productboxcolor">Količina*</div>
+
+                        <%= f.input :amount, label: false ,input_html: { value: 1} %>
+
+                      </div>
+                    </div>
+
+                    <div class="row ">
+                      <div class="col-md-6 artikli_margin_none">
+                        <div class="hcart">
+                          <h4><span><%= button_tag(type: 'submit', class: 'btn btn-default gumb_kupnja') do %> <i></i>Dodaj u košaricu <% end %></span></h4>
+                        </div>
+                      </div>
+
+                    </div>
+                    </div>
+
+
+                    </div>
+                    <div class="clearfix"> </div>
+                    </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                    </div>
+                    </div>
+
+
+              <% end %>
+
+              <% if  !@rel_arts.nil? && !@rel_arts.empty? %>
+                  <div class="page-header" style="padding-left: 25px; margin: 0;">
+                    <h1>Srodni Artikli</h1>
+                  </div>
+
+                  <div class="row" >
+                    <div class="prdt-top">
+                      <div class="col-md-12 prdt-left">
+                        <% @rel_arts.each do |art| %>
+
+                            <% if art.raw == true %>
+                                <div class="product-one col-md-3 product-left ">
+                                  <div class="product-main simpleCart_shelfItem">
+                                    <!--TODO: upisati naziv slike-->
+
+                                    <% if art.picture != nil %>
+                                        <%=link_to  repromaterijal_show_path(art.id)  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> <% end %>
+                                    <% else %>
+                                        <%=link_to  repromaterijal_show_path(art.id)  do %> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> <% end %>
+                                    <% end %>
+                                    <div class="product-bottom">
+                                      <h3><%= art.title %></h3>
+                                      <!--NOTE: kratki opis od jednog reda-->
+                                      <p>detalji</p>
+
+                                      <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+
+                                    </div>
+                                    <% if art.on_discount == true && art.discount != 0 %>
+                                        <div class="srch">
+                                          <span><%= art.discount %>%</span>
+                                        </div>
+                                    <% end %>
+                                  </div>
+                                </div>
+                            <% else %>
+                                <div class="product-one col-md-3 product-left ">
+                                  <div class="product-main simpleCart_shelfItem">
+                                    <!--TODO: upisati naziv slike-->
+                                    <%=link_to  trgovina_show_path(art.id)  do %> <% if !art.picture.nil? %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img") %><% else %> <%= image_tag('placeholder_index.png', class: "img-responsive zoom-img") %> <% end %> <% end %>
+                                    <div class="product-bottom">
+                                      <h3><%= art.title %></h3>
+                                      <!--NOTE: kratki opis od jednog reda-->
+                                      <p>detalji</p>
+
+                                      <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+
+                                    </div>
+                                    <% if art.on_discount == true && art.discount != 0 %>
+                                        <div class="srch">
+                                          <span><%= art.discount %>%</span>
+                                        </div>
+                                    <% end %>
+                                  </div>
+                                </div>
+                            <% end %>
+
+                            <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+                        <% end %>
+              <% end %>
+              </div>
+              <div class="clearfix"></div>
+              </div>
+              </div>
+              </div>
+</div>
+              <!--end-single-->
+
+<script>
+  $('[data-countdown]').each(function () {
+    var $this = $(this), finalDate = $(this).data('countdown');
+    $this.countdown(finalDate, function (event) {
+      $this.html(event.strftime('%D dana %H:%M:%S'));
+    });
+  });
+</script>

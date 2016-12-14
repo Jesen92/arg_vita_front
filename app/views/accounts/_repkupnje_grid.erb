@@ -1,0 +1,39 @@
+<%= grid(@repro_purchases_grid, show_filters: :always) do |g|
+  g.action_column do |t|
+    t.id
+  end
+  g.column name: "Naziv", attribute: 'title', in_html: false ,assoc: :article do |t|
+    if !t.article.nil?
+      t.article.title
+    else
+      "- - -"
+    end
+  end
+  g.column name: "Naziv", attribute: 'title', in_csv: false ,assoc: :article do |t|
+    if !t.article.nil?
+      link_to(t.article.title, repromaterijal_show_path(t.article.id), :method => :get )
+    else
+      "- - -"
+    end
+  end
+  g.column name: "Poslano", attribute: 'article_sent' do |t|
+    t.article_sent? ? "Da" : "Ne"
+  end
+  g.column name: "Kod", attribute: 'code', assoc: :article do |t|
+    if !t.article.nil?
+      t.article.code
+    end
+  end
+  g.column name: "Datum kupovine", attribute: 'created_at' do |t|
+    t.created_at.strftime("%d. %m. %Y.")
+  end
+  g.column name: "Količina", attribute: 'amount' do |t|
+    t.amount
+  end
+  g.column name: "Cijena(pojedinačno)", attribute: 'cost' do |t|
+    number_to_currency(t.cost, :unit => 'Kn', :format => "%n %u")
+  end
+  g.column name: "Cijena(ukupno)", attribute: 'cost' do |t|
+    number_to_currency(t.cost*t.amount, :unit => 'Kn', :format => "%n %u")
+  end
+end-%>

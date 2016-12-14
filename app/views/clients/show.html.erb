@@ -1,0 +1,19 @@
+Ime:
+<h4><%= @user.name %></h4>
+Datum:
+<h4><%= @user.date_of_birth %></h4>
+Drzava:
+<h4><%= @user.state %></h4>
+Grad:
+<h4><%= @user.city %></h4>
+Adresa:
+<h4><%= @user.address %></h4>
+Poštanski broj:
+<h4><%= @user.postcode %></h4>
+Telefon:
+<h4><%= @user.phone %></h4>
+Email:
+<h4><%= @user.email %></h4>
+Ukupno potrošeno: <h4><%= @user.purchase_sum %></h4>
+
+<%= link_to "Edit Account", edit_user_registration_path %>

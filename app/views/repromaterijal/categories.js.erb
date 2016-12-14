@@ -1,0 +1,4 @@
+<% js = escape_javascript(
+  render(partial: 'repromaterijal/cat_pics', locals: { subcategories: @subcategories })
+) %>
+$("#filterrific_results").html("<%= js %>");

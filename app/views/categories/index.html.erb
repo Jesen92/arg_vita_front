@@ -1,0 +1,11 @@
+<h1>Categories#index</h1>
+<p>Find me in app/views/categories/index.html.erb</p>
+<% @category.each do |category| %>
+
+    <div class="col-md-4">
+      <h2><%= category.title %></h2>
+      <p>Category: <%= link_to category.title, category_path(category.id) %> </p>
+
+
+    </div>
+<% end %>

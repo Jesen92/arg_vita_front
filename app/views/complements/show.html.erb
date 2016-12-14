@@ -1,0 +1,88 @@
+<!--start-breadcrumbs-->
+<div class="breadcrumbs">
+  <div class="container">
+    <div class="breadcrumbs-main">
+      <ol class="breadcrumb">
+        <li><a href="index.html">Početna</a></li>
+        <!--TODO: staviti naziv artikla koji je na stranici-->
+        <li class="active"><%= @complement.title %></li>
+      </ol>
+    </div>
+  </div>
+</div>
+<!--end-breadcrumbs-->
+
+<!--start-single-->
+
+<div class="single contact">
+  <div class="container">
+    <div class="single-main">
+      <div class="col-md-12 single-main-left">
+        <div class="sngl-top">
+          <div class="col-md-4 single-top-left">
+
+            <div class="dialog-srch srch">20%</div>
+            <!--TODO: postotak na modal dialogu-->
+            <div id="modal-photo" class="owl-carousel">
+
+
+              <% if !@complement.pictures.first.nil? %>
+                  <% @ind = @complement.picture.image.url(:picture) %>
+                  <div class="item"><%=image_tag( @complement.picture.image.url(:picture) , class: "Product_photo" ) %></div>
+                  <% @complement.pictures.each do |pic| %>
+
+                      <% if @ind != pic.image.url(:picture) %>
+                          <div class="item"><%=image_tag( pic.image.url(:picture) , class: "Product_photo" ) %></div>
+                      <% end %>
+                  <% end %>
+              <% end %>
+
+            </div>
+
+
+          </div>
+          <div class="col-md-7 details">
+
+            <div class="product-bottom">
+              <div class="productboxkat">Komplet</div>
+              <div class="row naslov-site">
+                <div class="productbox"><%= @complement.title %></div>
+                <div class="productboxprice"><span class=" item_price"><%= number_to_currency(@complement.cost, :unit => 'Kn', :format => "%n %u") %></span></div>
+              </div>
+              <div class="productboxopis-site">
+                <p><%= @complement.description %></p>
+              </div>
+
+              <%= simple_form_for @complement, url: single_carts_articles_path, :method => :put, html: {class: ""} do |f| %>
+
+                  <%= f.input :id, :as => :hidden %>
+
+                  <div class="row" style="margin-bottom:20px;">
+
+                    <div class="row" style="margin-bottom:30px;">
+                      <div class="col-md-6 productboxcart" style="margin-top:20px;">
+                        <div class="hcart">
+                          <h4><span><%= link_to "", class: "item_add" do %> <i></i> <%= f.button :submit,"Dodaj u košaricu" %> <% end %></span></h4></div>
+                      </div>
+
+                      <div class="col-md-6 productboxcart">
+                        <div class="productboxcolor">Količina*</div>
+
+                        <%= f.input :amount, label: false ,input_html: { value: 1} %>
+
+                      </div>
+                    </div>
+                    </div>
+
+
+                    </div>
+                    <div class="clearfix"> </div>
+                    </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                    </div>
+                    </div>
+                    </div>
+                  </div>
+              <% end %>
+              <!--end-single-->

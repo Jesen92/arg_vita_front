@@ -1,0 +1,18 @@
+<div class="prdt" style="padding-top: 10px">
+  <div class="container">
+    <div class="page-header head-page">
+      <h1>Vaše Kupnje</h1>
+    </div>
+
+    <% if @purchases != nil && @single_article_purchases != nil %>
+        <% if @purchases != nil %>
+          <%= render partial: 'accounts/kupnje_grid' %>
+        <% end %>
+
+        <% if @single_article_purchases != nil %>
+          <%= render partial: 'accounts/pakupnje_grid' %>
+        <% end %>
+    <% end %>
+
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div id="filterrific_results">
+
+
+  <div style="margin-bottom: 20px">
+    <%= page_entries_info articles %>
+  </div>
+  <div class="row" >
+
+
+
+    <% articles.each do |art| %>
+
+        <div class="col-xs-6 col-md-2 js--msr-gall">
+          <div class="container-fluid gallery" >
+            <a href="#"  id="increment" ><%= link_to art.title %> <%= art.cost %>  <%= link_to 'add to cart', carts_articles_create_path(art.id ) %> </a>
+
+        </div>
+        </div>
+
+
+
+
+    <% end %>
+  </div>
+</div>
+
+<%= paginate articles %>
+
+

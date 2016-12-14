@@ -1,0 +1,160 @@
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+<!--bottom-header-->
+<!--start-breadcrumbs-->
+
+<!--end-breadcrumbs-->
+<!--prdt-starts-->
+<%= form_for_filterrific @filterrific do |f| %>
+<div class="prdt">
+  <div class="container">
+    <div class="prdt-top">
+      <div class="col-md-9 prdt-left">
+        <%= render_filterrific_spinner %>
+        <%= render(
+                partial: 'repromaterijal/show_pics',
+                locals: { articles: @articles }
+            ) %>
+
+      </div>
+
+          <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+          <% f.select(
+                  :with_subcategory_id,
+                  @filterrific.select_options[:with_subcategory_id],
+              ) %>
+          <div class="col-md-3 prdt-right">
+            <div class="w_sidebar">
+
+              <section class="sky-form">
+                <h4>Pretraga</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <%= f.text_field(
+                            :search_query,
+                            class: 'form-control filterrific-periodically-observed', placeholder: "pretraga proizvoda..."
+                        ) %>
+
+                  </div>
+                </div>
+              </section>
+
+
+              <section class="sky-form">
+                <h4>Kategorije</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <% @ssubcategories.each do |a| %>
+                        <label class="checkbox">
+                          <%= f.check_box(:with_ssubcategory_id, {multiple: true, class: 'filterrific-periodically-observed'}, a.id, false ) %><i></i> <%= a.title %></label>
+                    <% end %>
+                  </div>
+                </div>
+              </section>
+
+              <% @mat = Subcategory.find($subcategory_id) %>
+
+              <% if @mat.has_colors == true %>
+                  <section class="sky-form">
+                    <h4>Boje</h4>
+                    <div class="row1 scroll-pane">
+
+                      <div class="col col-4">
+                        <% Color.all.each do |a| %>
+                            <label class="checkbox">
+                              <%= f.check_box(:with_color_id, {multiple: true, class: 'filterrific-periodically-observed'}, a.id, false ) %><i></i> <%= a.title %></label>
+                        <% end %>
+
+                      </div>
+                    </div>
+                  </section>
+              <% end %>
+
+              <% if @mat.has_types == true %>
+                  <section class="sky-form">
+                    <h4>Tipovi</h4>
+                    <div class="row1 scroll-pane">
+
+                      <div class="col col-4">
+                        <% Type.all.each do |a| %>
+                            <label class="checkbox">
+                              <%= f.check_box(:with_type_id, {multiple: true, class: 'filterrific-periodically-observed'}, a.id, false ) %><i></i> <%= a.title %></label>
+                        <% end %>
+
+                      </div>
+                    </div>
+                  </section>
+              <% end %>
+              <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+
+
+              <section class="sky-form">
+                <h4>CIJENA</h4>
+                <div>
+                  <%= f.text_field(
+                          :min_cost,
+                          class: 'form-control filterrific-periodically-observed', id: 'range', multiple: true
+                      ) %>
+
+                </div>
+              </section>
+
+            </div>
+          </div>
+      <% end %>
+      <div class="clearfix"></div>
+
+    </div>
+  </div>
+</div><!--product-end-->
+<!--kraj sidebara -->
+<!--product-end-->
+
+
+<script>
+
+  $('[data-countdown]').each(function() {
+    var $this = $(this), finalDate = $(this).data('countdown');
+    $this.countdown(finalDate, function(event) {
+      $this.html(event.strftime('%D dana %H:%M:%S'));
+    });
+  })
+</script>
+
+<script>
+  $(function () {
+
+    $("#range").ionRangeSlider({
+      hide_min_max: true,
+      keyboard: true,
+      min: parseFloat(gon.min).toFixed(2),
+      max: parseFloat(gon.max).toFixed(2),
+      from: 0,
+      to: 5000,
+      type: 'double',
+      step: 1,
+      postfix: " kn",
+      grid: true
+    });
+
+  });
+
+</script>
+
+
+
+

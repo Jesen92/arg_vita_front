@@ -1,0 +1,13 @@
+
+<% js = escape_javascript(
+  render(partial: 'trgovina/show_pics', locals: { articles: @articles })
+) %>
+
+$("#filterrific_results").html("<%= js %>");
+
+$('[data-countdown]').each(function () {
+  var $this = $(this), finalDate = $(this).data('countdown');
+  $this.countdown(finalDate, function (event) {
+    $this.html(event.strftime('%D dana %H:%M:%S'));
+  });
+});

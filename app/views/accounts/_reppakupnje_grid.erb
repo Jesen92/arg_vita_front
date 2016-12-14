@@ -1,0 +1,36 @@
+<%= grid( @repro_single_article_purchases_grid, show_filters: :always) do |g|
+
+  g.column name: "Naziv", attribute: 'title', in_html: false ,assoc: :single_article do |t|
+    if !t.single_article.nil?
+      t.single_article.title
+    else
+      "- - -"
+    end
+  end
+
+  g.column name: "Naziv", attribute: 'title', in_csv: false ,assoc: :single_article do |t|
+    if !t.single_article.nil?
+      link_to(t.single_article.title, repromaterijal_show_path(t.single_article.article.id), :method => :get )
+    else
+      "- - -"
+    end
+  end
+
+  g.column name: "Kod", attribute: 'code', assoc: :single_article do |t|
+    if !t.single_article.nil?
+      t.single_article.code
+    end
+  end
+  g.column name: "Datum kupovine", attribute: 'created_at' do |t|
+    t.created_at.strftime("%d. %m. %Y.")
+  end
+  g.column name: "Količina", attribute: 'amount' do |t|
+    t.amount
+  end
+  g.column name: "Cijena(pojedinačno)", attribute: 'cost' do |t|
+    number_to_currency(t.cost, :unit => 'Kn', :format => "%n %u")
+  end
+  g.column name: "Cijena(ukupno)", attribute: 'cost' do |t|
+    number_to_currency(t.cost*t.amount, :unit => 'Kn', :format => "%n %u")
+  end
+end-%>

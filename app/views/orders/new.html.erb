@@ -1,0 +1,22 @@
+<h1>Orders#new</h1>
+<p>Find me in app/views/orders/new.html.erb</p>
+
+<%= @user.name %>
+
+<%= @user.state %>
+
+<%= @user.city %>
+
+<%= @user.address %>
+
+<%= @user.postcode %>
+
+<%= @user.phone %>
+
+<%= simple_form_for @order do |f| %>
+    <%= f.input :card_type, collection: [["Visa", "visa"], ["Mastercard", "mastercard"], ["Discover", "discover"], ["American Express", "american_express"]] %>
+    <%= f.input :card_number %>
+    <%= f.input :card_verification %>
+    <%= f.input :card_expires_on %>
+    <%= f.button :submit %>
+<% end %>

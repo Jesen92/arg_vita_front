@@ -1,0 +1,163 @@
+
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+<!--bottom-header-->
+<!--start-breadcrumbs-->
+
+<!--end-breadcrumbs-->
+<!--prdt-starts-->
+<%= form_for_filterrific @filterrific do |f| %>
+    <div class="prdt">
+      <div class="container">
+        <div class="prdt-top">
+          <div class="col-md-9 prdt-left">
+            <%= render_filterrific_spinner %>
+            <%= render(
+                    partial: 'repromaterijal/show_pics',
+                    locals: { articles: @articles }
+                ) %>
+
+          </div>
+
+          <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+
+          <div class="col-md-3 prdt-right">
+            <div class="w_sidebar">
+
+              <section class="sky-form">
+                <h4>Pretraga</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <%= f.text_field(
+                            :search_query,
+                            class: 'form-control filterrific-periodically-observed', placeholder: "pretraga proizvoda..."
+                        ) %>
+
+                  </div>
+                </div>
+              </section>
+
+              <section class="sky-form">
+                <h4>Sortiraj po</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <%= f.select(
+                            :sorted_by,
+                            @filterrific.select_options[:sorted_by],
+                            { include_blank: false }, class: 'form-control'
+                        )%>
+
+                  </div>
+                </div>
+              </section>
+
+
+              <section class="sky-form">
+                <h4>Kategorije</h4>
+                <div class="row1 scroll-pane" style=" padding-top: 10px; padding-bottom: 35px;">
+
+                  <div class="col col-4" style="float: right; position: absolute; display: block;">
+                    <%= f.collection_select(
+                           :with_subcategory_id,
+                           Subcategory.order(:title),
+                           :id,
+                           :title,
+                           { include_blank: '- Sve -' },
+                           class: 'filterrific-periodically-observed chosen-select'
+                       ) %>
+                  </div>
+                </div>
+              </section>
+
+              <section class="sky-form">
+                <h4>PodKategorije</h4>
+                <div class="row1 scroll-pane"  style=" padding-top: 10px; padding-bottom: 35px;">
+
+                  <div class="col col-4"  style="float: right; position: absolute; display: block;">
+                    <%= f.grouped_collection_select(
+                           :with_ssubcategory_id,
+                           Subcategory.order(:title),
+                           :ssubcategories,
+                           :title,
+                           :id,
+                           :title,
+                           {:include_blank => true },
+                           :as => :hidden,
+                           :class=>'chosen-select',
+                           style: 'height: auto;'
+                       ) %>
+                  </div>
+                </div>
+              </section>
+
+              <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+              <section class="sky-form">
+                <h4>CIJENA</h4>
+                <div>
+                  <%= f.text_field(
+                          :min_cost,
+                          class: 'form-control filterrific-periodically-observed', id: 'range', multiple: true
+                      ) %>
+
+                </div>
+              </section>
+
+            </div>
+          </div>
+<% end %>
+<div class="clearfix"></div>
+
+</div>
+</div>
+</div><!--product-end-->
+<!--kraj sidebara -->
+<!--product-end-->
+
+
+<script>
+
+  $('[data-countdown]').each(function() {
+    var $this = $(this), finalDate = $(this).data('countdown');
+    $this.countdown(finalDate, function(event) {
+      $this.html(event.strftime('%D dana %H:%M:%S'));
+    });
+  })
+</script>
+
+<script>
+  $(function () {
+
+    $("#range").ionRangeSlider({
+      hide_min_max: true,
+      keyboard: true,
+      min: parseFloat(gon.min).toFixed(2),
+      max: parseFloat(gon.max).toFixed(2),
+      from_max: gon.max-1,
+      to_min: gon.min+1,
+      from: 0,
+      to: 5000,
+      type: 'double',
+      step: 1,
+      postfix: " kn",
+      grid: true
+    });
+
+  });
+
+</script>
+
+

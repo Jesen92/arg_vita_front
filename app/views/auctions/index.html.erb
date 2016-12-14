@@ -1,0 +1,79 @@
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+
+<div class="prdt">
+  <div class="container">
+<div class="row" >
+  <div class="prdt-top">
+    <div class="col-md-12 prdt-left">
+      <% if !@auctions.empty? %>
+        <% @auctions.each do |art| %>
+            <% if art.article != nil %>
+
+                <div class="product-one col-md-3 product-left ">
+                  <div class="product-main simpleCart_shelfItem">
+                    <!--TODO: upisati naziv slike-->
+                    <%=link_to  auctions_show_path(id: art.id)  do %> <% if !art.article.picture.nil? %> <%= image_tag(art.article.picture.image.url(:index), class: "img-responsive zoom-img") %><% else %> <%= image_tag('placeholder_index.png', class: "img-responsive zoom-img") %> <% end %> <% end %>
+                    <div class="product-bottom">
+                      <h3><%= art.article.title %></h3>
+
+                      <!--NOTE: kratki opis od jednog reda-->
+                      <h4><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></h4>
+                      <h4><strong><% if art.user_id == (current_user.nil? ? nil : current_user.id ) %>Vaša ponuda:<% else %>Trenutna ponuda:<% end %></strong><p></p><%= number_to_currency(art.highest_bid.nil? ? art.starting_price : art.highest_bid, :unit => 'Kn', :format => "%n %u") %></p></h4>
+
+                    </div>
+                  </div>
+                </div>
+
+            <% else %>
+
+                <div class="product-one col-md-3 product-left ">
+                  <div class="product-main simpleCart_shelfItem">
+                    <!--TODO: upisati naziv slike-->
+                    <%=link_to  complement_show_auctions_path(id: art.id)  do %> <% if !art.complement.picture.nil? %> <%= image_tag(art.complement.picture.image.url(:index), class: "img-responsive zoom-img") %><% else %> <%= image_tag('placeholder_index.png', class: "img-responsive zoom-img") %> <% end %> <% end %>
+                    <div class="product-bottom">
+                      <h3><%= art.complement.title %></h3>
+
+                      <!--NOTE: kratki opis od jednog reda-->
+                      <h4><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></h4>
+                      <h4><strong><% if art.user_id == (current_user.nil? ? nil : current_user.id ) %>Vaša ponuda:<% else %>Trenutna ponuda:<% end %></strong><p></p><%= number_to_currency(art.highest_bid.nil? ? art.starting_price : art.highest_bid, :unit => 'Kn', :format => "%n %u") %></p></h4>
+
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+            <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+        <% end %>
+      <% else %>
+        <h3>Trenutno nema aukcija...</h3>
+      <% end %>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+          </div>
+</div>
+
+
+
+
+<script>
+
+  $('[data-countdown]').each(function() {
+     var $this = $(this), finalDate = $(this).data('countdown');
+      $this.countdown(finalDate, function(event) {
+         $this.html(event.strftime('%D dana %H:%M:%S'));
+        });
+    })
+</script>

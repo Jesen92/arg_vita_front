@@ -1,0 +1,101 @@
+
+
+<div class="page-header head-page">
+  <h1>Artikli</h1>
+</div>
+
+
+
+
+<div class="well" style="margin-bottom: 0px;">
+
+
+
+  <%= form_for_filterrific @filterrific do |f| %>
+
+      <br/>
+      <div class="row" >
+        <div class="col-xs-6 col-md-3">
+          Pretraga
+          <br/>
+          <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+          <%= f.text_field(
+                  :search_query,
+                  class: 'form-control filterrific-periodically-observed'
+              ) %>
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+          Pretraga po cijeni od
+          <br/>
+          <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+          <%= f.text_field(
+                  :min_cost,
+                  class: 'form-control filterrific-periodically-observed'
+              ) %>
+          Do
+          <%= f.text_field(
+                  :max_cost,
+                  class: 'form-control filterrific-periodically-observed'
+              ) %>
+        </div>
+
+
+
+
+        <div class="col-xs-6 col-md-3">
+          Materijal
+          <br/>
+          <%= f.select(
+                  :with_material_id,
+                  @filterrific.select_options[:with_material_id],
+                  { include_blank: '- Sve -' }, class: 'form-control fillter_material'
+              ) %>
+        </div>
+
+
+        <div class="col-xs-6 col-md-3">
+          Kategorija
+          <br/>
+          <%= f.select(
+                  :with_category_id,
+                  @filterrific.select_options[:with_category_id],
+                  { include_blank: '- Sve-' }, class: 'form-control fillter_category'
+              ) %>
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+          Sortiraj po
+          <br/>
+          <%= f.select(
+                  :sorted_by,
+                  @filterrific.select_options[:sorted_by],
+                  { include_blank: false }, class: 'form-control'
+              )%>
+        </div>
+
+      </div>
+      <%# add an automated spinner to your form when the list is refreshed %>
+      <%= render_filterrific_spinner %>
+  <% end %>
+
+
+
+  <div class="row">
+    <div class="col-xs-6 col-md-3">
+      <%= link_to(
+              'Reset filters',
+              reset_filterrific_url,
+          ) %>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<%= link_to 'moj shopping cart', shopping_carts_show_path %>
+
+<%= render(
+        partial: 'articles/show_pics',
+        locals: { articles: @articles }
+    ) %>

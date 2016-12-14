@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+  <title>Argentum Vita</title>
+  <%= include_gon %>
+  <%= stylesheet_link_tag    'application','https://fonts.googleapis.com/css?family=Exo+2:400,300,600|Bree+Serif|Nunito:700&subset=latin,latin-ext', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'modal','data-turbolinks-track' => true %>
+
+
+  <%= favicon_link_tag 'images/apple-icon-57x57.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-60x60.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-72x72.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-76x76.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-114x114.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-120x120.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-144x144.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-152x152.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/apple-icon-180x180.png', rel: 'apple-touch-icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/android-icon-192x192.png', rel: 'icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/favicon-32x32.png', rel: 'icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/favicon-96x96.png', rel: 'icon', type: 'image/png' %>
+  <%= favicon_link_tag 'images/favicon-16x16.png', rel: 'icon', type: 'image/png' %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+<% if params[:controller] == 'home' && params[:action] == 'index' %>
+  <div id="fakeLoader"></div>
+
+    <script type="text/javascript">
+      $("#fakeLoader").fakeLoader({
+        timeToHide:1200, //Time in milliseconds for fakeLoader disappear
+        zIndex:"99999",//Default zIndex
+        spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+        bgColor:"#1abc9c", //Hex, RGB or RGBA colors
+        //imagePath:"preloader.png" //If you want can you insert your custom image
+      });
+    </script>
+
+<% elsif  params[:controller] == 'trgovina' && params[:action] == 'index' || params[:controller] == 'repromaterijal' && params[:action] == 'index' || params[:controller] == 'auctions' && params[:action] == 'index' %>
+  <div id="fakeLoader"></div>
+
+    <script type="text/javascript">
+      $("#fakeLoader").fakeLoader({
+        timeToHide:500, //Time in milliseconds for fakeLoader disappear
+        zIndex:"99999",//Default zIndex
+        spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+        bgColor:"#1abc9c", //Hex, RGB or RGBA colors
+        //imagePath:"preloader.png" //If you want can you insert your custom image
+      });
+    </script>
+<% end %>
+
+
+
+<!--top-header-->
+<div class="top-header row">
+  <div class="top-header-main col-md-12">
+    <div class="col-md-8">
+      <div class="nlogo">
+        <%= link_to root_path do %><%=image_tag("av-color.png", class: "logoav") %><% end %>
+
+
+      </div>
+
+    </div>
+    <div class="col-md-3">
+
+
+      <div> <% if user_signed_in? == false %><%= link_to 'Prijava', new_user_session_path ,class: "btn btn-primary btn-sm btnlogin"%> <% end %></div>
+
+      <div> <% if user_signed_in? %><%= link_to "Odjava", destroy_user_session_path, :method => :delete,class: "btn btn-primary btn-sm btnlogin"%> <% end %></div>
+
+      <div> <% if user_signed_in? == false %><%= link_to 'Registracija', new_user_registration_path ,class: "btn btn-primary btn-sm btnregistration"%> <% end %></div>
+
+
+
+    </div>
+
+    <div class="cart-tab visible">
+      <% if current_user != nil %>
+          <a href="#" title="View your shopping cart" class="cart-link">
+            <i><%=image_tag("cart-2.png") %></i>
+            <span class="amount"><%=   number_to_currency(@shopping_cart.current_cost, :unit => 'Kn', :format => "%n %u") %></span>
+            <% i=0 %>
+            <% @shopping_cart.carts_articles.each do |cart| %>
+                <% i +=cart.amount %>
+                <% end %>
+            <span class="contents">stavki: <%= i %></span>
+          </a>
+
+          <div class="cart">
+
+            <div class="cart-items">
+              <ul>
+
+                  <% @shopping_cart.carts_articles.each do |i| %>
+
+                   <% if !i.article.nil? %>
+                            <li class="clearfix">
+                              <%= link_to i.article.title, i.article.raw? ? repromaterijal_show_path(i.article.id) : trgovina_show_path(i.article.id), class: "item-title" %>
+<br/>
+                              <% if i.article.picture != nil %>
+                                <%=image_tag(i.article.picture.image.url(:table), class: "productimg") %>
+                              <% else %>
+                                  <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                              <% end %>
+
+
+                              <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                              <span class="quantity">stavki: <%= i.amount %></span>
+                              <%= link_to 'remove', shopping_carts_destroy_path(i.article.id ), class: "quantity" %>
+                            </li>
+                    <% elsif i.single_article != nil %>
+
+                        <li class="clearfix">
+                          <%= link_to i.single_article.title, i.single_article.article.raw? ? repromaterijal_show_path(i.single_article.article.id) : trgovina_show_path(i.single_article.article.id), class: "item-title" %>
+                          <br/>
+                          <% if i.single_article.pictures.first != nil %>
+                              <%=image_tag(i.single_article.pictures.first.image.url(:table), class: "productimg") %>
+                          <% elsif i.single_article.article.picture != nil %>
+                              <%=image_tag(i.single_article.article.picture.image.url(:table), class: "productimg" ) %>
+                          <% else %>
+                              <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                          <% end %>
+                            <!-- TODO napravi da se prikazuje slika od tocno tog single_article-a, a ne od cijelokupnog artikla -->
+                          <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                          <span class="quantity">stavki: <%= i.amount %></span>
+                          <%= link_to 'remove', destroy_single_shopping_carts_path(i.single_article.id), :method => :put, class: "quantity" %>
+                        </li>
+
+                  <% end %>
+                <% end %>
+
+              </ul>
+            </div>
+            <!-- @end cart-items -->
+            <%= link_to 'Go to Checkout', shopping_carts_show_path, class: "checkout" %>
+          </div>
+      <% end %>
+
+
+      <% if current_user == nil %>
+
+
+
+          <a href="#" title="View your shopping cart" class="cart-link">
+            <i><%=image_tag("cart-2.png") %></i>
+
+            <span class="amount"><%=   number_to_currency($items_cost, :unit => 'Kn', :format => "%n %u") %></span>
+            <% a=0 %>
+            <%  $no_user_articles.each do |k, v| %>
+
+                <% a+=v.to_i %>
+
+            <% end %>
+
+            <%  $no_user_single_articles.each do |k, v| %>
+
+                <% a+=v.to_i %>
+
+            <% end %>
+
+            <span class="contents">stavki: <%= a %></span>
+          </a>
+
+          <div class="cart">
+
+            <div class="cart-items">
+              <ul>
+
+
+
+
+                  <%  $no_user_articles.each do |k, v| %>
+                      <% @no_articles.each do |a| %>
+                          <% if a.id.to_s == k %>
+                            <li class="clearfix">
+
+                              <%= link_to 'proizvod', article_path(a.id) %>
+
+                              <% if a.picture != nil %>
+                                  <%=image_tag(a.picture.image.url(:table), class: "productimg") %>
+                              <% else %>
+                                  <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                              <% end %>
+
+                              <div class="item-title"><%= a.title %> </div>
+
+                              <span class="item-price"><%= number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                              <span class="quantity"><%= "#{v}" %></span>
+                              <%= link_to 'remove from cart', shopping_carts_destroy_path(a.id ) %>
+
+                            </li>
+                          <% end %>
+                      <% end %>
+                  <% end %>
+
+
+                <% if !@sa.nil? %>
+                <% $no_user_single_articles.each do |k,v| %>
+                    <% puts "Usao je u petlju" %>
+                  <%  @sa.each do |sa| %>
+                    <% puts "Usao je u drugu petlju" %>
+                            <% puts "#{sa.id}" %>
+                            <% puts "#{k}" %>
+                      <% if sa.id == k %>
+                            <% puts "Pronasao je isti id kao i key" %>
+                            <li class="clearfix">
+
+                              <%= link_to 'proizvod', article_path(sa.article.id) %>
+
+                              <% if sa.pictures.first != nil %>
+                                  <%=image_tag(sa.pictures.first.image.url(:table), class: "productimg") %>
+                              <% elsif sa.article.picture != nil %>
+                                  <%=image_tag(sa.article.picture.image.url(:table), class: "productimg" ) %>
+                              <% else %>
+                                  <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                              <% end %>
+
+                              <div class="item-title"><%= sa.title %> </div>
+
+                              <span class="item-price"><%= number_to_currency(sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                              <span class="quantity"><%= "#{v}" %></span>
+                              <%= link_to 'remove from cart', min_no_user_carts_articles_path(sa.id ), :method => :put %>
+
+                            </li>
+                      <% end %>
+                  <% end %>
+                <% end %>
+                <% end %>
+
+
+
+
+
+              </ul>
+            </div>
+            <!-- @end cart-items -->
+            <%= link_to 'Go to Checkout', shopping_carts_show_path, class: "checkout" %>
+          </div>
+
+
+
+
+
+      <% end %>
+      <!-- @end .cart -->
+    </div>
+    <!-- @end .cart-tab -->
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+
+<!--top-header-->
+<!--start-logo-->
+<div class="logo">
+  <%= link_to root_path do %><h1>Argentum Vita</h1><% end %>
+
+</div>
+<div>
+  <% if flash[:error] %>
+      <div class="alert alert-danger" role="alert" style="margin: 15px 35px 15px 35px">
+        <span class="sr-only">Error:</span>
+        <strong>Oprez! <%= flash[:error] %></strong>
+      </div>
+  <% end %>
+
+      <% if flash[:notice] %>
+          <div class="alert alert-success" role="alert" style="margin: 15px 35px 15px 35px">
+            <span class="sr-only">Success:</span>
+            <strong><%= flash[:notice] %></strong>
+          </div>
+
+  <% end %>
+</div>
+<!--start-logo-->
+<!--bottom-header-->
+<div class="header-bottom">
+  <div class="container">
+    <div class="header">
+      <div class="col-md-9 header-left">
+        <div class="top-nav">
+          <ul class="memenu skyblue">
+
+
+
+
+            <li class="<%= params[:controller]== 'home' ? 'active' : '' %>" ><%= link_to 'Početna', root_path, :method => :get%></li>
+
+            <li class="<%= params[:controller]== 'trgovina' ? 'active' : '' %>"> <%= link_to 'Gotov nakit', trgovina_index_path, :method => :get %>
+
+            </li>
+            <li class="<%= params[:controller]== 'repromaterijal' ? 'active' : '' %>"> <%= link_to 'Repromaterijal', repromaterijal_index_path, :method => :get %>
+
+            </li>
+            <li class="<%= params[:controller]== 'auctions' ? 'active' : '' %>"> <%= link_to 'Aukcije', auctions_index_path, :method => :get %>
+            </li>
+
+            <li class="grid"><a href="typo.html">O nama</a>
+            </li>
+            <li class="grid"><a href="contact.html">Kontakt</a>
+            </li>
+          </ul>
+        </div>
+        <div class="clearfix"> </div>
+      </div>
+      <div class="col-md-3 header-right">
+        <%= simple_form_for Article.new, url: search_art_articles_path, :method => :put do |f| %>
+        <div class="search-bar">
+          <%= f.input :title, label: false, placeholder: 'pretraga svih artikla...' %>
+          <!--<input type="text" value="pretraga" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'pretraga';}">-->
+          <!--<input type="submit" value="">-->
+          <%= f.button :submit, "" %>
+        </div>
+        <% end %>
+      </div>
+      <div class="clearfix"> </div>
+    </div>
+  </div>
+</div>
+
+
+
+<%= yield %>
+
+
+
+
+<!--product-dialog-box-starts-->
+<!--TODO: cijeli div možeš staviti kao pratial-->
+
+
+
+
+
+<!--product-dialog-box-end-->
+
+
+
+
+
+
+<!--information-starts-->
+
+<div class="information">
+  <div class="container">
+    <div class="infor-top">
+      <div class="col-md-3 infor-left">
+        <h3>Pratite nas</h3>
+        <ul>
+          <li><a href="https://www.facebook.com/Argentum-vita-121392171247571" target="_blank"><span class="fb"></span><h6>Facebook</h6></a></li>
+
+
+        </ul>
+      </div>
+      <div class="col-md-3 infor-left">
+        <h3>Informacije</h3>
+        <ul>
+          <li>
+            <%= link_to general_path do %>
+              <p>Opći uvjeti</p>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to home_privacy_path do %>
+              <p>Izjava o privatnosti</p>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-3 infor-left">
+        <h3>Moj Račun</h3>
+        <ul>
+          <li>
+            <% if @user != nil %>
+              <%= link_to accounts_my_account_path do %>
+                <p>Moj Račun</p>
+              <% end %>
+            <% end %>
+          </li>
+          <li>
+            <% if @user != nil %>
+                <%= link_to accounts_purchases_path do %>
+                    <p>Povijest Kupnji</p>
+                <% end %>
+            <% end %>
+          </li>
+
+        </ul>
+      </div>
+      <div class="col-md-3 infor-left">
+        <h3>Prodajna Mjesta</h3>
+        <h4>Argentum Vita,
+          <span>Prilaz Ivana Visina bb,</span>
+          10020 Zagreb</h4>
+
+        <h5>+385 1 655 50 86 <br/>+385 92 245 87 16</h5>
+        <p><a href="mailto:info@argentumvita.hr">info@argentumvita.hr</a></p>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+
+<!--information-end-->
+
+<!--footer-starts-->
+<div class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="col-md-6 footer-left">
+        <form>
+          <input type="text" value="unesite e-mail adresu" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Your Email';}">
+          <input type="submit" value="Pretplati se">
+        </form>
+      </div>
+      <div class="col-md-6 footer-right">
+        <p>© 2015 Argentum Vita. All Rights Reserved | Design by <a href="http:\\www.cactus-code.com" target="_blank">CactusCode</a> </p>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<!--footer-end-->
+
+<!--Registration Form dialog-->
+<%= render partial: "layouts/registration_form" %>
+<!--Registration Form dialog end -->
+
+<!--Login Form dialog-->
+<%= render partial: "layouts/login_form" %>
+<!--Login Form dialog-->
+
+</body>
+
+
+
+<!--Notice box on adding item to cart-->
+<script>
+  // Notice closes after 1 Second
+  function notice1Sec() {
+    new jBox('Notice', {
+      content: 'Artikl dodan u košaricu',
+      autoClose: 1500,
+      attributes: {
+        x: 'right',
+        y: 'top'
+      },
+      position: { // The position attribute defines the distance to the window edges
+        x: 0,
+        y: 60
+      }
+    });
+  }
+</script>
+<!--End notice box on adding item to cart-->
+
+<script type="application/x-javascript" >
+  addEventListener("load", function () {
+    setTimeout(hideURLbar, 0);
+  }, false);
+
+  function hideURLbar() {
+    window.scrollTo(0, 1);
+  }
+</script>
+
+<script>
+  $(document).ready(function () {
+    $(".memenu").memenu();
+  });
+</script>
+
+
+
+<script>
+  $(document).ready(function () {
+    $("#modal-photo").owlCarousel({
+
+      navigation: true,
+      slideSpeed: 300,
+      paginationSpeed: 400,
+      singleItem: true,
+
+
+      // "singleItem:true" is a shortcut for:
+      // items : 1,
+      // itemsDesktop : false,
+      // itemsDesktopSmall : false,
+      // itemsTablet: false,
+      // itemsMobile : false
+
+    });
+  });
+</script>
+
+<script>
+  // You can also use "$(window).load(function() {"
+  $(function () {
+    // Slideshow 4
+    $("#slider4").responsiveSlides({
+      auto: true,
+      pager: true,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      before: function () {
+        $('.events').append("<li>before event fired.</li>");
+      },
+      after: function () {
+        $('.events').append("<li>after event fired.</li>");
+      }
+    });
+
+  });
+</script>
+
+
+</html>

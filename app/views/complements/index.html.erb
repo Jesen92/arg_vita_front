@@ -1,0 +1,57 @@
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+<div class="prdt">
+  <div class="container">
+    <div class="prdt-top">
+      <div class="col-md-9 prdt-left">
+        <% if  @complements.nil? || @complements.empty? %>
+            <h2>Trenutno nema kompleta...</h2>
+        <% else %>
+            <% @complements.each do |art| %>
+
+
+                    <div class="product-one col-md-4 product-left ">
+                      <div class="product-main simpleCart_shelfItem">
+                        <!--TODO: upisati naziv slike-->
+
+                        <% if art.picture != nil %>
+                            <%=link_to  complements_show_path(id: art.id)  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> <% end %>
+                        <% else %>
+                            <%=link_to  complements_show_path(id: art.id)  do %> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> <% end %>
+                        <% end %>
+                        <div class="product-bottom">
+                          <h3><%= art.title %></h3>
+                          <!--NOTE: kratki opis od jednog reda-->
+                          <p>detalji</p>
+
+                          <h4><%= link_to carts_articles_create_path(complement_id: art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+
+                        </div>
+                        <% if art.on_discount == true && art.discount != 0 %>
+                            <div class="srch">
+                              <span><%= art.discount %>%</span>
+                            </div>
+                        <% end %>
+                      </div>
+                    </div>
+            <% end %>
+        <% end %>
+                      </div>
+                    </div>
+
+
+
+
+      </div>
+      <div class="clearfix"></div>
+    </div>
