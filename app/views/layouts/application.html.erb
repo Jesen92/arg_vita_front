@@ -191,7 +191,7 @@
 
                               <span class="item-price"><%= number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u") %></span>
                               <span class="quantity"><%= "#{v}" %></span>
-                              <%= link_to 'remove from cart', shopping_carts_destroy_path(a.id ) %>
+                              <%= link_to 'remove', shopping_carts_destroy_path(a.id ) %>
 
                             </li>
                           <% end %>
@@ -224,7 +224,7 @@
 
                               <span class="item-price"><%= number_to_currency(sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
                               <span class="quantity"><%= "#{v}" %></span>
-                              <%= link_to 'remove from cart', min_no_user_carts_articles_path(sa.id ), :method => :put %>
+                              <%= link_to 'remove', min_no_user_carts_articles_path(sa.id ), :method => :put %>
 
                             </li>
                       <% end %>
@@ -376,14 +376,14 @@
         <h3>Moj Račun</h3>
         <ul>
           <li>
-            <% if @user != nil %>
+            <% if current_user != nil %>
               <%= link_to accounts_my_account_path do %>
                 <p>Moj Račun</p>
               <% end %>
             <% end %>
           </li>
           <li>
-            <% if @user != nil %>
+            <% if current_user != nil %>
                 <%= link_to accounts_purchases_path do %>
                     <p>Povijest Kupnji</p>
                 <% end %>

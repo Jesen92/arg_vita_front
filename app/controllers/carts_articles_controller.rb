@@ -24,12 +24,11 @@ class CartsArticlesController < ApplicationController
 
     art_id = params[:format] ? params[:format] : params[:article][:id]
 
-    amount = params[:article][:amount].to_i > 0 ? params[:article][:amount].to_i : 1
+    amount = !params[:article].blank? && params[:article][:amount].to_i > 0 ? params[:article][:amount].to_i : 1
 
     @article = Article.find(art_id)
 
     if current_user == nil  # kad nema usera #############################################################################################
-
 
       puts "Ispred if za provjeru jel se artikl nalazi u hash-u"
       if $no_user_articles.has_key?(@article.id.to_s)

@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
     else
       @articles = Article.where(
           "(articles.for_sale = true AND LOWER(articles.title) LIKE ? OR LOWER(articles.title_eng) LIKE ? OR LOWER(articles.code) LIKE ?)", "%#{terms}%", "%#{terms}%", "%#{terms}%"
-      )
+      ).page(params[:page] || 1).per(12)
     end
   end
 
