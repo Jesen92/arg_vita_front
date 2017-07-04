@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require fakeLoader
+//= require fakeloader
 //= require filterrific/filterrific-jquery
 //= require filter
 //= require lightsliderInit

@@ -186,6 +186,7 @@ GEM
       mime-types (>= 1.16, < 3)
     meta-tags (2.1.0)
       actionpack (>= 3.0.0)
+    method_source (0.8.2)
     mime-types (2.99)
     mimemagic (0.3.0)
     mini_portile2 (2.0.0)
@@ -208,6 +209,10 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -262,6 +267,7 @@ GEM
     simple_form (3.2.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
+    slop (3.6.0)
     sort_alphabetical (1.0.2)
       unicode_utils (>= 1.2.2)
     sprockets (3.5.2)
@@ -332,6 +338,7 @@ DEPENDENCIES
   meta-tags (~> 2.1)
   mysql2 (~> 0.3.18)
   paperclip (~> 4.3)
+  pry
   rails (= 4.2.5)
   rails_12factor
   sass-rails (~> 5.0)

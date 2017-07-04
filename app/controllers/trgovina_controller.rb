@@ -1,5 +1,5 @@
 class TrgovinaController < ApplicationController
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
 
   helper_method :index
 
@@ -50,9 +50,6 @@ class TrgovinaController < ApplicationController
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
     else
       puts "NEMA USER-A!!!!"
-
-
-
 
       @no_articles = Article.where(id: $no_user_articles.keys)
       @sa = SingleArticle.where(id: $no_user_single_articles.keys)
@@ -144,8 +141,22 @@ class TrgovinaController < ApplicationController
                                                                                                                                                          with_material_id: Material.options_for_select,
                                                                                                                                                          with_color_id: Color.options_for_select,
                                                                                                                                                          with_type_id: Type.options_for_select},
-                                                                                                                                                          persistence_id: true,) or return
+                                                                                                                                                          persistence_id: false,) or return
 
+    if params[:filterrific]
+      min, max = params[:filterrific][:min_cost].to_s.split(';')
+
+      gon.set_min = min.delete('"[\/]')
+      gon.set_max = max.delete('"[\/]')
+
+      @set_min = gon.set_min
+      @set_max = gon.set_max
+      puts "minimum je #{min.delete('"[\/]')}"
+      puts "maximum je #{max.delete('"[\/]')}"
+    else
+      gon.set_min = @set_min
+      gon.set_max = @set_max
+    end
 
     @articles = @filterrific.find.page(params[:page])
 
@@ -194,8 +205,8 @@ class TrgovinaController < ApplicationController
       end
     else
       flash[:error] = "Taj artikl ne postoji!"
-      redirect_to :back
+      return redirect_to :back
     end
-
+    @main_title = 'AV|'+@article.title.split.map(&:capitalize).join(' ')
   end
 end

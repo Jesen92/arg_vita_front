@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
 
   def index
     add_breadcrumb "Home", :root_path
@@ -23,8 +23,8 @@ class HomeController < ApplicationController
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
     else
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: $no_user_articles.keys) unless $no_user_articles.blank?
+      @sa = SingleArticle.where(id: $no_user_single_articles.keys) unless $no_user_single_articles.blank?
     end
 
   end

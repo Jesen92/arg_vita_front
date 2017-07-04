@@ -15,9 +15,9 @@
           <!--TODO: upisati naziv slike-->
 
           <% if art.picture != nil %>
-                <%=link_to  repromaterijal_show_path(art.id)  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> <% end %>
+                <%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> <% end %>
           <% else %>
-                <%=link_to  repromaterijal_show_path(art.id)  do %> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> <% end %>
+                <%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> <% end %>
           <% end %>
           <div class="product-bottom">
             <h3><%= art.title %></h3>
@@ -30,9 +30,9 @@
             <% end %>
 
             <% if art.on_discount == true && art.discount != 0 %>
-                <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
+                <h4><%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
             <% else %>
-                <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+                <h4><%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
             <% end %>
           </div>
           <% if art.on_discount == true && art.discount != 0 %>

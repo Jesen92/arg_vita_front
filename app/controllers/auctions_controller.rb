@@ -1,5 +1,5 @@
 class AuctionsController < ApplicationController
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
 
   add_breadcrumb "Home", :root_path
   add_breadcrumb "Aukcije", :auctions_index_path

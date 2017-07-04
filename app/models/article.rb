@@ -47,9 +47,6 @@ class Article < ActiveRecord::Base
   end
 
 
-
-
-
   #filterrific
   filterrific(
       default_filter_params: { sorted_by: 'created_at_desc' },
@@ -87,8 +84,6 @@ class Article < ActiveRecord::Base
         raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
     end
   }
-
-
 
 
   scope :with_category_id, lambda { |category_ids|
@@ -136,8 +131,6 @@ class Article < ActiveRecord::Base
 
 
   scope :max_cost, lambda { |ref_int|
-
-
     where("articles.cost < ?", [*ref_int])
   }
 

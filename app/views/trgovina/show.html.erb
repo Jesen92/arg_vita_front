@@ -50,18 +50,13 @@
                 </ul>
               </div>
             </div>
-
-
-
-
           </div>
-
 
           </div>
           <div class="col-md-7 details">
 
             <div class="product-bottom" style="margin: 0; padding: 0;">
-              <div class="productboxkat"><%= @article.material.title %></div>
+              <div class="productboxkat"><%= @article.material.title unless @article.material.blank? %></div>
               <div class="row naslov-site">
                 <% if @article.on_discount %>
                     <div class="productboxkat"><strong><div data-countdown="<%= @article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div>

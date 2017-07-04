@@ -1,9 +1,7 @@
 class ShoppingCartsController < ApplicationController
  # before_action :authenticate_user!
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
   def index
-
-
   end
 
   def show
@@ -25,16 +23,12 @@ class ShoppingCartsController < ApplicationController
   end
 
   def new
-
   end
-
-
 
   def create
     if current_user == nil
 
       @article = Article.find(params[:format])
-
 
       puts "Ispred if za provjeru jel se artikl nalazi u hash-u"
       if $no_user_articles.has_key?(@article.id.to_s)
@@ -49,12 +43,7 @@ class ShoppingCartsController < ApplicationController
         $no_user_articles[params[:format]] = 1
         $items_cost +=@article.cost
       end
-
-
-
     else
-
-
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
 
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:format] )
@@ -66,12 +55,8 @@ class ShoppingCartsController < ApplicationController
         @carts_article.increment!(:amount)
       end
 
-
-
       @article = Article.find(params[:format])
       #@carts_articles = CartsArticle.all
-
-
 
       if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
         if current_user == nil
@@ -91,16 +76,9 @@ class ShoppingCartsController < ApplicationController
         @shopping_cart.current_cost += (@article.cost- (@article.cost*@article.discount/100))
         @shopping_cart.save
       end
-
-
-
-
     end
 
-
-
     redirect_to :back
-
   end
 
   def edit
@@ -182,7 +160,6 @@ class ShoppingCartsController < ApplicationController
 
       puts "usao sam u destroy single"
 
-
     if @carts_article.amount > 1
       @carts_article.amount -= 1
       @carts_article.save
@@ -212,7 +189,6 @@ class ShoppingCartsController < ApplicationController
 
     puts "usao sam u destroy single"
 
-
     if @carts_article.amount > 1
       @carts_article.amount -= 1
       @carts_article.save
@@ -234,21 +210,8 @@ class ShoppingCartsController < ApplicationController
       @carts_article.destroy!
     end
 
-
-
     redirect_to :back
   end
-
-
-
-
-
-
-
-
-
-
-
 
   private
   def cart_params

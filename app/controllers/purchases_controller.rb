@@ -1,6 +1,6 @@
 class PurchasesController < ApplicationController
   #TODO napraviti da kod kupnje isto provjeri da li ima dovoljno artikla na skladistu
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
 
   def create
     @user = User.find(current_user.id)

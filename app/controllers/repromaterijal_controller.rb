@@ -1,5 +1,5 @@
 class RepromaterijalController < ApplicationController
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
 
   add_breadcrumb "Home", :root_path
   add_breadcrumb "Repromaterijal", :repromaterijal_index_path

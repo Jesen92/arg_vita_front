@@ -22,8 +22,17 @@ default: &default
   #port: 3306
 
 development:
-  <<: *default
+  #<<: *default
   adapter: mysql2
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  host: localhost
+  database: arg_vita_front
+  username: root
+  password: root
+  port: 3306
+  socket: /Applications/MAMP/tmp/mysql/mysql.sock
   #database: argvita_development
 
 # Warning: The database defined as "test" will be erased and

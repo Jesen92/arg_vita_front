@@ -1,6 +1,7 @@
 class CartsArticlesController < ApplicationController
   #before_action :authenticate_user!
-  before_filter :set_user, :set_cart
+  before_action :set_user, :set_cart
+  before_action :set_main_title
 
   def index
   end
@@ -14,16 +15,16 @@ class CartsArticlesController < ApplicationController
 
 
   def create
-    if current_user == nil
-      flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
-      return redirect_to :back
-    end
+    #if current_user == nil
+    #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
+    #  return redirect_to :back
+    #end
 
     @ind = false
 
     art_id = params[:format] ? params[:format] : params[:article][:id]
 
-    amount = params[:article] ? params[:article][:amount].to_i : 1
+    amount = params[:article][:amount].to_i > 0 ? params[:article][:amount].to_i : 1
 
     @article = Article.find(art_id)
 
@@ -34,19 +35,15 @@ class CartsArticlesController < ApplicationController
       if $no_user_articles.has_key?(@article.id.to_s)
         $no_user_articles.each do |k, v|
           if k == @article.id.to_s
-            $no_user_articles[k] += 1
+            $no_user_articles[k] += amount
 
           end
         end
       else
         puts "Unutar if-else-a kada nije pronaden artikl unutar hash-a"
-        $no_user_articles[art_id] = 1
-
+        $no_user_articles[art_id] = amount
+        #binding.pry
       end
-
-
-
-
     else   # kad ima usera ################################################################################################################
 
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -75,7 +72,6 @@ class CartsArticlesController < ApplicationController
         return redirect_to :back
 
       end
-
     end
 
     puts "Artiklu je popust: #{@article.on_discount}"
@@ -86,7 +82,8 @@ class CartsArticlesController < ApplicationController
 
       if current_user == nil
 
-        $items_cost += @article.cost
+        $items_cost += @article.cost*amount
+        #binding.pry
 
       elsif current_user != nil
 
@@ -99,8 +96,6 @@ class CartsArticlesController < ApplicationController
         @carts_article.save
 
       end
-
-
     elsif
       if current_user == nil
 
@@ -118,18 +113,17 @@ class CartsArticlesController < ApplicationController
 
       end
     end
-
+    #binding.pry
     redirect_to :back
-
   end
 
 
   def single
 
-    if current_user == nil
-      flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
-      return redirect_to :back
-    end
+    #if current_user == nil
+    #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
+    #  return redirect_to :back
+    #end
 
 
     if current_user != nil  #kad ima usera #############################################################################################################################
@@ -327,8 +321,6 @@ class CartsArticlesController < ApplicationController
     end
   #kad nema usera   ################################################################################################################
 
-=begin
-
       if $no_user_articles.has_key?(@single_article.id.to_s)
         $no_user_articles.each do |k, v|
           if k == @article.id.to_s
@@ -338,9 +330,6 @@ class CartsArticlesController < ApplicationController
       else
         $no_user_articles[params[:format]] = 1
       end
-
-=end
-
 
   ###################################################################################################################################
 
@@ -381,8 +370,6 @@ class CartsArticlesController < ApplicationController
     end
 
     redirect_to :back
-
-
   end
 
 
@@ -461,10 +448,10 @@ class CartsArticlesController < ApplicationController
   def plus_no_user
 
 
-    if current_user == nil
-      flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
-      return redirect_to :back
-    end
+    #if current_user == nil
+    #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
+    #  return redirect_to :back
+    #end
 
     @no_articles = Article.where(id: $no_user_articles.keys)
     @sa = SingleArticle.where(id: $no_user_single_articles.keys)
@@ -497,10 +484,10 @@ class CartsArticlesController < ApplicationController
   end
 
   def min_no_user
-    if current_user == nil
-      flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
-      return redirect_to :back
-    end
+    #if current_user == nil
+    #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
+    #  return redirect_to :back
+    #end
 
     @articles = Article.where(id: $no_user_articles.keys)
     @sa = SingleArticle.where(id: $no_user_single_articles.keys)

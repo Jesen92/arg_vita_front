@@ -1,5 +1,5 @@
 class ComplementsController < ApplicationController
-  before_filter :set_user, :set_cart
+  before_filter :set_user, :set_cart, :set_main_title
   def index
     if current_user == nil
       @no_articles = Article.where(id: $no_user_articles.keys)

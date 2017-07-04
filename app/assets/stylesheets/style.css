@@ -695,6 +695,16 @@ a.mask {
     -o-transition: 0.5s all ease;
     -ms-transition: 0.5s all ease;
 }
+
+.product-left:hover .product-bottom h3 a{
+    color:#1abc9c;
+    transition: 0.5s all ease;
+    cursor: pointer;
+    -webkit-transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    -o-transition: 0.5s all ease;
+    -ms-transition: 0.5s all ease;
+}
 .product-left:hover .product-bottom h4 span{
 	color:#1abc9c; /*boja cijene*/
 	transition: 0.5s all ease;
@@ -711,6 +721,7 @@ a.mask {
     -o-transition: 0.5s all ease;
     -ms-transition: 0.5s all ease;
 }
+
 .product-left/*:hover*/ .srch{
 	display:block;
 }

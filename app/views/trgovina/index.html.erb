@@ -18,7 +18,7 @@
 <!--prdt-starts-->
 
 
-<%= form_for_filterrific @filterrific do |f| %>
+<%= form_for_filterrific @filterrific, remote: false do |f| %>
     <div class="prdt">
       <div class="container">
         <div class="prdt-top">
@@ -133,7 +133,6 @@
 
 <script>
   $(function () {
-
     $("#range").ionRangeSlider({
       hide_min_max: true,
       keyboard: true,
@@ -141,8 +140,8 @@
       max: gon.max,
       from_max: gon.max-1,
       to_min: gon.min+1,
-      from: 0,
-      to: 5000,
+      from: gon.set_min,
+      to: gon.set_max,
       type: 'double',
       step: 10,
       postfix: " kn",

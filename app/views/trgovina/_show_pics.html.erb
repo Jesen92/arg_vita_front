@@ -12,9 +12,9 @@
             <div class="product-main simpleCart_shelfItem">
 
               <!--TODO: upisati naziv slike-->
-              <%=link_to  trgovina_show_path(art.id)  do %> <% if !art.picture.nil? %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img") %><% else %> <%= image_tag('placeholder_index.png', class: "img-responsive zoom-img") %> <% end %> <% end %>
+              <%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <% if !art.picture.nil? %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img") %><% else %> <%= image_tag('placeholder_index.png', class: "img-responsive zoom-img") %> <% end %> <% end %>
               <div class="product-bottom">
-                <h3><%= art.title %></h3>
+                <h3><%= link_to art.title, trgovina_show_path(art.id), :target => '_blank' %></h3>
                 <!--NOTE: kratki opis od jednog reda-->
 
                 <% if art.short_description != nil  && art.short_description != "" %>
@@ -24,9 +24,9 @@
                 <% end %>
 
                 <% if art.on_discount == true && art.discount != 0 %>
-                  <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
+                    <h4><%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
                 <% else %>
-                  <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+                  <h4><%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
                 <% end %>
               </div>
               <% if art.on_discount == true && art.discount != 0 %>
