@@ -127,6 +127,8 @@ Rails.application.routes.draw do
 
   get 'home/privacy'
 
+  put 'shopping_carts/destroy_item' => "shopping_carts#destroy_item", :as => 'destroy_item'
+
   resources :home do
     get :general, on: :collection
     get :download_pdf, on: :collection
@@ -147,6 +149,7 @@ Rails.application.routes.draw do
   resources :shopping_carts do
     put :destroy_single, on: :collection
     put :destroy_complement, on: :collection
+    put :destroy_item, on: :collection
   end
   resources :carts_articles do
     put :single, on: :collection

@@ -213,6 +213,118 @@ class ShoppingCartsController < ApplicationController
     redirect_to :back
   end
 
+  def destroy_item
+    @article = Article.find(params[:id])
+    amount = params[:amount].to_i
+
+    puts "usao sam u destroy!!!!"
+
+    if current_user == nil
+
+      if $no_user_articles.has_key?(@article.id.to_s)
+
+        $no_user_articles.each do |k, v|
+
+          if k == @article.id.to_s
+            puts "ulazi u if"
+
+            if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+              $items_cost -= @article.cost*amount
+
+            else
+
+              $items_cost -= (@article.cost- (@article.cost*@article.discount/100))*amount
+
+            end
+
+            $no_user_articles.delete(k)
+          end
+
+        end
+      end
+
+    else
+
+      @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
+
+      if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+        @shopping_cart.current_cost -= @article.cost*amount
+      else
+        @shopping_cart.current_cost -= (@article.cost- (@article.cost*@article.discount/100))*amount
+      end
+
+        @shopping_cart.save
+
+        @carts_article.destroy!
+    end
+
+    redirect_to :back
+  end
+
+
+
+  def destroy_single_item
+
+    @single_article = SingleArticle.find(params[:format])
+    @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+    @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:format] )
+
+    puts "usao sam u destroy single"
+
+    if @carts_article.amount > 1
+      @carts_article.amount -= 1
+      @carts_article.save
+
+      @shopping_cart.current_cost -= @carts_article.cost
+      @shopping_cart.save
+
+    else
+
+      @shopping_cart.current_cost -= @carts_article.cost
+      @shopping_cart.save
+
+      @carts_article.destroy!
+    end
+
+
+
+    redirect_to :back
+
+  end
+
+
+  def destroy_complement_item
+    @single_article = Complement.find(params[:format])
+    @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+    @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, complement_id: params[:format] )
+
+    puts "usao sam u destroy single"
+
+    if @carts_article.amount > 1
+      @carts_article.amount -= 1
+      @carts_article.save
+      if @single_article.on_discount.nil? || @single_article.on_discount == false || @single_article.discount != 0
+        @shopping_cart.current_cost -= @single_article.cost
+        @shopping_cart.save
+      else
+        @shopping_cart.current_cost -= (@single_article.cost- (@single_article.cost*@single_article.discount/100))
+        @shopping_cart.save
+      end
+    else
+      if @single_article.on_discount.nil? || @single_article.on_discount == false || @single_article.discount != 0
+        @shopping_cart.current_cost -= @single_article.cost
+        @shopping_cart.save
+      else
+        @shopping_cart.current_cost -= (@single_article.cost- (@single_article.cost*@single_article.discount/100))
+        @shopping_cart.save
+      end
+      @carts_article.destroy!
+    end
+
+    redirect_to :back
+  end
+
   private
   def cart_params
     params.require(:cart).permit(:id, :user_id, :current_cost)
