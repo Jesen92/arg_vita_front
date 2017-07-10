@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
 
 
   def set_user
-    if current_user != nil
-      @user = User.find_by(id: current_user.id)
-    elsif $no_user_articles.blank?
+    if current_user
+      @user = current_user
+    elsif $no_user_articles.blank? && $no_user_single_articles.blank?
       $no_user_articles = Hash.new
       $no_user_articles_int = Hash.new
       $no_user_single_articles = Hash.new

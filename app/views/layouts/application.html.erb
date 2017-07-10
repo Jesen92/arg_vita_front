@@ -101,7 +101,7 @@
                    <% if !i.article.nil? %>
                             <li class="clearfix">
                               <%= link_to i.article.title, i.article.raw? ? repromaterijal_show_path(i.article.id) : trgovina_show_path(i.article.id), class: "item-title" %>
-<br/>
+
                               <% if i.article.picture != nil %>
                                 <%=image_tag(i.article.picture.image.url(:table), class: "productimg") %>
                               <% else %>
@@ -113,19 +113,19 @@
                               <span class="quantity">stavki: <%= i.amount %></span>
                               <div class="row">
                                 <div class="col-md-6">
-                                  <%= link_to 'remove 1', shopping_carts_destroy_path(i.article.id ), class: "quantity" %>
+                                  <%= link_to 'remove 1', shopping_carts_destroy_path(i.article.id ) %>
                                 </div>
                                 <div class="col-md-6">
-                                  <%= link_to 'remove item', destroy_item_path(id: i.article.id, amount: v ), :method => :put %>
+                                  <%= link_to 'remove item', destroy_item_path(id: i.article.id, amount: i.amount ), :method => :put %>
                                 </div>
                               </div>
-                              <!--<%= link_to 'remove', shopping_carts_destroy_path(i.article.id ), class: "quantity" %>-->
+                              <!--<%= link_to 'remove', shopping_carts_destroy_path(i.article.id ) %>-->
                             </li>
                     <% elsif i.single_article != nil %>
 
                         <li class="clearfix">
                           <%= link_to i.single_article.title, i.single_article.article.raw? ? repromaterijal_show_path(i.single_article.article.id) : trgovina_show_path(i.single_article.article.id), class: "item-title" %>
-                          <br/>
+
                           <% if i.single_article.pictures.first != nil %>
                               <%=image_tag(i.single_article.pictures.first.image.url(:table), class: "productimg") %>
                           <% elsif i.single_article.article.picture != nil %>
@@ -136,7 +136,15 @@
                             <!-- TODO napravi da se prikazuje slika od tocno tog single_article-a, a ne od cijelokupnog artikla -->
                           <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
                           <span class="quantity">stavki: <%= i.amount %></span>
-                          <%= link_to 'remove', destroy_single_shopping_carts_path(i.single_article.id), :method => :put, class: "quantity" %>
+                          <!--<%= link_to 'remove', destroy_single_shopping_carts_path(i.single_article.id), :method => :put, class: "quantity" %> -->
+                          <div class="row">
+                            <div class="col-md-6">
+                              <%= link_to 'remove 1', destroy_single_shopping_carts_path(id: i.single_article.id, amount: i.amount ), :method => :put %>
+                            </div>
+                            <div class="col-md-6">
+                              <%= link_to 'remove item', destroy_single_item_path(id: i.single_article.id, amount: i.amount ), :method => :put %>
+                            </div>
+                          </div>
                         </li>
 
                   <% end %>
@@ -151,8 +159,6 @@
 
 
       <% if current_user == nil %>
-
-
 
           <a href="#" title="View your shopping cart" class="cart-link">
             <i><%=image_tag("cart-2.png") %></i>
@@ -198,7 +204,7 @@
                               <div class="item-title"><%= a.title %> </div>
 
                               <span class="item-price"><%= number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u") %></span>
-                              <span class="quantity"><%= "#{v}" %></span>
+                              <span class="quantity">stavki: <%= "#{v}" %></span>
                               <div class="row">
                                 <div class="col-md-6">
                                   <%= link_to 'remove 1', shopping_carts_destroy_path(a.id ) %>
@@ -208,7 +214,6 @@
                                 </div>
                               </div>
                               <!--<%= link_to 'remove', shopping_carts_destroy_path(a.id ) %>-->
-
                             </li>
                           <% end %>
                       <% end %>
@@ -239,19 +244,21 @@
                               <div class="item-title"><%= sa.title %> </div>
 
                               <span class="item-price"><%= number_to_currency(sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
-                              <span class="quantity"><%= "#{v}" %></span>
-                              <%= link_to 'remove', min_no_user_carts_articles_path(sa.id ), :method => :put %>
-
+                              <span class="quantity">stavki: <%= "#{v}" %></span>
+                              <!--<%= link_to 'remove', min_no_user_carts_articles_path(sa.id ), :method => :put %> -->
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <%= link_to 'remove 1', destroy_single_shopping_carts_path(id: sa.id, amount: v ), :method => :put %>
+                                </div>
+                                <div class="col-md-6">
+                                  <%= link_to 'remove item', destroy_single_item_path(id: sa.id, amount: v ), :method => :put %>
+                                </div>
+                              </div>
                             </li>
                       <% end %>
                   <% end %>
                 <% end %>
                 <% end %>
-
-
-
-
-
               </ul>
             </div>
             <!-- @end cart-items -->

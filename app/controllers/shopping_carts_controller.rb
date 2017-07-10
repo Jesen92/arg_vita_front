@@ -153,32 +153,40 @@ class ShoppingCartsController < ApplicationController
 
 
   def destroy_single
+    @single_article = SingleArticle.find(params[:id])
+    amount = params[:amount].to_i
 
-    @single_article = SingleArticle.find(params[:format])
-    @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-    @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:format] )
+    if current_user == nil
+      if $no_user_single_articles.has_key?(@single_article.id)
+        $no_user_single_articles.each do |k, v|
+          if k == @single_article.id
 
-      puts "usao sam u destroy single"
+            if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
+              $items_cost -= @single_article.article.cost
+            else
+              $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
+            end
 
-    if @carts_article.amount > 1
-      @carts_article.amount -= 1
-      @carts_article.save
-
-        @shopping_cart.current_cost -= @carts_article.cost
-        @shopping_cart.save
-
+            $no_user_single_articles.delete(k) if amount == 1
+          end
+        end
+      end
     else
+      @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
 
-        @shopping_cart.current_cost -= @carts_article.cost
-        @shopping_cart.save
+      if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
+        @shopping_cart.current_cost -= @single_article.article.cost
+      else
+        @shopping_cart.current_cost -= (single_@article.article.cost- (@single_article.cost*@single_article.article.discount/100))
+      end
 
-      @carts_article.destroy!
+      @shopping_cart.save
+
+      @carts_article.destroy! if amount == 1
     end
 
-
-
     redirect_to :back
-
   end
 
 
@@ -265,32 +273,42 @@ class ShoppingCartsController < ApplicationController
 
 
   def destroy_single_item
+    @single_article = SingleArticle.find(params[:id])
+    amount = params[:amount].to_i
 
-    @single_article = SingleArticle.find(params[:format])
-    @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-    @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:format] )
+    if current_user == nil
+      if $no_user_single_articles.has_key?(@single_article.id.to_s)
+        $no_user_single_articles.each do |k, v|
 
-    puts "usao sam u destroy single"
+          if k == @single_article.id.to_s
 
-    if @carts_article.amount > 1
-      @carts_article.amount -= 1
-      @carts_article.save
+            if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+              $items_cost -= @single_article.article.cost*amount
+            else
+              $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
+            end
 
-      @shopping_cart.current_cost -= @carts_article.cost
-      @shopping_cart.save
+            $no_user_single_articles.delete(k)
+          end
+        end
+      end
 
     else
+      @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
+      amount = params[:amount].to_i
 
-      @shopping_cart.current_cost -= @carts_article.cost
+      if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
+        @shopping_cart.current_cost -= @single_article.article.cost*amount
+      else
+        @shopping_cart.current_cost -= (single_@article.article.cost- (@single_article.cost*@single_article.article.discount/100))*amount
+      end
+
       @shopping_cart.save
-
       @carts_article.destroy!
     end
 
-
-
     redirect_to :back
-
   end
 
 

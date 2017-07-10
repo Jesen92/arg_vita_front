@@ -62,7 +62,6 @@ class PurchasesController < ApplicationController
 
     end
 
-
     if @user.purchase_sum == nil || @user.purchase_sum == 0
 
       @user.purchase_sum = @current_purchase_sum
@@ -75,15 +74,16 @@ class PurchasesController < ApplicationController
 
     @user.save
 
-
     @carts_article.destroy_all
     @shopping_cart.current_cost = 0
     @shopping_cart.save
 
     redirect_to root_path
-
   end
 
+  def create_no_user
+
+  end
 
 
 end

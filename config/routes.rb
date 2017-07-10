@@ -128,6 +128,8 @@ Rails.application.routes.draw do
   get 'home/privacy'
 
   put 'shopping_carts/destroy_item' => "shopping_carts#destroy_item", :as => 'destroy_item'
+  put 'shopping_carts/destroy_single_item' => "shopping_carts#destroy_single_item", :as => 'destroy_single_item'
+
 
   resources :home do
     get :general, on: :collection

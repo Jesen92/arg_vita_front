@@ -16,16 +16,26 @@
           <%= country_select("user", "state", {priority_countries: ["HR"]}, { class: 'form-control', data: { attribute: "value" } })  %>
       </div>
 
-      <%= f.input :city, label: 'Grad', autofocus: true %>
+            <div class="row">
+              <div class="col-md-4 margin-right-form">
+                <%= f.input :city, label: 'Grad', autofocus: true %>
+              </div>
+              <div class="col-md-4 margin-right-form">
+                <%= f.input :address, label: 'Adresa', autofocus: true %>
+              </div>
+              <div class="col-md-4 margin-right-form">
+                <%= f.input :postcode, label: 'Poštanski broj', autofocus: true %>
+              </div>
+            </div>
 
-      <%= f.input :address, label: 'Adresa', autofocus: true %>
-
-      <%= f.input :postcode, label: 'Poštanski broj', autofocus: true %>
-
-      <%= f.input :phone, label: 'Broj mobitela/telefona', autofocus: true %>
-
-    <%= f.input :email, autofocus: true %>
-
+            <div class="row">
+              <div class="col-md-6 margin-right-form">
+                <%= f.input :email, autofocus: true %>
+              </div>
+              <div class="col-md-6 margin-right-form">
+                <%= f.input :phone, label: 'Broj mobitela/telefona', autofocus: true %>
+              </div>
+            </div>
 
     <%= f.input :password, label: 'Lozinka', autocomplete: "off" %>
             <% if @minimum_password_length %>

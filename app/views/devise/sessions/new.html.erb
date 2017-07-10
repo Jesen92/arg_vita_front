@@ -3,8 +3,10 @@
     <div class="page-header head-page">
       <h2>Prijava</h2>
     </div>
+    <%= flash[:alert] if flash[:alert] %>
 <div style="margin: 30px 30px 30px 30px;" >
 <%= simple_form_for(resource, as: resource_name, html: {class: 'form-horizontal'} , url: session_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
 
     <%= f.input :email, autofocus: true %>
 
