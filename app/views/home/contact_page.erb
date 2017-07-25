@@ -1,0 +1,132 @@
+<style>
+  #map {
+    height: 400px;
+    width: 100%;
+  }
+
+  hr.style17 {
+    border-top: 1px solid #8c8b8b;
+    text-align: center;
+  }
+  hr.style17:after {
+    content: '§';
+    display: inline-block;
+    position: relative;
+    top: -14px;
+    padding: 0 10px;
+    background: #f0f0f0;
+    color: #8c8b8b;
+    font-size: 18px;
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    transform: rotate(60deg);
+  }
+
+</style>
+<div class="container">
+  <div class="row-fluid">
+    <div class="col-md-8">
+      <div id="map"></div>
+    </div>
+
+    <div class="col-md-4">
+      <h2>Argentum Vita d.o.o.</h2>
+      <address>
+        <strong></strong><br>
+        Prilaz Ivana Visina bb<br>
+        10000, Zagreb<br>
+        Croatia<br>
+        <abbr title="Phone">P:</abbr> 01/6555-086
+      </address>
+      <br>
+      <h4>Radno vrijeme:</h4>
+      <p>Ponedjeljak - Petak 9,00-20,00</p>
+      <p>Subota 9,00 - 14,00</p>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-8 col-md-ofset-2">
+      <strong>Za sva pitanja i informacije slobodno nam se obratite i na:</strong>
+      <p>Mob:  092/245 8716</p>
+      <p>E-mail: info@argentumvita.hr</p>
+
+      <strong>Sjedište firme:</strong>
+      <p>Argentum Vita d.o.o.</p>
+      <p>Vrapčanska 175/2</p>
+      <p>10090 Zagreb</p>
+      <br>
+      <p>OIB: 70900900444</p>
+      <p>MB: 080727782</p>
+    </div>
+  </div>
+</div>
+
+<br>
+<hr class="style17">
+<br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well well-sm">
+        <form class="form-horizontal" action="" method="post">
+          <fieldset>
+            <legend class="text-center">Contact us</legend>
+
+            <!-- Name input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="name">Name</label>
+              <div class="col-md-9">
+                <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+              </div>
+            </div>
+
+            <!-- Email input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="email">Your E-mail</label>
+              <div class="col-md-9">
+                <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+              </div>
+            </div>
+
+            <!-- Message body -->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="message">Your message</label>
+              <div class="col-md-9">
+                <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+              </div>
+            </div>
+
+            <!-- Form actions -->
+            <div class="form-group">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function initMap() {
+        var uluru = {lat: 45.776826, lng: 15.974306};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM6jDqg2ZYYPjbeT2i-JmCzCHOJJBODJo&callback=initMap">
+</script>

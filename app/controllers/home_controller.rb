@@ -48,5 +48,11 @@ class HomeController < ApplicationController
     )
   end
 
+  def contact_page
+  end
+
+  def about_us_page
+
+  end
 
 end

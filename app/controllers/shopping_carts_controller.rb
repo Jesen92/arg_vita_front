@@ -26,6 +26,7 @@ class ShoppingCartsController < ApplicationController
   end
 
   def create
+
     if current_user == nil
 
       @article = Article.find(params[:format])
@@ -161,11 +162,13 @@ class ShoppingCartsController < ApplicationController
         $no_user_single_articles.each do |k, v|
           if k == @single_article.id
 
+            $no_user_single_articles[k] -= 1
             if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
               $items_cost -= @single_article.article.cost
             else
               $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
             end
+
 
             $no_user_single_articles.delete(k) if amount == 1
           end
@@ -277,12 +280,12 @@ class ShoppingCartsController < ApplicationController
     amount = params[:amount].to_i
 
     if current_user == nil
-      if $no_user_single_articles.has_key?(@single_article.id.to_s)
+      if $no_user_single_articles.has_key?(@single_article.id)
         $no_user_single_articles.each do |k, v|
 
-          if k == @single_article.id.to_s
+          if k == @single_article.id
 
-            if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+            if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
               $items_cost -= @single_article.article.cost*amount
             else
               $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount

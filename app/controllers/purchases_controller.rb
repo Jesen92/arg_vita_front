@@ -3,6 +3,9 @@ class PurchasesController < ApplicationController
   before_filter :set_user, :set_cart, :set_main_title
 
   def create
+    UserMailer.checkout_mail(current_user).deliver_now
+
+=begin
     @user = User.find(current_user.id)
 
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -77,7 +80,9 @@ class PurchasesController < ApplicationController
     @carts_article.destroy_all
     @shopping_cart.current_cost = 0
     @shopping_cart.save
+=end
 
+    flash[:notice] = "Uspješno ste obavili kupnju! Dobiti ćete email sa konfirmacijom kupnje!"
     redirect_to root_path
   end
 

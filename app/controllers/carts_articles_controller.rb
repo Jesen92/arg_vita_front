@@ -28,12 +28,15 @@ class CartsArticlesController < ApplicationController
 
     @article = Article.find(art_id)
 
+    (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount > @article.amount
+
     if current_user == nil  # kad nema usera #############################################################################################
 
       puts "Ispred if za provjeru jel se artikl nalazi u hash-u"
       if $no_user_articles.has_key?(@article.id.to_s)
         $no_user_articles.each do |k, v|
           if k == @article.id.to_s
+            (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if $no_user_articles[k]+amount > @article.amount
             $no_user_articles[k] += amount
 
           end
@@ -63,6 +66,7 @@ class CartsArticlesController < ApplicationController
 
       elsif @carts_article.amount+amount <= @article.amount
         #TODO ovdje treba promjenit provjeru za amount
+        (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount+@carts_article.amount > @article.amount
         @carts_article.amount += amount
         @carts_article.save
 
@@ -268,6 +272,7 @@ class CartsArticlesController < ApplicationController
 
       amount = params[:article].blank? ? 1 : params[:article][:amount].to_i
 
+    (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount > @single_article.amount
   # kad ima usera #############################################################################################
     if current_user
 
@@ -303,23 +308,20 @@ class CartsArticlesController < ApplicationController
         return redirect_to :back
 
         end
-
-
-
     end
   #kad nema usera   ################################################################################################################
 
     else
-      if $no_user_articles.has_key?(@single_article.id.to_s)
-        $no_user_articles.each do |k, v|
-          if k == @article.id.to_s
+      if $no_user_single_articles.has_key?(@single_article.id)
+        $no_user_single_articles.each do |k, v|
+          if k == @single_article.id
+            (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount+$no_user_single_articles[k] > @single_article.amount
             $no_user_single_articles[k] += amount
           end
         end
       else
         $no_user_single_articles[@single_article.id] = amount
       end
-      binding.pry
      end
   ###################################################################################################################################
 
@@ -331,13 +333,13 @@ class CartsArticlesController < ApplicationController
 
       if current_user == nil
 
-        $items_cost += @single_article.article.cost
+        $items_cost += @single_article.article.cost*amount
 
       else
         @shopping_cart.current_cost += @single_article.article.cost*amount
         @shopping_cart.save
 
-        @carts_article.cost = @single_article.article.cost
+        @carts_article.cost = @single_article.article.cost*amount
         @carts_article.save
       end
 

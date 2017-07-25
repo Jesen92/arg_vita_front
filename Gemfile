@@ -37,7 +37,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'autoprefixer-rails'
 gem 'devise'
-gem 'gibbon'
+#gem 'gibbon'
 gem 'sucker_punch', '~> 1.0'
 gem 'activemerchant'
 gem 'chosen-rails'
