@@ -312,7 +312,7 @@
 
 
 
-            <li class="<%= params[:controller]== 'home' ? 'active' : '' %>" ><%= link_to 'Početna', root_path, :method => :get%></li>
+            <li class="<%= params[:controller]== 'home' && params[:action] == 'index' ? 'active' : '' %>" ><%= link_to 'Početna', root_path, :method => :get%></li>
 
             <li class="<%= params[:controller]== 'trgovina' ? 'active' : '' %>"> <%= link_to 'Gotov nakit', trgovina_index_path, :method => :get %>
 
@@ -323,9 +323,9 @@
             <li class="<%= params[:controller]== 'auctions' ? 'active' : '' %>"> <%= link_to 'Aukcije', auctions_index_path, :method => :get %>
             </li>
 
-            <li class="grid"><a href="typo.html">O nama</a>
+            <li class="<%= params[:controller]== 'home' && params[:action] == 'about_us_page' ? 'active' : '' %>"><%= link_to 'O nama', about_us_page_path, :method => :get %>
             </li>
-            <li class="grid"><%= link_to 'Kontakt', contact_page_path, :method => :get %>
+            <li class="<%= params[:controller]== 'home' && params[:action] == 'contact_page' ? 'active' : '' %>"><%= link_to 'Kontakt', contact_page_path, :method => :get %>
             </li>
           </ul>
         </div>

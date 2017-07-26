@@ -52,7 +52,6 @@ class HomeController < ApplicationController
   end
 
   def about_us_page
-
   end
 
 end
