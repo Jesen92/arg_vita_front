@@ -134,10 +134,10 @@ Rails.application.routes.draw do
   put 'shopping_carts/destroy_item' => "shopping_carts#destroy_item", :as => 'destroy_item'
   put 'shopping_carts/destroy_single_item' => "shopping_carts#destroy_single_item", :as => 'destroy_single_item'
 
-
   resources :home do
     get :general, on: :collection
     get :download_pdf, on: :collection
+    post :contact_us, on: :collection
   end
   resources :purchases
   resources :auctions do

@@ -31,6 +31,8 @@
   <hr class="style17">
   <br>
 
+  <div class="text-center">
+  <h1>Argentum Vita d.o.o.</h1>
   <p>Firma Argentum Vita d.o.o. je direktni uvoznik nakita od srebra, koralja, školjki, drveta, čelika, metala, bisera, raznog poludragog kamenja i repromaterijala za izradu nakita.</p>
 
   <p>Sav naš srebrni nakit je izrađen od srebra 925. Kvaliteta srebra provjerena je u Hrvatskom državnom zavodu za mjeriteljstvo.
@@ -39,6 +41,7 @@
   <p>
 
   </p>
+  </div>
 </div>
 <br>
 <div class="container">
@@ -114,19 +117,24 @@
 <br>
 <hr class="style17">
 <br>
-<div class="container">
+<div class="container" id="CONTACT">
   <h1>Javite nam se!</h1>
-  <form class="cf contact_form" style="background-color: #f1f1f1; padding-left: 15px; padding-right: 15px; padding-bottom: 15px;">
+  <%= simple_form_for :email_form, url: contact_us_home_index_path, method: :post , html: {novalidate: false, class: "cf contact_form", style: 'background-color: #f1f1f1; padding-left: 15px; padding-right: 15px; padding-bottom: 15px;'} do |f|%>
     <div class="half left cf">
-      <input type="text" id="input-name" placeholder="Name">
-      <input type="email" id="input-email" placeholder="Email address">
-      <input type="text" id="input-subject" placeholder="Subject">
+      <%= f.input :name, label: false, placeholder: 'Ime i prezime', input_html: {id: 'input-name'} %>
+      <%= f.input :email, label: false, as: 'email', placeholder: 'Email adresa', input_html: {id: 'input-email email'}, required: true %>
+      <%= f.input :subject, label: false, placeholder: 'Tema', input_html: {id: 'input-subject'} %>
+      <% unless flash[:recaptcha_error].nil? %>
+          <div class="alert alert-danger" role="alert"><%= flash[:recaptcha_error] %></div>
+      <% end %>
+      <%= recaptcha_tags callback: 'enableBtn' %>
     </div>
     <div class="half right cf">
-      <textarea name="message" type="text" id="input-message" placeholder="Message"></textarea>
+      <%= f.input :message, label: false, as: :text, placeholder: 'Poruka...', input_html: {id:'input-message'} %>
     </div>
-    <input type="submit" value="Submit" id="input-submit" style="background-color: #1abc9c">
-  </form>
+      <%= f.button :submit, 'Pošalji upit', id: 'input-submit', style: 'background-color: #1abc9c' %>
+  <% end %>
+
 </div>
 <br>
 <script>
