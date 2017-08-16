@@ -136,7 +136,7 @@ class TrgovinaController < ApplicationController
 
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
-    @filterrific = initialize_filterrific(Article.where(raw: false, for_sale: true ), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
+    @filterrific = initialize_filterrific(Article.where(raw: false, for_sale: true ).includes(:picture), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                                                                          with_category_id: Category.options_for_select,
                                                                                                                                                          with_material_id: Material.options_for_select,
                                                                                                                                                          with_color_id: Color.options_for_select,

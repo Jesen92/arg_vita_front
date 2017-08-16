@@ -337,7 +337,7 @@
 
 
 <div style="margin-top: 20px;">
-<%= link_to 'Kupi', purchases_create_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px;" %>
+<%= link_to 'Kupi', user_signed_in? ? purchases_create_path : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px;" %>
 </div>
 
 </div>

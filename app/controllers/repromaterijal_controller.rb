@@ -6,12 +6,12 @@ class RepromaterijalController < ApplicationController
 
   def categories
     if current_user == nil
-    @no_articles = Article.where(id: $no_user_articles.keys)
-    @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: $no_user_articles.keys)
+      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
 
     else
-    @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-    @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id)
 
     end
 
@@ -38,7 +38,7 @@ class RepromaterijalController < ApplicationController
   def index_of
 
 
-    @ssubcategories = Ssubcategory.where(id: SsubcategorySubcategory.where(subcategory_id: params[:id]).pluck(:ssubcategory_id) )
+    @ssubcategories = Ssubcategory.where(id: SsubcategorySubcategory.where(subcategory_id: params[:id]).pluck(:ssubcategory_id))
     @subcategories = Subcategory.all
 
     puts "Usao je u trgovina#index"
@@ -48,7 +48,7 @@ class RepromaterijalController < ApplicationController
 
       puts "Shopping cart ID: #{@shopping_cart.id}"
 
-      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id)
     else
       puts "NEMA USER-A!!!!"
 
@@ -60,21 +60,21 @@ class RepromaterijalController < ApplicationController
       $subcategory_id = params[:id]
     end
 
-    gon.max = Article.where(raw: true, for_sale: true, subcategory_id: $subcategory_id ).order(cost: :desc).pluck(:cost).first.to_f.ceil
+    gon.max = Article.where(raw: true, for_sale: true, subcategory_id: $subcategory_id).order(cost: :desc).pluck(:cost).first.to_f.ceil
 
     puts "Najveca cijena je #{gon.max}"
 
-    gon.min = Article.where(raw: true, for_sale: true, subcategory_id: $subcategory_id ).order(:cost).pluck(:cost).first.to_f.ceil
+    gon.min = Article.where(raw: true, for_sale: true, subcategory_id: $subcategory_id).order(:cost).pluck(:cost).first.to_f.ceil
 
     puts "Najmanja cijena je #{gon.min}"
 
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
-    @filterrific = initialize_filterrific(Article.where(raw: true, for_sale: true, subcategory_id: $subcategory_id ), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
-                                                                                                                                                              with_subcategory_id: Subcategory.options_for_select,
-                                                                                                                                                              with_ssubcategory_id: Ssubcategory.options_for_select,
-                                                                                                                                                              with_color_id: Color.options_for_select,
-                                                                                                                                                              with_type_id: Type.options_for_select}) or return
+    @filterrific = initialize_filterrific(Article.where(raw: true, for_sale: true, subcategory_id: $subcategory_id), params[:filterrific], select_options: {sorted_by: Article.options_for_sorted_by,
+                                                                                                                                                            with_subcategory_id: Subcategory.options_for_select,
+                                                                                                                                                            with_ssubcategory_id: Ssubcategory.options_for_select,
+                                                                                                                                                            with_color_id: Color.options_for_select,
+                                                                                                                                                            with_type_id: Type.options_for_select}) or return
 
 
     @articles = @filterrific.find.page(params[:page])
@@ -97,7 +97,7 @@ class RepromaterijalController < ApplicationController
   def index
     add_breadcrumb "Repromaterijal", :repromaterijal_index_path
 
-    @ssubcategories = Ssubcategory.all
+    @ssubcategories = Ssubcategory.all.includes(:ssubcategory_subcategories)
     @subcategories = Subcategory.all
 
     puts "Usao je u trgovina#index"
@@ -107,7 +107,7 @@ class RepromaterijalController < ApplicationController
 
       puts "Shopping cart ID: #{@shopping_cart.id}"
 
-      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id)
     else
       puts "NEMA USER-A!!!!"
 
@@ -119,11 +119,11 @@ class RepromaterijalController < ApplicationController
       $subcategory_id = params[:id]
     end
 
-    gon.max = Article.where(raw: true, for_sale: true ).order(cost: :desc).pluck(:cost).first.to_f.ceil
+    gon.max = Article.where(raw: true, for_sale: true).order(cost: :desc).pluck(:cost).first.to_f.ceil
 
     puts "Najveca cijena je #{gon.max}"
 
-    gon.min = Article.where(raw: true, for_sale: true ).order(:cost).pluck(:cost).first.to_i
+    gon.min = Article.where(raw: true, for_sale: true).order(:cost).pluck(:cost).first.to_i
 
     puts "Najmanja cijena je #{gon.min}"
     $ssub = nil
@@ -131,14 +131,14 @@ class RepromaterijalController < ApplicationController
     if params[:filterrific]
       $ssub = params[:filterrific][:with_subcategory_id]
     end
-puts "SSUB JE #{$ssub}"
+    puts "SSUB JE #{$ssub}"
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
-    @filterrific = initialize_filterrific(Article.where(raw: true, for_sale: true ), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
-                                                                                                                                                              with_subcategory_id: Subcategory.options_for_select,
-                                                                                                                                                              with_ssubcategory_id: Ssubcategory.options_for_select,
-                                                                                                                                                              with_color_id: Color.options_for_select,
-                                                                                                                                                              with_type_id: Type.options_for_select},:persistence_id => false,) or return
+    @filterrific = initialize_filterrific(Article.where(raw: true, for_sale: true).includes(:picture, :single_articles), params[:filterrific], select_options: {sorted_by: Article.options_for_sorted_by,
+                                                                                                                                                                with_subcategory_id: Subcategory.options_for_select,
+                                                                                                                                                                with_ssubcategory_id: Ssubcategory.options_for_select,
+                                                                                                                                                                with_color_id: Color.options_for_select,
+                                                                                                                                                                with_type_id: Type.options_for_select}, :persistence_id => false,) or return
 
 
     @articles = @filterrific.find.page(params[:page])
@@ -174,11 +174,11 @@ puts "SSUB JE #{$ssub}"
 
         puts "Shopping cart ID: #{@shopping_cart.id}"
 
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id)
       else
         puts "NEMA USER-A!!!!"
-          @articles = Article.where(id: $no_user_articles.keys)
-          @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+        @articles = Article.where(id: $no_user_articles.keys)
+        @sa = SingleArticle.where(id: $no_user_single_articles.keys)
 
       end
     else

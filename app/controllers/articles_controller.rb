@@ -35,7 +35,6 @@ class ArticlesController < ApplicationController
 
     end
 
-
     terms = params[:article][:title].to_s.downcase
 
     if params[:article][:title] == "" || params[:article][:title] == nil
