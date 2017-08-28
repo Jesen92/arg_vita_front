@@ -2,44 +2,13 @@ class AccountsController < ApplicationController
   before_filter :set_user, :set_cart
 
   def my_account
-    @user = User.find(current_user.id)
+    (flash[:error] = "Ulogirajte se kako bi pristupili informacijama o vašem računu!" and return redirect_to :back) unless user_signed_in?
   end
 
   def purchases
     @user = User.find(current_user.id)
 
     @all_purchases = PastPurchase.where(user_id: @user.id)
-
-=begin
-    @purchases = Klass.new
-    @repro_purchases = Klass.new
-
-    @single_article_purchases = Klass.new
-    @repro_single_article_purchases = Klass.new
-=end
-
-
-=begin
-    if !@all_purchases.empty?
-      @all_purchases.each do |purchase|
-
-        if purchase.article != nil
-          if purchase.article.raw == false
-            @purchases << purchase
-          else
-            @repro_purchases << purchase
-          end
-        elsif purchase.single_article != nil
-          if purchase.single_article.article.raw == false
-            @single_article_purchases << purchase
-          else
-            @repro_single_article_purchases << purchase
-          end
-        end
-
-      end
-    end
-=end
 
     @purchases = PastPurchase.where("past_purchases.user_id = #{@user.id} AND past_purchases.article_id IS NOT NULL ")
     @single_article_purchases = PastPurchase.where("past_purchases.user_id = #{@user.id} AND past_purchases.single_article_id IS NOT NULL ")

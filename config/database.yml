@@ -15,6 +15,16 @@ default: &default
   password: WVg7qKu7w7
   port: 3306
 
+production_values: &production_values
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  host: <%= ENV['HOST_NAME'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['USERNAME_DATABASE'] %>
+  password: <%= ENV['PASSWORD_DATABASE'] %>
+  port: 3306
   #host: 108.167.137.108
   #database: mandrecr_argentumvita
   #username: mandrecr_hrvoje
@@ -44,5 +54,5 @@ test:
   #database: argvita_development
 
 production:
-  <<: *default
+  <<: *production_values
 
