@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap-sprockets
 //= require jquery_ujs
 //= require fakeloader
 //= require filterrific/filterrific-jquery
@@ -19,10 +20,8 @@
 //= require lightslider
 //= require sky-forms-ie8.js
 //= require jquery.placeholder.min
-//= require modal
 //= require chosen-jquery
 //= require select_category
 //= require wice_grid
 //= require bootstrap-datepicker
 //= require_tree .
-

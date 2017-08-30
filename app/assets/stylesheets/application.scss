@@ -17,7 +17,6 @@
  *= require ion.rangeSlider.css
  *= require ion.rangeSlider.skinHTML5
  *= require memenu
- *= require modal
  *= require normalize
  *= require owl.carousel
  *= require owl.theme
@@ -39,6 +38,9 @@
 @import "wice_grid";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
 span.page.current {
   color: #1abc9c;

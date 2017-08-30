@@ -65,8 +65,6 @@ class ArticlesController < ApplicationController
 
   end
 
-
-
   #############################################################################################################################################################################
 
   def show_pics
@@ -88,10 +86,5 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit(:id, :title, :categories_id, :materials_id, :cost, :subcategories_id, :ssubcategories_id )
   end
-
-
-
-
-
 
 end

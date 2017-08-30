@@ -7,6 +7,7 @@
   <%= include_gon %>
   <%= stylesheet_link_tag    'application','https://fonts.googleapis.com/css?family=Exo+2:400,300,600|Bree+Serif|Nunito:700&subset=latin,latin-ext', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'modal','data-turbolinks-track' => true %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 
 
   <%= favicon_link_tag 'images/apple-icon-57x57.png', rel: 'apple-touch-icon', type: 'image/png' %>
@@ -69,11 +70,11 @@
     <div class="col-md-3">
 
 
-      <div> <% if user_signed_in? == false %><%= link_to 'Prijava', new_user_session_path ,class: "btn btn-primary btn-sm btnlogin"%> <% end %></div>
+      <div> <% if user_signed_in? == false %><%= link_to 'Prijava', new_user_session_path ,class: "btn btn-primary btn-sm btnlogin", style:"background-color: #1abc9c"%> <% end %></div>
 
       <div> <% if user_signed_in? %><%= link_to "Odjava", destroy_user_session_path, :method => :delete,class: "btn btn-primary btn-sm btnlogin"%> <% end %></div>
 
-      <div> <% if user_signed_in? == false %><%= link_to 'Registracija', new_user_registration_path ,class: "btn btn-primary btn-sm btnregistration"%> <% end %></div>
+      <div> <% if user_signed_in? == false %><%= link_to 'Registracija', new_user_registration_path ,class: "btn btn-primary btn-sm btnregistration", style:"background-color: #1abc9c"%> <% end %></div>
 
 
 
@@ -193,7 +194,7 @@
                           <% if a.id.to_s == k %>
                             <li class="clearfix">
 
-                              <%= link_to 'proizvod', article_path(a.id) %>
+                              <%= link_to 'proizvod', trgovina_show_path(a.id), style: "color: #1abc9c" %>
 
                               <% if a.picture != nil %>
                                   <%=image_tag(a.picture.image.url(:table), class: "productimg") %>
@@ -207,13 +208,13 @@
                               <span class="quantity">stavki: <%= "#{v}" %></span>
                               <div class="row">
                                 <div class="col-md-6">
-                                  <%= link_to 'remove 1', shopping_carts_destroy_path(a.id ) %>
+                                  <%= link_to 'remove 1', shopping_carts_destroy_path(a.id ), style: "color: black;" %>
                                 </div>
                                 <div class="col-md-6">
-                                  <%= link_to 'remove item', destroy_item_path(id: a.id, amount: v ), :method => :put %>
+                                  <%= link_to 'remove item', destroy_item_path(id: a.id, amount: v ), :method => :put, style: "color: black;" %>
                                 </div>
                               </div>
-                              <!--<%= link_to 'remove', shopping_carts_destroy_path(a.id ) %>-->
+                              <!--<%= link_to 'remove', shopping_carts_destroy_path(a.id ), style: "color: black;" %>-->
                             </li>
                           <% end %>
                       <% end %>
@@ -231,7 +232,7 @@
                             <% puts "Pronasao je isti id kao i key" %>
                             <li class="clearfix">
 
-                              <%= link_to 'proizvod', article_path(sa.article.id) %>
+                              <%= link_to 'proizvod', trgovina_show_path(sa.article.id), style: "color: #1abc9c;" %>
 
                               <% if sa.pictures.first != nil %>
                                   <%=image_tag(sa.pictures.first.image.url(:table), class: "productimg") %>
@@ -452,13 +453,6 @@
 <!--footer-end-->
 
 <!--Registration Form dialog-->
-<%= render partial: "layouts/registration_form" %>
-<!--Registration Form dialog end -->
-
-<!--Login Form dialog-->
-<%= render partial: "layouts/login_form" %>
-<!--Login Form dialog-->
-
 </body>
 
 

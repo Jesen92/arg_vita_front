@@ -241,11 +241,11 @@
 
 
                 <div class="col-xs-6 col-md-2">
-                  <div class="item-price" style="text-align: right;"><%if !a.on_discount.nil? && !a.on_discount? && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
+                  <div class="item-price" style="text-align: right;"><%if a.on_discount && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
 
                 <div class="col-xs-6 col-md-2" style="text-align: right;">
-                  <div class="item-price"><%if !a.on_discount.nil? && !a.on_discount? && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100))*v, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost*v, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
+                  <div class="item-price"><%if a.on_discount && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100))*v, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost*v, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
 
 
@@ -322,7 +322,7 @@
           <div class="col-xs-6 col-md-12">
             <div class="item-title" style="text-align: right;">Ukupna cijena izabranih proizvoda je:</div>
 
-            <div class="item-price"  style="text-align: right;"><%= number_to_currency($items_cost, :unit => 'Kn', :format => "%n %u") %></div>
+            <h3><div class="item-price"  style="text-align: right;"><%= number_to_currency($items_cost, :unit => 'Kn', :format => "%n %u") %></div></h3>
             </br>
 
           </div>

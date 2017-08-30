@@ -30,7 +30,11 @@
             <% end %>
 
             <% if art.on_discount == true && art.discount != 0 %>
-                <h4><%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
+                <h4>
+                  <%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
+                  <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                </h4>
+
             <% else %>
                 <h4><%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
             <% end %>
