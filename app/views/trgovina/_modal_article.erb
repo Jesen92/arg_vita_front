@@ -1,4 +1,14 @@
-
+<style>
+  .img-li {
+    display: block;
+    float: left;
+    margin-right: 6px;
+    cursor:pointer;
+  }
+  img {
+    display: block;
+  }
+</style>
 <div id="<%= "ModalId"+article.id.to_s %>" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -35,13 +45,13 @@
                 <!--TODO: postotak na modal dialogu-->
                     <ul id="imageGallery<%= article.id.to_s %>" style="min-width: 340px; min-height: 400px;">
                       <% if !article.pictures.first.nil? %>
-                          <li   data-thumb="<%=  article.picture.image.url(:thumbgal) %>" data-src="<%=  article.picture.image.url(:original) %>">
+                          <li   data-thumb="<%=  article.picture.image.url(:thumbgal) %>" data-src="<%=  article.picture.image.url(:original) %>" class="img-li">
                             <%= image_tag(article.picture.image.url(:picture)) %>
                           </li>
                           <% article.pictures.each do |pic| %>
 
                               <% if article.picture.image.url(:picture) != pic.image.url(:picture) %>
-                                  <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%=  pic.image.url(:original) %>">
+                                  <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%=  pic.image.url(:original) %>" class="img-li">
                                     <%= image_tag(pic.image.url(:picture)) %>
                                   </li>
                               <% end %>
