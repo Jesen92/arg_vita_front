@@ -24,4 +24,5 @@
 //= require select_category
 //= require wice_grid
 //= require bootstrap-datepicker
+//= require lightgallery
 //= require_tree .

@@ -1,7 +1,7 @@
 <div id="filterrific_results">
 
 
-
+  <%= render partial: 'repromaterijal/modal_article', locals: {article: Article.where(raw: false).first} %>
   <% articles.each do |art| %>
 
       <div class="product-one col-md-4 product-left ">
@@ -15,12 +15,12 @@
           <!--TODO: upisati naziv slike-->
 
           <% if art.picture != nil %>
-                <%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> <% end %>
+              <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');"> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> </a>
           <% else %>
-                <%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> <% end %>
+              <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');"> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> </a>>
           <% end %>
           <div class="product-bottom">
-            <h3><%= art.title %></h3>
+            <h3><a data-toggle="modal" data-target="#ModalId<%= art.id %>" style="color: #1abc9c;"> <%= art.title %></a></h3>
             <!--NOTE: kratki opis od jednog reda-->
 
             <% if art.short_description != nil && art.short_description !=""  %>
@@ -31,12 +31,12 @@
 
             <% if art.on_discount == true && art.discount != 0 %>
                 <h4>
-                  <%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
+                  <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i> </a><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
                   <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
                 </h4>
 
             <% else %>
-                <h4><%=link_to  repromaterijal_show_path(art.id), :target => '_blank'  do %> <i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+                <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
             <% end %>
           </div>
           <% if art.on_discount == true && art.discount != 0 %>
@@ -46,6 +46,7 @@
           <% end %>
         </div>
       </div>
+      <%= render partial: 'repromaterijal/modal_article', locals: {article: art} %>
   <% end %>
 
 
@@ -58,3 +59,6 @@
 
 </div>
 
+<script>
+
+</script>

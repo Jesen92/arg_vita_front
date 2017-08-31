@@ -1,3 +1,4 @@
+
 <div id="<%= "ModalId"+article.id.to_s %>" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -10,8 +11,7 @@
           </div>
           <div class="col-md-6">
             <% if article.on_discount == true && article.discount != 0 %>
-                <h3><div class="" style="margin-left: 10px;"><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost-(article.cost*article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div></h3>
-                <div class=""><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span></div>
+                <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost-(article.cost*article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div></h3><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span> <div class="productboxkat"><strong><div data-countdown="<%= article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div>
             <% else %>
                 <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span></div></h3>
             <% end %>
@@ -21,57 +21,41 @@
 
       </div>
       <div class="modal-body">
+        <div class="single contact" style="padding: 5px;">
       <div class="container">
         <div class="single-main">
           <div class="row">
-            <div class="col-md-12 single-main-left">
-            <div class="sngl-top">
-              <div class="col-md-4 single-top-left">
 
+              <div class="col-md-4 single-top-left">
                 <% if article.on_discount == true && article.discount != 0 %>
                     <div class="dialog-srch srch">
                       <span><%= article.discount %>%</span>
                     </div>
                 <% end %>
                 <!--TODO: postotak na modal dialogu-->
-                <div class="item">
-                  <div class="clearfix" style="max-width:474px;">
-                    <ul id="image-gallery" class="thumbnail gallery list-unstyled cS-hidden">
+                    <ul id="imageGallery<%= article.id.to_s %>" style="min-width: 340px; min-height: 400px;">
                       <% if !article.pictures.first.nil? %>
-                          <% @ind = article.picture.image.url(:picture) %>
-                          <li   data-thumb="<%=  article.picture.image.url(:thumbgal) %>">
+                          <li   data-thumb="<%=  article.picture.image.url(:thumbgal) %>" data-src="<%=  article.picture.image.url(:original) %>">
                             <%= image_tag(article.picture.image.url(:picture)) %>
                           </li>
                           <% article.pictures.each do |pic| %>
 
-                              <% if @ind != pic.image.url(:picture) %>
-
-                                  <li data-thumb="<%=  pic.image.url(:thumbgal) %>">
+                              <% if article.picture.image.url(:picture) != pic.image.url(:picture) %>
+                                  <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%=  pic.image.url(:original) %>">
                                     <%= image_tag(pic.image.url(:picture)) %>
                                   </li>
-
                               <% end %>
                           <% end %>
                       <% end %>
 
                     </ul>
-                  </div>
-                </div>
               </div>
 
-            </div>
             <div class="col-md-7 details">
 
               <div class="product-bottom" style="margin: 0; padding: 0;">
                 <div class="productboxkat"><%= article.material.title unless article.material.blank? %></div>
-                <div class="row naslov-site">
-                  <% if article.on_discount %>
-                      <div class="productboxkat"><strong><div data-countdown="<%= article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div>
-                  <% end %>
 
-
-
-                </div>
                 <div class="row">
                   <div class="productboxkata"><strong>Kod Artikla:</strong> <%= article.code %></div>
                 </div>
@@ -108,9 +92,6 @@
 
                     </div>
 
-
-
-
                     <div class="row" >
 
                       <div class="col-md-6 artikli_margin_none">
@@ -134,24 +115,17 @@
                     </div>
                     </div>
                     <div class="clearfix"> </div>
+
+
                     </div>
 
                     </div>
-                    <div class="clearfix"> </div>
-                    </div>
-
-
-
                 <% end %>
-
-
-
                 </div>
-
       </div>
     <!--end-single-->
 
-
+      </div>
     </div>
   </div>
 </div>
@@ -164,5 +138,20 @@
         });
     });
 
-
+    $('#imageGallery<%= article.id.to_s %>').lightSlider({
+        usingCss:true,
+        gallery:true,
+        item:1,
+        loop:true,
+        thumbItem:4,
+        slideMargin:0,
+        enableDrag: false,
+        currentPagerPosition:'left',
+        onSliderLoad: function(el) {
+            $('#imageGallery<%= article.id.to_s %>').removeClass('cS-hidden');
+            el.lightGallery({
+                selector: '#imageGallery<%= article.id.to_s %> .lslide'
+            });
+        }
+    });
 </script>

@@ -29,17 +29,17 @@
             <!--TODO: postotak na modal dialogu-->
             <div class="item">
               <div class="clearfix" style="max-width:474px;">
-                <ul id="image-gallery" class="thumbnail gallery list-unstyled cS-hidden">
+                <ul id="imageGallery" >
                   <% if !@article.pictures.first.nil? %>
                       <% @ind = @article.picture.image.url(:picture) %>
-                      <li   data-thumb="<%=  @article.picture.image.url(:thumbgal) %>">
+                      <li   data-thumb="<%=  @article.picture.image.url(:thumbgal) %>" data-src="<%= @article.picture.image.url(:picture) %>" >
                         <%= image_tag(@article.picture.image.url(:picture)) %>
                       </li>
                       <% @article.pictures.each do |pic| %>
 
                           <% if @ind != pic.image.url(:picture) %>
 
-                              <li data-thumb="<%=  pic.image.url(:thumbgal) %>">
+                              <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%= pic.image.url(:picture) %>">
                                 <%= image_tag(pic.image.url(:picture)) %>
                               </li>
 
