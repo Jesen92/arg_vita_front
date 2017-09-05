@@ -135,6 +135,7 @@ class Article < ActiveRecord::Base
   }
 
   scope :min_cost, lambda { |ref_int|
+    return if ref_int.first.empty?
     min, max = ref_int.to_s.split(';')
 
     mmin = min.delete('"[\/]')
