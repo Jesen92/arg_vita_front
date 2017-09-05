@@ -1,6 +1,7 @@
 class ShoppingCartsController < ApplicationController
  # before_action :authenticate_user!
   before_filter :set_user, :set_cart, :set_main_title
+  skip_before_action :set_article_raw_session, only: [:destroy_item, :destroy_single_item, :destroy_single, :destroy, :destroy_complement, :destroy_complement_item]
   def index
   end
 
@@ -36,13 +37,21 @@ class ShoppingCartsController < ApplicationController
         $no_user_articles.each do |k, v|
           if k == @article.id.to_s
             $no_user_articles[k] += 1
-            $items_cost +=@article.cost
+            if @article.on_discount
+              $items_cost += (@article.cost- (@article.cost*@article.discount/100))
+            else
+              $items_cost += @article.cost
+            end
           end
         end
       else
         puts "Unutar if-else-a kada nije pronaden artikl unutar hash-a"
         $no_user_articles[params[:format]] = 1
-        $items_cost +=@article.cost
+        if @article.on_discount
+          $items_cost += (@article.cost- (@article.cost*@article.discount/100))
+        else
+          $items_cost += @article.cost
+        end
       end
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -103,19 +112,16 @@ class ShoppingCartsController < ApplicationController
           if k == @article.id.to_s && v.to_i > 1
             puts "ulazi u if"
             $no_user_articles[k] -= 1
-            if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+            if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
               $items_cost -= @article.cost
-
             else
-
               $items_cost -= (@article.cost- (@article.cost*@article.discount/100))
-
             end
           end
 
           if k == @article.id.to_s && v.to_i == 1
             puts "ulazi u else"
-            if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+            if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
               $items_cost -= @article.cost
 
             else
@@ -132,26 +138,21 @@ class ShoppingCartsController < ApplicationController
 
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:format] )
-    if @carts_article.amount > 1
-      @carts_article.amount -= 1
-      @carts_article.save
 
         @shopping_cart.current_cost -= @carts_article.cost
+
         @shopping_cart.save
 
-    else
-
-        @shopping_cart.current_cost -= @carts_article.cost
-        @shopping_cart.save
-
-      @carts_article.destroy!
-    end
+      if @carts_article.amount > 1
+        @carts_article.amount -= 1
+        @carts_article.save
+      else
+        @carts_article.destroy!
+      end
   end
 
     redirect_to :back
   end
-
-
 
   def destroy_single
     @single_article = SingleArticle.find(params[:id])
@@ -163,14 +164,13 @@ class ShoppingCartsController < ApplicationController
           if k == @single_article.id
 
             $no_user_single_articles[k] -= 1
-            if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
+            if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
               $items_cost -= @single_article.article.cost
             else
               $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
             end
 
-
-            $no_user_single_articles.delete(k) if amount == 1
+            $no_user_single_articles.delete(k) if amount < 1
           end
         end
       end
@@ -178,15 +178,16 @@ class ShoppingCartsController < ApplicationController
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
 
-      if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
-        @shopping_cart.current_cost -= @single_article.article.cost
-      else
-        @shopping_cart.current_cost -= (single_@article.article.cost- (@single_article.cost*@single_article.article.discount/100))
-      end
+        @shopping_cart.current_cost -= @carts_article.cost
 
       @shopping_cart.save
 
-      @carts_article.destroy! if amount == 1
+      if amount == 1
+        @carts_article.destroy!
+      else
+        @carts_article.amount -= 1
+        @carts_article.save
+      end
     end
 
     redirect_to :back
@@ -239,7 +240,7 @@ class ShoppingCartsController < ApplicationController
           if k == @article.id.to_s
             puts "ulazi u if"
 
-            if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
+            if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
               $items_cost -= @article.cost*amount
 
             else
@@ -259,11 +260,7 @@ class ShoppingCartsController < ApplicationController
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
 
-      if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
-        @shopping_cart.current_cost -= @article.cost*amount
-      else
-        @shopping_cart.current_cost -= (@article.cost- (@article.cost*@article.discount/100))*amount
-      end
+        @shopping_cart.current_cost -= @carts_article.cost*amount
 
         @shopping_cart.save
 
@@ -285,7 +282,7 @@ class ShoppingCartsController < ApplicationController
 
           if k == @single_article.id
 
-            if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
+            if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
               $items_cost -= @single_article.article.cost*amount
             else
               $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
@@ -301,7 +298,7 @@ class ShoppingCartsController < ApplicationController
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
       amount = params[:amount].to_i
 
-      if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount != 0
+      if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
         @shopping_cart.current_cost -= @single_article.article.cost*amount
       else
         @shopping_cart.current_cost -= (single_@article.article.cost- (@single_article.cost*@single_article.article.discount/100))*amount

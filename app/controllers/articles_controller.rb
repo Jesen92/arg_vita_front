@@ -9,7 +9,8 @@ class ArticlesController < ApplicationController
     @filterrific = initialize_filterrific(Article.where(raw: false, for_sale: true), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                              with_category_id: Category.options_for_select,
                                                                                                              with_material_id: Material.options_for_select}) or return
-    @articles = @filterrific.find.page(params[:page])
+    @articles = session[:filtered_articles].present? ? session[:filtered_articles] : @filterrific.find.page(params[:page])
+    session[:filtered_articles] = @articles
 
     respond_to do |format|
       format.html
@@ -35,15 +36,20 @@ class ArticlesController < ApplicationController
 
     end
 
-    terms = params[:article][:title].to_s.downcase
+    terms = !params[:article].nil? ? params[:article][:title].to_s.downcase : session[:last_article_search]
+    session[:last_article_search] = params[:article][:title].to_s.downcase unless params[:article].nil?
 
-    if params[:article][:title] == "" || params[:article][:title] == nil
+    if terms == "" || terms == nil
       @articles = nil
     else
       @articles = Article.where(
           "(articles.for_sale = true AND LOWER(articles.title) LIKE ? OR LOWER(articles.title_eng) LIKE ? OR LOWER(articles.code) LIKE ?)", "%#{terms}%", "%#{terms}%", "%#{terms}%"
       ).page(params[:page] || 1).per(12)
     end
+
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    @articles.collect!(&p) unless @articles.nil?
   end
 
   def index_subcategories
@@ -51,7 +57,9 @@ class ArticlesController < ApplicationController
     @filterrific = initialize_filterrific(Article.where(raw: true,for_sale: true), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                              with_subcategory_id: Category.options_for_select,
                                                                                                              with_ssubcategory_id: Material.options_for_select}) or return
-    @articles = @filterrific.find.page(params[:page])
+
+    @articles = session[:filtered_articles].present? ? session[:filtered_articles] : @filterrific.find.page(params[:page])
+    session[:filtered_articles] = @articles
 
     respond_to do |format|
       format.html

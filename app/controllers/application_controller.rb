@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :set_user, :set_cart
+  before_action :set_user, :set_cart, :set_article_raw_session
 
+  def set_article_raw_session
+    session[:article_raw] = nil
+  end
 
   def set_user
     if current_user
@@ -25,13 +29,20 @@ class ApplicationController < ActionController::Base
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      if @shopping_cart.current_cost < 0
+        @shopping_cart.update(current_cost: 0)
+      end
+      discount = current_user.purchase_sum >= 500 ? ((current_user.purchase_sum/500).round*500)/100 : 0
+      flash[:discount_notice] = discount > 0 ? '<span style="color: #348877;">Svojom vjernosti ostvarili ste popust od <span style="font-size: 150%; color: #515151;"> '+discount.to_s+'%</span> na sve artikle</span>' : nil
     end
   end
-end
 
   def set_main_title
     @main_title = 'Argentum Vita'
   end
+
+end
+
 #### u layout-u za komplete kada se ubace
 
 =begin

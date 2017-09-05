@@ -21,8 +21,8 @@
               <h4 class="modal-title"><%= article.title %></h4>
             </div>
             <div class="col-md-6">
-              <% if article.on_discount == true && article.discount != 0 %>
-                  <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost-(article.cost*article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div></h3><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span> <div class="productboxkat"><strong><div data-countdown="<%= article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div>
+              <% if !article.discount.nil? && article.discount > 0 %>
+                  <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost-(article.cost*article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div></h3><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span><% if article.on_discount? %> <div class="productboxkat"><strong><div data-countdown="<%= article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div><% end %>
               <% else %>
                   <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span></div></h3>
               <% end %>
@@ -38,7 +38,7 @@
               <div class="row">
 
                   <div class="col-md-4 single-top-left">
-                      <% if article.on_discount == true && article.discount != 0 %>
+                      <% if !article.discount.nil? && article.discount > 0 %>
                           <div class="dialog-srch srch">
                             <span><%= article.discount %>%</span>
                           </div>

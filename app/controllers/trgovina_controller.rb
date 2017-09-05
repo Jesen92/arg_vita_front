@@ -1,5 +1,7 @@
 class TrgovinaController < ApplicationController
+  include ApplicationHelper
   before_filter :set_user, :set_cart, :set_main_title
+  skip_before_action :set_article_raw_session, only: [:index]
 
   helper_method :index
 
@@ -107,79 +109,68 @@ class TrgovinaController < ApplicationController
     puts "Usao je u trgovina#index"
 
     if current_user != nil
-      @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+      @shopping_cart = current_user.shopping_cart
 
       puts "Shopping cart ID: #{@shopping_cart.id}"
 
-      @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      #@carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      @carts_article = @shopping_cart.carts_articles
     else
       puts "NEMA USER-A!!!!"
-
 
       @no_articles = Article.where(id: $no_user_articles.keys)
       @sa = SingleArticle.where(id: $no_user_single_articles.keys)
     end
 
-
-
     if params[:id] != nil
       $material_id = params[:id]
     end
 
-    gon.max = Article.where(raw: false, for_sale: true ).order(cost: :desc).pluck(:cost).first.to_f.ceil
-
-    puts "Najveca cijena je #{gon.max}"
-
-    gon.min = Article.where(raw: false, for_sale: true ).order(:cost).pluck(:cost).first.to_i
-
-    puts "Najmanja cijena je #{gon.min}"
-
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
-    @filterrific = initialize_filterrific(Article.where(raw: false, for_sale: true ).includes(:picture), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
+
+    if session[:article_raw].nil? || session[:article_raw]
+      session[:article_raw] = false
+      ( redirect_to(reset_filterrific_url(format: :html))and  return)
+    end
+
+    articles = Article.where(raw: false, for_sale: true ).includes(:single_articles).includes(:pictures)
+
+    @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                                                                          with_category_id: Category.options_for_select,
                                                                                                                                                          with_material_id: Material.options_for_select,
                                                                                                                                                          with_color_id: Color.options_for_select,
                                                                                                                                                          with_type_id: Type.options_for_select},
-                                                                                                                                                          persistence_id: false,) or return
+                                                                                                                                                          persistence_id: true,) or return
 
-    if params[:filterrific]
-      min, max = params[:filterrific][:min_cost].to_s.split(';')
 
-      gon.set_min = min.delete('"[\/]')
-      gon.set_max = max.delete('"[\/]')
+    gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 
-      @set_min = gon.set_min
-      @set_max = gon.set_max
-      puts "minimum je #{min.delete('"[\/]')}"
-      puts "maximum je #{max.delete('"[\/]')}"
-    else
-      gon.set_min = @set_min
-      gon.set_max = @set_max
-    end
+    #min, max = !params[:filterrific].nil? && !params[:filterrific][:min_cost].nil? ? params[:filterrific][:min_cost].nil?.to_s.split(';') : nil
 
     @articles = @filterrific.find.page(params[:page])
+
+    gon.current_min, gon.current_max = @articles.order(cost: :desc).pluck(:cost).to_a.minmax
+
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    @articles.collect!(&p)
+
+    session[:article_raw] = false
 
     respond_to do |format|
       format.html
       format.js
     end
-
-
   rescue ActiveRecord::RecordNotFound => e
     # There is an issue with the persisted param_set. Reset it.
     puts "Had to reset filterrific params: #{ e.message }"
     redirect_to(reset_filterrific_url(format: :html)) and return
 
     ###########################################################################################################################
-
   end
 
-
-
   def show
-
-
     @article = Article.find_by(id: params[:format], for_sale: true)
 
     if @article != nil
@@ -208,5 +199,10 @@ class TrgovinaController < ApplicationController
       return redirect_to :back
     end
     @main_title = 'AV|'+@article.title.split.map(&:capitalize).join(' ')
+
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    @article = p.call(@article)
+
   end
 end

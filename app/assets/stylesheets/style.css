@@ -12,6 +12,16 @@ body a{
 
 /*logo navbar*/
 
+.img-li {
+    display: block;
+    float: left;
+    margin-right: 6px;
+    cursor:pointer;
+}
+img {
+    display: block;
+}
+
 .nlogo {
     display: inline-block;
     padding: 0;

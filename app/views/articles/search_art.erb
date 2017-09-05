@@ -5,66 +5,56 @@
 <% if  @articles.nil? || @articles.empty? %>
   <h2>Nema traženog artikla...</h2>
 <% else %>
-<% @articles.each do |art| %>
+            <% @articles.each do |art| %>
 
-                <% if art.raw == true %>
-                    <div class="product-one col-md-4 product-left ">
-                      <div class="product-main simpleCart_shelfItem">
-                        <!--TODO: upisati naziv slike-->
-
-                        <% if art.picture != nil %>
-                            <%=link_to  repromaterijal_show_path(art.id)  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> <% end %>
-                        <% else %>
-                            <%=link_to  repromaterijal_show_path(art.id)  do %> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> <% end %>
-                        <% end %>
-                        <div class="product-bottom">
-                          <h3><%= art.title %></h3>
-                          <!--NOTE: kratki opis od jednog reda-->
-                          <p>detalji</p>
-
-                          <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
-
-                        </div>
-                        <% if art.on_discount == true && art.discount != 0 %>
-                            <div class="srch">
-                              <span><%= art.discount %>%</span>
-                            </div>
-                        <% end %>
+                <div class="product-one col-md-4 product-left ">
+                  <% if art.on_discount == true && art.end_date != nil %>
+                      <div class="timer_popust" >
+                        <h5><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>" style="color: white;"></div></h5>
                       </div>
+                  <% end %>
+                  <div class="product-main simpleCart_shelfItem">
+
+                    <!--TODO: upisati naziv slike-->
+
+                    <% if art.picture != nil %>
+                        <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');"> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> </a>
+                    <% else %>
+                        <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');"> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> </a>>
+                    <% end %>
+                    <div class="product-bottom">
+                      <h3><a data-toggle="modal" data-target="#ModalId<%= art.id %>" style="color: #1abc9c;"> <%= art.title %></a></h3>
+                      <!--NOTE: kratki opis od jednog reda-->
+
+                      <% if art.short_description != nil && art.short_description !=""  %>
+                          <h4><%= art.short_description  %></h4>
+                      <% else %>
+                          <h4>-</h4>
+                      <% end %>
+
+                      <% if art.discount > 0 %>
+                          <h4>
+                            <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i> </a><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
+                            <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                          </h4>
+
+                      <% else %>
+                          <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+                      <% end %>
                     </div>
-                <% else %>
-                    <div class="product-one col-md-4 product-left ">
-                      <div class="product-main simpleCart_shelfItem">
-                        <!--TODO: upisati naziv slike-->
-                        <%=link_to  trgovina_show_path(art.id)  do %> <% if !art.picture.nil? %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img") %><% else %> <%= image_tag('placeholder_index.png', class: "img-responsive zoom-img") %> <% end %> <% end %>
-                        <div class="product-bottom">
-                          <h3><%= art.title %></h3>
-                          <!--NOTE: kratki opis od jednog reda-->
-                          <p>detalji</p>
-
-                          <h4><%= link_to carts_articles_create_path(art.id ), class: "item_add"  do %><i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
-
+                    <% if art.discount > 0 %>
+                        <div class="srch">
+                          <span><%= art.discount %>%</span>
                         </div>
-                        <% if art.on_discount == true && art.discount != 0 %>
-                            <div class="srch">
-                              <span><%= art.discount %>%</span>
-                            </div>
-                        <% end %>
-                      </div>
-                    </div>
-                <% end %>
+                    <% end %>
+                  </div>
+                </div>
+                <%= render partial: 'repromaterijal/modal_article', locals: {article: art} %>
 
-
-              <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
-
-
-
-
-
-
+            <% end %>
+            <%=  paginate @articles %>
 <% end %>
-<% end %>
-        <%=  paginate @articles %>
+
       </div>
       <div class="clearfix"></div>
     </div>

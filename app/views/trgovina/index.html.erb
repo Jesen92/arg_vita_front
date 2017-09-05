@@ -1,4 +1,23 @@
+<script>
+    $(function () {
+        $("#range").ionRangeSlider({
+            hide_min_max: true,
+            keyboard: false,
+            min: gon.min,
+            max: gon.max,
+            from_max: gon.max-1,
+            to_min: gon.min+1,
+            from: gon.current_min,
+            to: gon.current_max,
+            type: 'double',
+            step: 10,
+            postfix: " kn",
+            grid: true
+        });
 
+    });
+
+</script>
 <div class="bnr" id="home">
   <div id="top" class="callbacks_container">
     <ul class="rslides" id="slider4">
@@ -99,10 +118,10 @@
 
               <section class="sky-form">
                 <h4>CIJENA</h4>
-                <div>
+                <div id="range">
                   <%= f.text_field(
-                          :min_cost,
-                          class: 'form-control filterrific-periodically-observed', id: 'range', multiple: true
+                          :min_cost, type: :hidden,
+                          class: 'form-control filterrific-periodically-observed', id: 'cost_field_slider', multiple: true
                       ) %>
 
                 </div>
@@ -131,26 +150,7 @@
   });
 </script>
 
-<script>
-  $(function () {
-    $("#range").ionRangeSlider({
-      hide_min_max: true,
-      keyboard: true,
-      min: gon.min,
-      max: gon.max,
-      from_max: gon.max-1,
-      to_min: gon.min+1,
-      from: gon.set_min,
-      to: gon.set_max,
-      type: 'double',
-      step: 10,
-      postfix: " kn",
-      grid: true
-    });
 
-  });
-
-</script>
 
 <script>
 
@@ -166,4 +166,24 @@
       $this.html(event.strftime('%D dana %H:%M:%S'));
     });
   });
+
+  function changeClass() {
+      var range_slider = document.getElementById("range").value;
+
+      document.getElementById("cost_field_slider").value = range_slider;
+      document.removeEventListener('mouseup');
+  }
+
+  function mouseevent_up(){
+      document.addEventListener('mouseup',changeClass);
+      //alert('usao');
+  }
+
+  window.onload = function () {
+      var classname = document.getElementsByClassName("irs-slider");
+
+      for(i = 0; i < classname.length; i++){
+      classname[i].addEventListener('mousedown', mouseevent_up);
+      }
+  }
 </script>

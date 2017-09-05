@@ -2,6 +2,7 @@ class CartsArticlesController < ApplicationController
   #before_action :authenticate_user!
   before_action :set_user, :set_cart
   before_action :set_main_title
+  skip_before_action :set_article_raw_session
 
   def index
   end
@@ -27,6 +28,10 @@ class CartsArticlesController < ApplicationController
     amount = !params[:article].blank? && params[:article][:amount].to_i > 0 ? params[:article][:amount].to_i : 1
 
     @article = Article.find(art_id)
+
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    @article = p.call(@article)
 
     (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount > @article.amount
 
@@ -79,7 +84,7 @@ class CartsArticlesController < ApplicationController
 
     puts "Artiklu je popust: #{@article.on_discount}"
 
-    if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
+    if @article.discount == 0
 
       puts "NEMA POPUSTA! ! !"
 
@@ -102,7 +107,7 @@ class CartsArticlesController < ApplicationController
     elsif
       if current_user == nil
 
-        $items_cost += (@article.cost- (@article.cost*@article.discount/100))
+        $items_cost += (@article.cost- (@article.cost*@article.discount/100))*amount
 
       elsif current_user != nil
 
@@ -272,6 +277,10 @@ class CartsArticlesController < ApplicationController
 
       amount = params[:article].blank? ? 1 : params[:article][:amount].to_i
 
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    @article = p.call(@single_article.article)
+
     (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount > @single_article.amount
   # kad ima usera #############################################################################################
     if current_user
@@ -281,7 +290,6 @@ class CartsArticlesController < ApplicationController
     @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: @single_article.id )
 
     article_amount = @single_article.amount.nil? ? 9999 : @single_article.amount
-
 
 
     if @carts_article == nil
@@ -327,7 +335,7 @@ class CartsArticlesController < ApplicationController
 
     puts "INDIKATOR JE #{@ind}"
 
-    if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
+    if @single_article.article.discount == 0
 
       puts "Ušao sam u normalno postavljanje cijene!"
 
@@ -339,7 +347,7 @@ class CartsArticlesController < ApplicationController
         @shopping_cart.current_cost += @single_article.article.cost*amount
         @shopping_cart.save
 
-        @carts_article.cost = @single_article.article.cost*amount
+        @carts_article.cost = @single_article.article.cost
         @carts_article.save
       end
 
@@ -484,7 +492,6 @@ class CartsArticlesController < ApplicationController
 
     puts "uso plus _no user"
 
-
     art = SingleArticle.find_by(id: params[:format])
 
     if art.article.on_discount != nil && art.article.on_discount == true
@@ -493,7 +500,7 @@ class CartsArticlesController < ApplicationController
       prize = art.article.cost
     end
 
-
+    #binding.pry
 
     puts "uso u has key?"
     $no_user_single_articles.each do |k, v|
@@ -512,8 +519,6 @@ class CartsArticlesController < ApplicationController
 
 
     redirect_to :back
-
-
 
   end
 

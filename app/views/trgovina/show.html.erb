@@ -1,3 +1,4 @@
+
 <!--start-breadcrumbs-->
 <div class="breadcrumbs">
   <div class="container">
@@ -21,7 +22,7 @@
         <div class="sngl-top">
           <div class="col-md-4 single-top-left">
 
-            <% if @article.on_discount == true && @article.discount != 0 %>
+            <% if @article.discount > 0 %>
                 <div class="dialog-srch srch">
                   <span><%= @article.discount %>%</span>
                 </div>
@@ -32,14 +33,14 @@
                 <ul id="imageGallery" >
                   <% if !@article.pictures.first.nil? %>
                       <% @ind = @article.picture.image.url(:picture) %>
-                      <li   data-thumb="<%=  @article.picture.image.url(:thumbgal) %>" data-src="<%= @article.picture.image.url(:picture) %>" >
+                      <li   data-thumb="<%=  @article.picture.image.url(:thumbgal) %>" data-src="<%= @article.picture.image.url(:picture) %>" class="img-li">
                         <%= image_tag(@article.picture.image.url(:picture)) %>
                       </li>
                       <% @article.pictures.each do |pic| %>
 
                           <% if @ind != pic.image.url(:picture) %>
 
-                              <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%= pic.image.url(:picture) %>">
+                              <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%= pic.image.url(:picture) %>" class="img-li">
                                 <%= image_tag(pic.image.url(:picture)) %>
                               </li>
 
@@ -63,9 +64,9 @@
                 <% end %>
                 <div class="productbox"><%= @article.title %></div>
 
-                <% if @article.on_discount == true && @article.discount != 0 %>
+                <% if @article.discount > 0 %>
                     <div class="productboxprice" style="margin-left: 10px;"><span class=" item_price"><%= number_to_currency(@article.cost-(@article.cost*@article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div>
-                    <div class="productboxprice"><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(@article.cost, :unit => 'Kn', :format => "%n %u") %></span></div>
+                    <div class="productboxprice"><span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(@article.cost, :unit => 'Kn', :format => "%n %u") %></span></div>
                <% else %>
 
                     <div class="productboxprice"><span class=" item_price"><%= number_to_currency(@article.cost, :unit => 'Kn', :format => "%n %u") %></span></div>

@@ -103,12 +103,12 @@
                       <h4>-</h4>
                   <% end %>
 
-                  <% if art.on_discount == true && art.discount != 0 %>
+                  <% if art.discount > 0 %>
                       <h4><%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
                   <% else %>
                       <h4><%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
                   <% end %></div>
-                <% if art.on_discount == true && art.discount != 0 %>
+                <% if art.discount > 0 %>
                     <div class="srch">
                       <span><%= art.discount %>%</span>
                     </div>
