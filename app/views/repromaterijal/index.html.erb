@@ -109,7 +109,7 @@
                 <h4>CIJENA</h4>
                 <div id="range">
                   <%= f.text_field(
-                          :min_cost,
+                          :min_cost, type: :hidden,
                           class: 'form-control filterrific-periodically-observed', id: 'cost_field_slider', multiple: true
                       ) %>
 

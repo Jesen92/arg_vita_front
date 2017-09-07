@@ -347,11 +347,13 @@
     <orderEntry type="library" scope="PROVIDED" name="mimemagic (v0.3.0, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.0.0, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.8.4, rbenv: 2.2.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="money (v6.7.0, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.11.2, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mysql2 (v0.3.20, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.6.7.2, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="paperclip (v4.3.2, rbenv: 2.2.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="paypal-sdk-rest (v1.6.0, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry (v0.10.4, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v1.6.4, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v0.6.3, rbenv: 2.2.3) [gem]" level="application" />
@@ -374,6 +376,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v5.0.4, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sdoc (v0.4.1, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simple_form (v3.2.1, rbenv: 2.2.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sixarm_ruby_unaccent (v1.1.1, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slop (v3.6.0, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sort_alphabetical (v1.0.2, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.5.2, rbenv: 2.2.3) [gem]" level="application" />
@@ -391,6 +394,7 @@
     <orderEntry type="library" scope="PROVIDED" name="web-console (v2.2.1, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="whenever (v0.9.4, rbenv: 2.2.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="wice_grid (v3.6.0.pre4, rbenv: 2.2.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="xml-simple (v1.1.5, rbenv: 2.2.3) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />

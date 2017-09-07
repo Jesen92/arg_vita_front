@@ -1,5 +1,9 @@
-
-
+<%= render partial: 'modal_information' if user_signed_in?%>
+<% unless flash[:recaptcha_error].nil? %>
+    <div class="container">
+      <div class="alert alert-danger" role="alert"><%= flash[:recaptcha_error].html_safe %></div>
+    </div>
+<% end %>
 <div class="panel panel-default" style="background-color: #1abc9c; margin: 25px 25px 25px 25px; ">
 
   <div class="panel-body" >
@@ -337,7 +341,7 @@
 
 
 <div style="margin-top: 20px;">
-<%= link_to 'Kupi', user_signed_in? ? purchases_create_path : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px;" %>
+<%= link_to 'Kupi', user_signed_in? ? "#" : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px;", data: {toggle:user_signed_in? ? "modal" : "", target:user_signed_in? ? "#informationDialog" : ""} %>
 </div>
 
 </div>

@@ -34,6 +34,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 #dodano
+gem 'paypal-sdk-rest'
+gem 'money'
 
 gem 'autoprefixer-rails'
 gem 'devise'

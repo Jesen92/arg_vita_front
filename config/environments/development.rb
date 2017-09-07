@@ -7,19 +7,12 @@ Rails.application.configure do
 
 # paypal ################################################################################
   config.gem "activemerchant", :lib => "active_merchant", :version => "1.56.0"
-
-
-  config.after_initialize do
-    ActiveMerchant::Billing::Base.mode = :test
-    ::GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(
-
-        :login => "filipkapusta1-facilitator_api1.gmail.com",
-        :password => "GQGBKWDAHHGMTMMW",
-        :signature => "AFcWxV21C7fd0v3bYYYRCpSSRl31AqPpIBzMUFoBuv3r6.yzNojMjYL0"
-
-    )
-
-  end
+=begin
+  PayPal::SDK::REST.set_config(
+      :mode => "sandbox", # "sandbox" or "live"
+      :client_id => ENV['PAYPAL_CLIENT_ID'],
+      :client_secret => ENV['PAYPAL_SECRET'])
+=end
   #test
 
 ########################################################################################

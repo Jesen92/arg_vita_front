@@ -143,7 +143,7 @@
     <div class="half right cf">
       <%= f.input :message, label: false, as: :text, placeholder: 'Poruka...', input_html: {id:'input-message'} %>
     </div>
-      <%= f.button :submit, 'Pošalji upit', id: 'input-submit', style: 'background-color: #1abc9c' %>
+      <%= f.button :submit, 'Pošalji upit', id: 'submit_shopping_cart_button', style: 'background-color: #1abc9c' %>
   <% end %>
 
 </div>
@@ -164,4 +164,13 @@
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM6jDqg2ZYYPjbeT2i-JmCzCHOJJBODJo&callback=initMap">
+</script>
+
+<script>
+
+    document.getElementById("submit_shopping_cart_button").disabled = true;
+
+    function enableBtn(){
+        document.getElementById("submit_shopping_cart_button").disabled = false;
+    }
 </script>

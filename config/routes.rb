@@ -139,7 +139,9 @@ Rails.application.routes.draw do
     get :download_pdf, on: :collection
     post :contact_us, on: :collection
   end
-  resources :purchases
+  resources :purchases do
+    get :purchase_success, on: :collection
+  end
   resources :auctions do
     put :new_bid, on: :collection
     put :complement_show, on: :collection

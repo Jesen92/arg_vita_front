@@ -1,0 +1,48 @@
+<!-- Modal -->
+<div id="informationDialog" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" style="color: black;">&times;</button>
+        <h4 class="modal-title">Informacije o dostavi</h4>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for PastPurchase.new, url: purchases_path, method: :post do |f| %>
+            <h4>Email<small> adresa na koju želite da dostavimo račun!</small></h4>
+            <%= f.input :email, label: false, required: true, input_html: {value: current_user.email} %>
+            <%= f.label "Država" %>
+            <%= country_select("past_purchase", "country", {priority_countries: ["HR", "BA", "SI"], selected: current_user.state}, { class: 'form-control', style: "margin-bottom: 10px;", data: { attribute: "value" } })  %>
+            <div class="row">
+              <div class="col-md-6" style="padding: 0;">
+                <%= f.input :postal_code, label: "Poštanski broj", required: true, input_html: {value: current_user.postcode} %>
+              </div>
+              <div class="col-md-6" style="padding: 0; padding-left: 10px;">
+                <%= f.input :city, label: "Grad", required: true, input_html: {value: current_user.city} %>
+              </div>
+            </div>
+            <%= f.input :address, label: "Adresa", required: true, input_html: {value: current_user.address} %>
+            <%= f.input :phone_num, label: "Broj tel./mob.", required: true, input_html: {value: current_user.phone} %>
+            <%= f.input :remark, label: "Napomena" %>
+            <br/>
+            <!-- <%= recaptcha_tags callback: 'enableBtn' %> -->
+            <%= f.button :submit, "Kupi", id: 'submit_shopping_cart_button', style: "background-color: #1abc9c; color: white; width:100%;", data: { confirm: 'Ovime potvrđujete da su podaci ispravni' } %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script>
+
+    //document.getElementById("submit_shopping_cart_button").disabled = true;
+
+    function enableBtn(){
+        document.getElementById("submit_shopping_cart_button").disabled = false;
+    }
+</script>

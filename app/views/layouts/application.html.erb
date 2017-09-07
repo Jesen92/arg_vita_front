@@ -54,8 +54,6 @@
     </script>
 <% end %>
 
-
-
 <!--top-header-->
 <div class="top-header row">
   <div class="top-header-main col-md-12">
@@ -202,7 +200,7 @@
                                   <%=image_tag("default-placeholder.png", class: "productimg" ) %>
                               <% end %>
 
-                              <span class="item-price"><%= number_to_currency(a.discount > 0 ? (a.cost- (a.cost*a.discount/100)) : a.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                              <span class="item-price"><%= number_to_currency(a.on_discount? && a.discount > 0 ? (a.cost- (a.cost*a.discount/100)) : a.cost, :unit => 'Kn', :format => "%n %u") %></span>
                               <span class="quantity">stavki: <%= "#{v}" %></span>
                               <div class="row">
                                 <div class="col-md-6">
