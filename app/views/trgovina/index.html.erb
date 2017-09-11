@@ -270,3 +270,11 @@
         topTitle.style.color = 'black';
     }
 </script>
+
+<script>
+function testScroll(ev){
+if(window.pageYOffset>250) document.getElementById('NightAndDay').style.opacity = .4;
+if(window.pageYOffset<20) document.getElementById('NightAndDay').style.opacity = 1;
+}
+window.onscroll=testScroll;
+</script>
