@@ -47,8 +47,25 @@
   </li>
 
 
-  <% if current_user != nil %>
 
+  <% if current_user != nil %>
+      <% if @shopping_cart.carts_articles.empty?%>
+          <li class="list-group-item"  >
+            <div class="row" >
+              <div class="col-xs-6 col-md-6" >
+                <h2>Trenutno nemate ništa u košarici...</h2>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item"  >
+            <div class="row" >
+              <div class="col-xs-6 col-md-6" >
+
+              </div>
+            </div>
+          </li>
+
+      <% end %>
 <% @shopping_cart.carts_articles.each do |a| %>
 
 
@@ -208,7 +225,23 @@
 
 
       <% else %>
+      <% if $no_user_articles.empty?%>
+          <li class="list-group-item"  >
+            <div class="row" >
+              <div class="col-xs-6 col-md-6" >
+                <h2>Trenutno nemate ništa u košarici...</h2>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item"  >
+            <div class="row" >
+              <div class="col-xs-6 col-md-6" >
 
+              </div>
+            </div>
+          </li>
+
+      <% end %>
         <% $no_user_articles.each do |k, v| %>
           <% @no_articles.each do |a| %>
 
