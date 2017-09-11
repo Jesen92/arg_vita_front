@@ -1,6 +1,12 @@
+html{
+
+}
+
 body{
     font-family: 'Exo 2', sans-serif;
+    background: url("swirl.png") top left repeat;
 
+    background-position: top left;
 }
 body a{
 	transition: 0.5s all;

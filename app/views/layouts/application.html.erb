@@ -60,12 +60,11 @@
     <div class="col-md-8">
       <div class="nlogo">
         <%= link_to root_path do %><%=image_tag("av-color.png", class: "logoav") %><% end %>
-
-
       </div>
 
     </div>
     <div class="col-md-3">
+
 
 
       <div> <% if user_signed_in? == false %><%= link_to 'Prijava', new_user_session_path ,class: "btn btn-primary btn-sm btnlogin", style:"background-color: #1abc9c"%> <% end %></div>
@@ -274,7 +273,7 @@
 <!--top-header-->
 <!--start-logo-->
 <div class="logo">
-  <%= link_to root_path do %><h1>Argentum Vita</h1><% end %>
+  <%= link_to root_path do %><h1 id="topTitle">Argentum Vita</h1><% end %>
 
 </div>
 <div>
@@ -514,6 +513,7 @@
 </script>
 
 <script>
+
   // You can also use "$(window).load(function() {"
   $(function () {
     // Slideshow 4
@@ -533,6 +533,5 @@
 
   });
 </script>
-
 
 </html>

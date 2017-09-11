@@ -19,6 +19,8 @@
 <%= form_for_filterrific @filterrific do |f| %>
     <div class="prdt">
       <div class="container">
+        <div style="float: left;    position: fixed;
+            top: 0px;"><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm btnlogin logoav" style="background-color: #1abc9c;">Noćni način</a></div>
         <div class="prdt-top">
           <div class="col-md-9 prdt-left">
             <%= render_filterrific_spinner %>
@@ -179,4 +181,85 @@
   }
 </script>
 
+<script>
+    night_day = sessionStorage.getItem("night_day");
+
+    function night_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+
+        night_day = "night";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    function day_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+
+        night_day = "day";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    var cols =     document.getElementsByClassName('row1');
+    for(i=0; i<cols.length; i++) {
+        cols[i].style.backgroundColor =    'white';
+    }
+    var cols2 =     document.getElementsByClassName('js-irs-0');
+    for(i=0; i<cols2.length; i++) {
+        cols2[i].style.backgroundColor =    'white';
+    }
+
+    if(night_day === "night"){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+    }else{
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+    }
+
+</script>
 

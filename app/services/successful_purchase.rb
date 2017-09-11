@@ -24,7 +24,7 @@ class SuccessfulPurchase
       if art.article != nil
 
         @current_purchase_sum += art.cost
-        past_purchase = PastPurchase.new(delivery_info_params.merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost}))
+        past_purchase = PastPurchase.new(delivery_info.merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost}))
         #past_purchase.save
         #article = Article.find(art.article.id)
 
@@ -34,7 +34,7 @@ class SuccessfulPurchase
       elsif art.single_article != nil
 
         @current_purchase_sum += art.cost
-        past_purchase = PastPurchase.new(:delivery_info_params.merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost}))
+        past_purchase = PastPurchase.new(delivery_info.merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost}))
         #past_purchase.save
         #article = SingleArticle.find(art.single_article.id)
 
