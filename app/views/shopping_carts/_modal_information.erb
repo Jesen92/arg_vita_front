@@ -10,10 +10,12 @@
       </div>
       <div class="modal-body">
         <%= simple_form_for PastPurchase.new, url: purchases_path, method: :post do |f| %>
-            <h4>Email<small> adresa na koju želite da dostavimo račun!</small></h4>
+            <h4>Email
+              <small> adresa na koju želite da dostavimo račun!</small>
+            </h4>
             <%= f.input :email, label: false, required: true, input_html: {value: current_user.email} %>
             <%= f.label "Država" %>
-            <%= country_select("past_purchase", "country", {priority_countries: ["HR", "BA", "SI"], selected: current_user.state}, { class: 'form-control', style: "margin-bottom: 10px;", data: { attribute: "value" } })  %>
+            <%= country_select("past_purchase", "country", {priority_countries: ["HR", "BA", "SI"], selected: current_user.state}, {class: 'form-control', style: "margin-bottom: 10px;", data: {attribute: "value"}}) %>
             <div class="row">
               <div class="col-md-6" style="padding: 0;">
                 <%= f.input :postal_code, label: "Poštanski broj", required: true, input_html: {value: current_user.postcode} %>
@@ -25,9 +27,22 @@
             <%= f.input :address, label: "Adresa", required: true, input_html: {value: current_user.address} %>
             <%= f.input :phone_num, label: "Broj tel./mob.", required: true, input_html: {value: current_user.phone} %>
             <%= f.input :remark, label: "Napomena" %>
+            <%= f.label "Metoda plaćanja" %>
+            <div class="row">
+              <div class="col-md-12 col-md-offset-1">
+            <%= f.collection_radio_buttons(:payment_method, [['Paypal', 'paypal.png'], ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png']], :first, :last, :checked => ['Paypal', 'paypal.png'], :item_wrapper_class => 'horizontal') do |method| %>
+              <div class="col-md-2">
+                <%= method.radio_button %>
+              </div>
+              <div class="col-md-2">
+                <%= image_tag(method.text, title: method.value, class: 'showTooltipPayment') %>
+              </div>
+            <% end %>
+            </div>
+            </div>
             <br/>
             <!-- <%= recaptcha_tags callback: 'enableBtn' %> -->
-            <%= f.button :submit, "Kupi", id: 'submit_shopping_cart_button', style: "background-color: #1abc9c; color: white; width:100%;", data: { confirm: 'Ovime potvrđujete da su podaci ispravni' } %>
+            <%= f.button :submit, "Kupi", id: 'submit_shopping_cart_button', style: "background-color: #1abc9c; color: white; width:100%;", data: {confirm: 'Ovime potvrđujete da su podaci ispravni'} %>
         <% end %>
       </div>
       <div class="modal-footer">
@@ -42,7 +57,9 @@
 
     //document.getElementById("submit_shopping_cart_button").disabled = true;
 
-    function enableBtn(){
+    function enableBtn() {
         document.getElementById("submit_shopping_cart_button").disabled = false;
     }
+
+    $('.showTooltipPayment').tooltip({show: {effect:"none", delay:100}});
 </script>

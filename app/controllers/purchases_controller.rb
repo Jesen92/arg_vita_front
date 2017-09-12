@@ -18,6 +18,46 @@ class PurchasesController < ApplicationController
     end
     session[:delivery_info_params] = delivery_info_params
 
+    if params[:past_purchase][:payment_method].include? "Paypal"
+      payment = paypal_payment
+      return redirect_to @payment.links.find { |link| link.rel == 'approval_url' }.href unless payment.nil?
+
+      flash[:error] = "Pogreška pri kupnji! Molimo kontaktirajte dućan ili pokušajte ponovo!"
+    elsif  params[:past_purchase][:payment_method].include? "Credit card"
+      flash[:notice] = "Kreditna kartica!"
+    else
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user).succesful_payment
+      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+    end
+
+    redirect_to :back
+  end
+
+  def create_no_user
+
+  end
+
+  def purchase_success
+    payment = Payment.find(params[:paymentId])
+
+    if payment.execute( payer_id: params[:PayerID] )
+      # Success Message
+      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user).succesful_payment
+
+      #UserMailer.checkout_mail(current_user).deliver_now #TODO odkomentiraj za slanje mail-a nakon kupnje
+    else
+      payment.error # Error Hash
+      flash[:error] = "Greška kod obavljanja kupnje!"
+    end
+
+    redirect_to root_path
+  end
+
+  private
+
+  def paypal_payment
     url = URI.parse('http://api.fixer.io/latest?symbols=HRK,EUR')
     req = Net::HTTP::Get.new(url.to_s)
     res = Net::HTTP.start(url.host, url.port) {|http|
@@ -51,8 +91,6 @@ class PurchasesController < ApplicationController
     #TODO ukupna cijena bi se ovdje trebala postavljat na nulu
     @current_purchase_sum = 0
 
-
-
     @carts_article.each do |art|
 
       if art.article != nil
@@ -73,89 +111,12 @@ class PurchasesController < ApplicationController
     end
 
     if @payment.create
-      redirect_to @payment.links.find { |link| link.rel == 'approval_url' }.href
+      @payment
+
     else
       @payment.error  # Error Hash
+      nil
     end
-  end
-
-  def create_no_user
-
-  end
-
-  def purchase_success
-    payment = Payment.find(params[:paymentId])
-
-    if payment.execute( payer_id: params[:PayerID] )
-      # Success Message
-      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
-
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user).succesful_payment
-=begin
-      @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-      @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
-      @user = current_user
-
-      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
-
-      @current_purchase_sum = 0
-
-      @carts_article.each do |art|
-
-        if art.article != nil
-
-          @current_purchase_sum += art.cost
-          past_purchase = PastPurchase.new(session[:delivery_info_params].merge({user_id: current_user.id, article_id: art.article.id, amount: art.amount, cost: art.cost}))
-          #past_purchase.save
-          #article = Article.find(art.article.id)
-
-          #article.amount -= art.amount
-          #article.save
-
-        elsif art.single_article != nil
-
-          @current_purchase_sum += art.cost
-          past_purchase = PastPurchase.new(session[:delivery_info_params].merge({user_id: current_user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost}))
-          #past_purchase.save
-          #article = SingleArticle.find(art.single_article.id)
-
-          #article.amount -= art.amount
-          #article.save
-
-        end
-
-      end
-
-    if @user.purchase_sum == nil || @user.purchase_sum == 0
-
-      @user.purchase_sum = @current_purchase_sum
-
-    else
-
-      @user.purchase_sum += @current_purchase_sum
-
-    end
-
-    @user.save
-=end
-      #@carts_article.destroy_all
-      #@shopping_cart.current_cost = 0
-      #@shopping_cart.save
-
-      # Note that you'll need to `Payment.find` the payment again to access user info like shipping address
-      #UserMailer.checkout_mail(current_user).deliver_now #TODO odkomentiraj za slanje mail-a nakon kupnje
-    else
-      payment.error # Error Hash
-      flash[:error] = "Greška kod obavljanja kupnje!"
-    end
-
-    redirect_to root_path
-  end
-
-  private
-
-  def paypal_payment
-
   end
 
   def extract_link(data)
@@ -163,7 +124,7 @@ class PurchasesController < ApplicationController
   end
 
   def delivery_info_params
-    params.require(:past_purchase).permit(:email, :country, :postal_code, :city, :address, :phone_num, :remark)
+    params.require(:past_purchase).permit(:email, :country, :postal_code, :city, :address, :phone_num, :remark, :payment_method)
   end
 
   def check_service_captcha(recaptcha_param)

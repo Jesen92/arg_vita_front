@@ -1,12 +1,15 @@
 <%= render partial: 'modal_information' if user_signed_in?%>
+
 <% unless flash[:recaptcha_error].nil? %>
     <div class="container">
       <div class="alert alert-danger" role="alert"><%= flash[:recaptcha_error].html_safe %></div>
     </div>
 <% end %>
+
 <div class="panel panel-default" style="background-color: #1abc9c; margin: 25px 25px 25px 25px; ">
 
   <div class="panel-body" >
+
 <ul class="list-group">
 
   <li class="list-group-item"  >
@@ -103,28 +106,20 @@
 
 
       <div class="col-xs-6 col-md-2">
-        <div class="item-price" style="text-align: right;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
+        <div class="item-price" style="text-align: right;"><%=  number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u")  %></div>
       </div>
 
       <div class="col-xs-6 col-md-2" style="text-align: right;">
-        <div class="item-price"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
+        <div class="item-price"><%=  number_to_currency(a.cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
       </div>
 
-
-
     <% elsif !a.single_article.nil? %>
-
-
-
           <div class="col-xs-6 col-md-1" >
             <% if a.single_article.article.picture != nil %>
                 <%= image_tag(a.single_article.article.picture.image.url(:table)) %>
             <% else %>
                 <%=image_tag("default-placeholder-2.png", class: "productimg" ) %>
             <% end %>
-
-
-
           </div>
 
           <div class="col-xs-6 col-md-3" >
@@ -144,17 +139,15 @@
 
               <%= link_to '+', create_single_carts_articles_path(id: a.single_article.id), :method => :post, class: "btn btn-default " %>
 
-
             </div>
           </div>
 
-
           <div class="col-xs-6 col-md-2">
-            <div class="item-price" style="text-align: right;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
+            <div class="item-price" style="text-align: right;"><%=  number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u")  %></div>
           </div>
 
           <div class="col-xs-6 col-md-2" style="text-align: right;">
-            <div class="item-price"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
+            <div class="item-price"><%=  number_to_currency(a.cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
           </div>
 
     <% else %>
@@ -166,9 +159,6 @@
             <% else %>
                 <%=image_tag("default-placeholder-2.png", class: "productimg" ) %>
             <% end %>
-
-
-
           </div>
 
           <div class="col-xs-6 col-md-3" >
@@ -185,13 +175,9 @@
             </div>
 
             <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-
               <%= link_to '+', create_complement_carts_articles_path(a.complement.id ), :method => :put, class: "btn btn-default " %>
-
-
             </div>
           </div>
-
 
           <div class="col-xs-6 col-md-2">
             <div class="item-price" style="text-align: right;"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.complement.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
@@ -200,7 +186,6 @@
           <div class="col-xs-6 col-md-2" style="text-align: right;">
             <div class="item-price"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.single_article.article.discount/100))*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
           </div>
-
 
     <% end %>
     </div>
@@ -221,8 +206,6 @@
         </div>
     </div>
   </li>
-
-
 
       <% else %>
       <% if $no_user_articles.empty?%>
@@ -276,7 +259,6 @@
                   </div>
                 </div>
 
-
                 <div class="col-xs-6 col-md-2">
                   <div class="item-price" style="text-align: right;"><%if a.on_discount && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
@@ -284,8 +266,6 @@
                 <div class="col-xs-6 col-md-2" style="text-align: right;">
                   <div class="item-price"><%if a.on_discount && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100))*v, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost*v, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
-
-
 
               <% end %>
           <% end %>
@@ -327,7 +307,6 @@
                         </div>
                       </div>
 
-
                       <div class="col-xs-6 col-md-2">
                         <div class="item-price" style="text-align: right;"><%if !a.article.on_discount.nil? && !a.article.on_discount? && a.article.discount != 0 %> <%=  number_to_currency((a.article.cost-(a.article.cost*a.article.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.article.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                       </div>
@@ -336,23 +315,12 @@
                         <div class="item-price"><%if !a.article.on_discount.nil? && !a.article.on_discount? && a.article.discount != 0 %> <%=  number_to_currency((a.article.cost-(a.article.cost*a.article.discount/100))*v, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.article.cost*v, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                       </div>
 
-
-
               <% end %>
           <% end %>
 
           </div>
           </li>
       <% end %>
-
-
-
-
-
-
-
-
-
 
       <li class="list-group-item"  >
         <div class="row" >
@@ -366,8 +334,6 @@
         </div>
       </li>
 
-
-
       <% end %>
 
 </ul>
@@ -379,3 +345,84 @@
 
 </div>
 </div>
+
+<script>
+    night_day = sessionStorage.getItem("night_day");
+
+    function night_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+
+        night_day = "night";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    function day_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+
+        night_day = "day";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    var cols =     document.getElementsByClassName('row1');
+    for(i=0; i<cols.length; i++) {
+        cols[i].style.backgroundColor =    'white';
+    }
+    var cols2 =     document.getElementsByClassName('js-irs-0');
+    for(i=0; i<cols2.length; i++) {
+        cols2[i].style.backgroundColor =    'white';
+    }
+
+    if(night_day === "night"){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+    }else{
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+    }
+</script>
