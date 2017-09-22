@@ -141,6 +141,7 @@ Rails.application.routes.draw do
   end
   resources :purchases do
     get :purchase_success, on: :collection
+    post :purchase_success_credit_card, on: :collection
   end
   resources :auctions do
     put :new_bid, on: :collection

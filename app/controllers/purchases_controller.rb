@@ -3,6 +3,7 @@ class PurchasesController < ApplicationController
   require 'net/http'
   require "json"
   require 'paypal-sdk-rest'
+  require 'digest'
   include PayPal::SDK::REST
   before_filter :set_user, :set_cart, :set_main_title
 
@@ -24,9 +25,11 @@ class PurchasesController < ApplicationController
 
       flash[:error] = "Pogreška pri kupnji! Molimo kontaktirajte dućan ili pokušajte ponovo!"
     elsif  params[:past_purchase][:payment_method].include? "Credit card"
-      flash[:notice] = "Kreditna kartica!"
+      credit_card_params = credit_card_payment
+      #uri = URI("https://testcps.corvus.hr/redirect/")
+      return redirect_to("https://testcps.corvus.hr/redirect/",credit_card_params), method: :post
     else
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user).succesful_payment
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
       flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
     end
 
@@ -44,7 +47,7 @@ class PurchasesController < ApplicationController
       # Success Message
       flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
 
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user).succesful_payment
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
 
       #UserMailer.checkout_mail(current_user).deliver_now #TODO odkomentiraj za slanje mail-a nakon kupnje
     else
@@ -55,7 +58,61 @@ class PurchasesController < ApplicationController
     redirect_to root_path
   end
 
+  def purchase_success_credit_card
+    binding.pry
+
+    if params[:success] == 'true'
+      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
+    else
+      flash[:error] = "Greška kod obavljanja kupnje!"
+    end
+
+    redirect_to root_path
+  end
+
   private
+
+  def credit_card_payment
+    @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+    @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
+
+    session[:order_number] = (0...21).map { (65 + rand(26)).chr }.join
+    sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+@shopping_cart.current_cost.round(2).to_s+":HRK"
+
+    cart = @carts_article.map {|cart|
+      if !cart.article.nil?
+        cart.amount.to_s+'x'+cart.article.code.upcase
+      else
+        cart.amount.to_s+'x'+cart.single_article.code.upcase
+      end
+    }.join(" ")
+
+    #binding.pry
+
+    credit_card_params = {
+        :target => '_top',
+        :mode => 'form',
+        :store_id => ENV['CORVUS_STORE_ID'],
+        :order_number => session[:order_number],
+        :language => 'hr',
+        :currency => 'HRK',
+        :amount => (@shopping_cart.current_cost.round(2)+23).to_s,
+        :cart => cart,
+        :hash => sha1_hash,
+        :require_complete => false
+    }
+
+=begin
+    _url = "target=_top&mode=form&store_id=101&order_number=1233&language=hr&currency=H
+    RK&amount=123.54&cart=2xLCDTV&hash=6cb317d8b6ade738cb9dc02cae220b3bd2b4bc82
+    &require_complete=false"
+=end
+
+    #"https://testcps.corvus.hr/redirect/?"+credit_card_params.map {|key, value| key.to_s+"="+value.to_s }.join("&")
+    credit_card_params
+  end
 
   def paypal_payment
     url = URI.parse('http://api.fixer.io/latest?symbols=HRK,EUR')
@@ -84,7 +141,7 @@ class PurchasesController < ApplicationController
                                                      :item_list => {
                                                          :items => []},
                                                      :amount => {
-                                                         :total => (@shopping_cart.current_cost/currency_conversion_rate).round(2).to_s,
+                                                         :total => ((@shopping_cart.current_cost+23)/currency_conversion_rate).round(2).to_s,
                                                          :currency => "EUR"},
                                                      :description => "Argentum Vita Nakit"}]})
 
@@ -129,5 +186,9 @@ class PurchasesController < ApplicationController
 
   def check_service_captcha(recaptcha_param)
     verify_recaptcha(response: recaptcha_param)
+  end
+
+  def secure_path_for(params, *excluded_params)
+    url_for(params.except(*excluded_params).merge(only_path: true))
   end
 end

@@ -1,14 +1,15 @@
 class SuccessfulPurchase
-  def initialize(delivery_info, user)
+  def initialize(delivery_info, user, shipping_cost)
     @delivery_info = delivery_info
     @user = user
+    @shipping_cost = shipping_cost
   end
 
   def succesful_payment
     execute_succesful_payment
   end
 
-  attr_reader :delivery_info, :user
+  attr_reader :delivery_info, :user, :shipping_cost
 
   private
 
@@ -61,6 +62,7 @@ class SuccessfulPurchase
     #@shopping_cart.current_cost = 0
     #@shopping_cart.save
 
+    UserMailer.checkout_mail(user, delivery_info).deliver_now
     # Note that you'll need to `Payment.find` the payment again to access user info like shipping address
   end
 

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
   has_one :shopping_cart
+  has_many :past_purchases
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -199,8 +199,8 @@
     <% if current_user != nil %>
         <div style="text-align: right"><p>Bez PDV-a: <%= number_to_currency(@cijena_bez_pdv = (@shopping_cart.current_cost-(@shopping_cart.current_cost*0.2)), :unit => 'Kn', :format => "%n %u") %></p></div>
         <div style="text-align: right"><p>PDV: <%= number_to_currency(@shopping_cart.current_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
-
-        <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency(@shopping_cart.current_cost, :unit => 'Kn', :format => "%n %u") %></div>
+        <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
+        <div class="item-price"  style="text-align: right; font-size: 210%;"><hr><%= number_to_currency(@shopping_cart.current_cost+23, :unit => 'Kn', :format => "%n %u") %></div>
         </br>
     <% end %>
         </div>
@@ -327,7 +327,11 @@
           <div class="col-xs-6 col-md-12">
             <div class="item-title" style="text-align: right;">Ukupna cijena izabranih proizvoda je:</div>
 
-            <h3><div class="item-price"  style="text-align: right;"><%= number_to_currency($items_cost, :unit => 'Kn', :format => "%n %u") %></div></h3>
+            <div style="text-align: right"><p>Bez PDV-a: <%= number_to_currency(@cijena_bez_pdv = ($items_cost-($items_cost*0.2)), :unit => 'Kn', :format => "%n %u") %></p></div>
+            <div style="text-align: right"><p>PDV: <%= number_to_currency($items_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
+            <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
+
+            <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency($items_cost+23, :unit => 'Kn', :format => "%n %u") %></div>
             </br>
 
           </div>

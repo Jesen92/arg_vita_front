@@ -30,18 +30,23 @@
             <%= f.label "Metoda plaćanja" %>
             <div class="row">
               <div class="col-md-12 col-md-offset-1">
-            <%= f.collection_radio_buttons(:payment_method, [['Paypal', 'paypal.png'], ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png']], :first, :last, :checked => ['Paypal', 'paypal.png'], :item_wrapper_class => 'horizontal') do |method| %>
+            <%= f.collection_radio_buttons(:payment_method, [['Paypal', 'paypal.png'], ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png']],
+                                           :first, :last, :checked => ['Paypal', 'paypal.png'], :item_wrapper_class => 'horizontal',
+                                           :onclick => 'alert_if_option_selected()', :id => 'payment_method_select') do |method| %>
               <div class="col-md-2">
-                <%= method.radio_button %>
+                <%= method.radio_button :onclick => "alert_if_option_selected('#{method.value}')" %>
               </div>
               <div class="col-md-2">
-                <%= image_tag(method.text, title: method.value, class: 'showTooltipPayment') %>
+                <%= image_tag(method.text, title: method.value, class: 'showTooltipPayment', :onclick => 'alert_if_option_selected()' ) %>
               </div>
             <% end %>
             </div>
+              <div class="alert alert-danger" role="alert" style="display: none;" id="alert_if_extra_cost">
+                Kod odabira plaćanja 'Pri pouzeću' na ukupnu cijenu se dodaje <span style="font-size: 120%; font-weight: bold">5 Kn</span> te vaša ukupna cijena iznosi <span style="font-size: 120%; font-weight: bold"> <%= number_to_currency(@shopping_cart.current_cost+28, :unit => 'Kn', :format => "%n %u") %></span>
+              </div>
             </div>
             <br/>
-            <!-- <%= recaptcha_tags callback: 'enableBtn' %> -->
+            <!--<%= recaptcha_tags callback: 'enableBtn' %>-->
             <%= f.button :submit, "Kupi", id: 'submit_shopping_cart_button', style: "background-color: #1abc9c; color: white; width:100%;", data: {confirm: 'Ovime potvrđujete da su podaci ispravni'} %>
         <% end %>
       </div>
@@ -62,4 +67,16 @@
     }
 
     $('.showTooltipPayment').tooltip({show: {effect:"none", delay:100}});
+
+    function alert_if_option_selected(e){
+        if(e.indexOf('pouze') !== -1){
+          document.getElementById('alert_if_extra_cost').style.display = "block";
+        }else{
+          document.getElementById('alert_if_extra_cost').style.display = "none";
+        }
+    }
+
+
+
+
 </script>
