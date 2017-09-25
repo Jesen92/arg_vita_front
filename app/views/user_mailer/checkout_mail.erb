@@ -33,20 +33,7 @@
       </div>
     </div>
   </div>
-  <div class="container">
-    <hr>
-    <h2>Informacije o dostavi:</h2>
-    <h3>email: <b><%= @delivery_info[:email] %></b></h3>
-    <div class="row">
-      <div class="col-md-4"><h3>Država: <b><%= @delivery_info[:country] %></b></h3></div>
-      <div class="col-md-4"><h3>Poštanski broj: <b><%= @delivery_info[:postal_code] %></b></h3></div>
-      <div class="col-md-4"><h3>Grad: <b><%= @delivery_info[:city] %></b></h3></div>
-    </div>
-    <h3>Adresa: <b><%= @delivery_info[:address] %></b></h3>
-    <h3>Broj mobitela: <b><%= @delivery_info[:phone_num] %></b></h3>
-    <h3>Način plaćanja: <b><%= @delivery_info[:payment_method] %></b></h3>
-    <h3>Napomena: <b><%= @delivery_info[:remark] %></b></h3>
-  </div>
+
   <h3 style="margin-top:25px; margin-bottom:25px;">Mail za kontakt i upite:<span> <%= mail_to "info@argentumvita.hr" %></span></h3>
   <div class="container" style="margin-top: 10px;">
     <h3>Obavili ste kupnju sljedećih proizvoda:</h3>
@@ -215,14 +202,27 @@
       </ul>
 
     </div>
-
+    <div class="container">
+      <hr>
+      <h2 style="color: #18876b">Informacije o dostavi:</h2>
+      <h3>email: <b><%= @delivery_info[:email] %></b></h3>
+      <div class="row">
+        <div class="col-md-4"><h3><span  style="color: #1abc9c; font-size: 80%;">Država: </span><b><%= @delivery_info[:country] %></b></h3></div>
+        <div class="col-md-4"><h3><span  style="color: #1abc9c; font-size: 80%;">Poštanski broj: </span><b><%= @delivery_info[:postal_code] %></b></h3></div>
+        <div class="col-md-4"><h3><span  style="color: #1abc9c; font-size: 80%;">Grad: </span><b><%= @delivery_info[:city] %></b></h3></div>
+      </div>
+      <h3><span  style="color: #1abc9c; font-size: 80%;">Adresa: </span><b><%= @delivery_info[:address] %></b></h3>
+      <h3><span  style="color: #1abc9c; font-size: 80%;">Broj mobitela: </span><b><%= @delivery_info[:phone_num] %></b></h3>
+      <h3><span  style="color: #1abc9c; font-size: 80%;">Način plaćanja: </span><b><%= @delivery_info[:payment_method] %></b></h3>
+      <h3><span  style="color: #1abc9c; font-size: 80%;">Napomena: </span><b><%= @delivery_info[:remark] %></b></h3>
+    </div>
   </div>
   <h3 style="margin-top:25px; margin-bottom:25px;">Mail za kontakt i upite:<span> <%= mail_to "info@argentumvita.hr" %></span></h3>
   <hr>
   <h4  style="margin-top: 10px"><span style="color: #1abc9c; ">Argentum Vita d.o.o.</span></h4>
   <br/>
   <div class="row">
-    <div class="col-md-8 col-md-2">
+    <div class="col-md-8">
       <small>Ako ste ovu poruku primili greškom ili vam nije namijenjena, ne koristite ju, ne kopirajte, ne distribuirajte, ne otvarajte privitke, odmah ju obrišite sa svog računalnog sustava i obavijestite pošiljatelja da ste to napravili. Hvala!</small>
     </div>
   </div>

@@ -296,13 +296,8 @@ class ShoppingCartsController < ApplicationController
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
-      amount = params[:amount].to_i
 
-      if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
-        @shopping_cart.current_cost -= @single_article.article.cost*amount
-      else
-        @shopping_cart.current_cost -= (single_@article.article.cost- (@single_article.cost*@single_article.article.discount/100))*amount
-      end
+      @shopping_cart.current_cost -= @carts_article.cost*@carts_article.amount
 
       @shopping_cart.save
       @carts_article.destroy!

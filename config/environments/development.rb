@@ -1,6 +1,10 @@
 Rails.application.configure do
   require 'active_merchant'
   # Settings specified here will take precedence over those in config/application.rb.
+  config.after_initialize do
+    Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  end
+
   config.action_mailer.asset_host = "http://localhost:3000"
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
