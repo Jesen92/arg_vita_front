@@ -9,6 +9,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
    def create
+     unless check_service_captcha(params["g-recaptcha-response"])
+       flash[:error] = "Označite captcha-u!"
+       return redirect_to root_path
+     end
+
      super
      set_user_for_adding_items_to_shopping_cart(params[:user][:email])
 
@@ -108,4 +113,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  private
+
+   def check_service_captcha(recaptcha_param)
+     verify_recaptcha(response: recaptcha_param)
+   end
+
 end

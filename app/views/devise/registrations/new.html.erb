@@ -42,13 +42,24 @@
                 <em>(<%= @minimum_password_length %> characters minimum)</em>
             <% end %><br />
     <%= f.input :password_confirmation, label: 'Ponovite lozinku', autocomplete: "off" %>
-
+            <hr>
+            <%= recaptcha_tags callback: 'enableBtnRegister' %>
   <div class="actions">
-    <%= f.button :submit, "Registriraj se", class:"btn btn-success" %>
+    <%= f.button :submit, "Registriraj se", class:"btn btn-success", id: "registration_form_submit_button_", style: "background-color: #1abc9c;"  %>
   </div>
+
 <% end %>
-
-
+        <%= link_to "Već ste registrirani? Prijavite se", new_user_session_path %><br />
+        <%= render "devise/shared/links" %>
 </div>
   </div>
 </div>
+
+<script>
+
+    document.getElementById("registration_form_submit_button_").disabled = true;
+
+    function enableBtnRegister(){
+        document.getElementById("registration_form_submit_button_").disabled = false;
+    }
+</script>

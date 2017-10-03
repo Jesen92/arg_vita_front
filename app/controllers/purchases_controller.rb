@@ -28,9 +28,14 @@ class PurchasesController < ApplicationController
       credit_card_params = credit_card_payment
       #uri = URI("https://testcps.corvus.hr/redirect/")
       return redirect_to("https://testcps.corvus.hr/redirect/",credit_card_params), method: :post
+    elsif params[:past_purchase][:payment_method].downcase.include? "virman"
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
+      flash[:notice] = "Uspješno se obavili kupnju! Na email ćete dobiti virman sa informacijama za uplatu!"
+      return redirect_to root_path
     else
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
       flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+      return redirect_to root_path
     end
 
     redirect_to :back

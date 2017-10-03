@@ -65,15 +65,11 @@
     </div>
     <div class="col-md-3">
 
-
-
-      <div> <% if user_signed_in? == false %><%= link_to 'Prijava', new_user_session_path ,class: "btn btn-primary btn-sm btnlogin", style:"background-color: #1abc9c"%> <% end %></div>
+      <div> <% if !user_signed_in? && params[:controller].exclude?("sessions") %><a data-toggle="modal" data-target="#LoginForm" class="btn btn-primary btn-sm btnlogin" style="background-color: #1abc9c">Prijava</a><% end %></div>
 
       <div> <% if user_signed_in? %><%= link_to "Odjava", destroy_user_session_path, :method => :delete,class: "btn btn-primary btn-sm btnlogin", style:"background-color: #1abc9c"%> <% end %></div>
 
-      <div> <% if user_signed_in? == false %><%= link_to 'Registracija', new_user_registration_path ,class: "btn btn-primary btn-sm btnregistration", style:"background-color: #1abc9c"%> <% end %></div>
-
-
+      <div> <% if !user_signed_in? && params[:controller].exclude?("users")  %><a data-toggle="modal" data-target="#RegistrationForm" class="btn btn-primary btn-sm btnregistration" style="background-color: #1abc9c">Registracija</a><% end %></div>
 
     </div>
 
@@ -151,7 +147,7 @@
               </ul>
             </div>
             <!-- @end cart-items -->
-            <%= link_to 'Go to Checkout', shopping_carts_show_path, class: "checkout" %>
+            <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout" %>
           </div>
       <% end %>
 
@@ -225,7 +221,7 @@
                       <% if sa.id == k %>
                             <% puts "Pronasao je isti id kao i key" %>
                             <li class="clearfix">
-                              <%= link_to sa.title, trgovina_show_path(sa.id), class: "item-title", style: "color: #1abc9c;" %>
+                              <%= link_to sa.title, trgovina_show_path(sa.article.id), class: "item-title", style: "color: #1abc9c;" %>
 
                               <% if sa.pictures.first != nil %>
                                   <%=image_tag(sa.pictures.first.image.url(:table), class: "productimg") %>
@@ -235,7 +231,7 @@
                                   <%=image_tag("default-placeholder.png", class: "productimg" ) %>
                               <% end %>
 
-                              <span class="item-price"><%= number_to_currency(sa.article.discount > 0 ? (sa.article.cost- (sa.article.cost*sa.article.discount/100)) : sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                              <span class="item-price"><%= number_to_currency(sa.article.on_discount? && !sa.article.discount.nil? && sa.article.discount > 0 ? (sa.article.cost- (sa.article.cost*sa.article.discount/100)) : sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
                               <span class="quantity">stavki: <%= "#{v}" %></span>
                               <!--<%= link_to 'remove', min_no_user_carts_articles_path(sa.id ), :method => :put, style: "color: #1abc9c;" %> -->
                               <div class="row">
@@ -257,10 +253,6 @@
             <%= link_to 'Go to Checkout', shopping_carts_show_path, class: "checkout" %>
           </div>
 
-
-
-
-
       <% end %>
       <!-- @end .cart -->
     </div>
@@ -277,10 +269,10 @@
 
 </div>
 <div>
-  <% if flash[:error] %>
+  <% if flash[:error]  %>
       <div class="alert alert-danger" role="alert" style="margin: 15px 35px 15px 35px">
         <span class="sr-only">Error:</span>
-        <strong>Oprez! <%= flash[:error] %></strong>
+        <strong>Oprez! <%= flash[:error]  %></strong>
       </div>
   <% end %>
 
@@ -325,7 +317,7 @@
       </div>
       <div class="col-md-3 header-right">
         <%= simple_form_for Article.new, url: search_art_articles_path, :method => :put do |f| %>
-        <div class="search-bar">
+        <div class="search-bar showTooltipPayment" title="Pretražite po nazivu ili kodu artikla">
           <%= f.input :title, label: false, placeholder: 'pretraga svih artikla...' %>
           <!--<input type="text" value="pretraga" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'pretraga';}">-->
           <!--<input type="submit" value="">-->
@@ -344,7 +336,8 @@
     </div>
 <% end %>
 
-
+<%= render partial: 'layouts/login_form' unless params[:controller].include? "sessions" %>
+<%= render partial: 'layouts/registration_form' unless params[:controller].include? "users"%>
 <%= yield %>
 
 
@@ -532,6 +525,8 @@
     });
 
   });
+
+  $('.showTooltipPayment').tooltip({show: {effect:"none", delay:100}});
 </script>
 
 </html>

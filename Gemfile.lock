@@ -163,6 +163,7 @@ GEM
       json
       multi_json
       request_store (>= 1.0)
+    google-analytics-rails (1.1.1)
     hermitage (0.0.7)
       coffee-rails
       jquery-rails
@@ -345,6 +346,7 @@ DEPENDENCIES
   filterrific
   font-awesome-sass (~> 4.3)
   gon
+  google-analytics-rails (= 1.1.1)
   hermitage
   jbuilder (~> 2.0)
   jquery-rails

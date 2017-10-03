@@ -6,7 +6,7 @@
     <%= flash[:alert] if flash[:alert] %>
 <div style="margin: 30px 30px 30px 30px;" >
 <%= simple_form_for(resource, as: resource_name, html: {class: 'form-horizontal'} , url: session_path(resource_name)) do |f| %>
-      <%= devise_error_messages! %>
+      <h3><%= devise_error_messages! %></h3>
 
     <%= f.input :email, autofocus: true %>
 
@@ -20,7 +20,7 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.button :submit, "Prijavi se", class: "btn btn-success" %>
+    <%= f.button :submit, "Prijavi se", class: "btn btn-success", style:"background-color: #1abc9c"  %>
   </div>
 <% end %>
 

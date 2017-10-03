@@ -87,7 +87,7 @@
       </div>
 
       <div class="col-xs-6 col-md-3" >
-        <div class="item-title"> <%=  a.article.title  %> </div>
+        <div class="item-title"> <%=  a.article.title+" (#{a.article.code})" %> </div>
       </div>
 
       <div class="col-xs-6 col-md-4">
@@ -123,7 +123,7 @@
           </div>
 
           <div class="col-xs-6 col-md-3" >
-            <div class="item-title"> <%=  a.single_article.title  %> </div>
+            <div class="item-title"> <%=  a.single_article.title+" (#{a.single_article.code})"  %> </div>
           </div>
 
           <div class="col-xs-6 col-md-4">
@@ -199,8 +199,8 @@
     <% if current_user != nil %>
         <div style="text-align: right"><p>Bez PDV-a: <%= number_to_currency(@cijena_bez_pdv = (@shopping_cart.current_cost-(@shopping_cart.current_cost*0.2)), :unit => 'Kn', :format => "%n %u") %></p></div>
         <div style="text-align: right"><p>PDV: <%= number_to_currency(@shopping_cart.current_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
-        <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
-        <div class="item-price"  style="text-align: right; font-size: 210%;"><hr><%= number_to_currency(@shopping_cart.current_cost+23, :unit => 'Kn', :format => "%n %u") %></div>
+        <div style="text-align: right"><p>Cijena poštarine: <b><%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </b></p></div>
+        <div class="item-price"  style="text-align: right; font-size: 210%;"><hr><%= number_to_currency(@shopping_cart.current_cost+23, :unit => 'Kn', :format => "%n %u") unless @shopping_cart.carts_articles.empty?  %></div>
         </br>
     <% end %>
         </div>
@@ -208,7 +208,7 @@
   </li>
 
       <% else %>
-      <% if $no_user_articles.empty?%>
+      <% if $no_user_articles.nil?%>
           <li class="list-group-item"  >
             <div class="row" >
               <div class="col-xs-6 col-md-6" >
@@ -242,7 +242,7 @@
                 </div>
 
                 <div class="col-xs-6 col-md-3" >
-                  <div class="item-title"> <%=  a.title  %> </div>
+                  <div class="item-title"> <%=  a.title+" (#{a.code})"  %> </div>
                 </div>
 
                 <div class="col-xs-6 col-md-4">
@@ -281,8 +281,8 @@
                     <div class="row" >
 
                       <div class="col-xs-6 col-md-1" >
-                        <% if a.pictures.first != nil %>
-                            <%= image_tag(a.pictures.first.image.url(:table)) %>
+                        <% if a.article.pictures.first != nil %>
+                            <%= image_tag(a.article.pictures.first.image.url(:table)) %>
                         <% else %>
                             <%=image_tag("default-placeholder.png", class: "productimg" ) %>
                         <% end %>
@@ -331,7 +331,7 @@
             <div style="text-align: right"><p>PDV: <%= number_to_currency($items_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
             <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
 
-            <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency($items_cost+23, :unit => 'Kn', :format => "%n %u") %></div>
+            <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency($items_cost+23, :unit => 'Kn', :format => "%n %u") unless $items_cost.nil? || $items_cost <= 0 %></div>
             </br>
 
           </div>
@@ -344,7 +344,7 @@
 
 
 <div style="margin-top: 20px;">
-<%= link_to 'Kupi', user_signed_in? ? "#" : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px;", data: {toggle:user_signed_in? ? "modal" : "", target:user_signed_in? ? "#informationDialog" : ""} %>
+<%= link_to 'Kupi', user_signed_in? ? "#" : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px",  disabled: (true if @shopping_cart.present? && @shopping_cart.carts_articles.empty?), data: {toggle:user_signed_in? ? "modal" : "", target:user_signed_in? ? "#informationDialog" : ""} %>
 </div>
 
 </div>

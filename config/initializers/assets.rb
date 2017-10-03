@@ -112,6 +112,7 @@ Rails.application.config.assets.precompile += %w( 72x72.jpg )
 Rails.application.config.assets.precompile += %w( credit-card.png )
 Rails.application.config.assets.precompile += %w( paypal.png )
 Rails.application.config.assets.precompile += %w( pouzece.png )
+Rails.application.config.assets.precompile += %w( invoice.png )
 
 
 Rails.application.config.assets.precompile += %w( 12.jpg )

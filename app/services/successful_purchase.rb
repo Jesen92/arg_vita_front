@@ -31,7 +31,6 @@ class SuccessfulPurchase
 
         #article.amount -= art.amount
         #article.save
-
       elsif art.single_article != nil
 
         @current_purchase_sum += art.cost
@@ -41,19 +40,14 @@ class SuccessfulPurchase
 
         #article.amount -= art.amount
         #article.save
-
       end
 
     end
 =begin
     if @user.purchase_sum == nil || @user.purchase_sum == 0
-
       @user.purchase_sum = @current_purchase_sum
-
     else
-
       @user.purchase_sum += @current_purchase_sum
-
     end
 
     @user.save

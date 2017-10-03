@@ -37,7 +37,6 @@ class AuctionsController < ApplicationController
     end
 
     @auction = Auction.find(params[:id])
-
   end
 
   def complement_show
@@ -55,35 +54,25 @@ class AuctionsController < ApplicationController
     end
 
     @auction = Auction.find(params[:id])
-
   end
 
   def new_bid
-
     if current_user != nil
     auction = Auction.find(params[:auction][:id])
-
-
     bid =  auction.highest_bid != nil ? auction.highest_bid : auction.starting_price
 
     if params[:auction][:highest_bid].to_f > bid
-
       auction.user_id = current_user.id
       auction.highest_bid = params[:auction][:highest_bid]
       auction.save
 
       flash[:notice] = "Uspješno ste licitirali!"
-
     else
-
       flash[:error] = "Ponuda mora biti veća od trenutne!"
-
     end
 
     else
-
       flash[:error] = "Morate biti ulogirani da bi licitirali!"
-
     end
 
   redirect_to :back

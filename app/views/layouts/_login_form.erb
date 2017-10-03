@@ -5,50 +5,38 @@
 
     <div class="modal-content">
 
-      <form action="" class="sky-form">
-        <header>Prijava</header>
+      <div class="" style="padding-top: 10px">
 
-        <fieldset>
-          <section>
-            <div class="row">
-              <label class="label col col-4 skylabel">E-mail</label>
-              <div class="col col-8">
-                <label class="input">
-                  <i class="icon-append icon-user"></i>
-                  <input type="email">
-                </label>
-              </div>
-            </div>
-          </section>
+          <div class="page-header head-page">
+            <h2 style="margin-left: 10px;">Prijava</h2>
+          </div>
+          <%= flash[:alert] if flash[:alert] %>
+          <div style="margin: 30px 30px 30px 30px;" >
+            <%= simple_form_for(resource, as: resource_name, html: {class: 'form-horizontal'} , url: session_path(resource_name)) do |f| %>
+                <%= devise_error_messages! %>
 
-          <section>
-            <div class="row">
-              <label class="label col col-4 skylabel">Lozinka</label>
-              <div class="col col-8">
-                <label class="input">
-                  <i class="icon-append icon-lock"></i>
-                  <input type="password">
-                </label>
-                <div class="note"><a href="#">Zaboravili ste lozinku?</a></div>
-              </div>
-            </div>
-          </section>
+                <div class="row">
+                <%= f.input :email, autofocus: true %>
+                </div>
+                <div class="row">
+                <%= f.input :password, autocomplete: "off" %>
+                </div>
+                <% if devise_mapping.rememberable? -%>
+                    <div class="field">
+                      <%= f.check_box :remember_me %>
+                      <%= f.label :remember_me %>
+                    </div>
+                <% end -%>
 
-          <section>
-            <div class="row">
-              <div class="col col-4"></div>
-              <div class="col col-8">
-                <label class="checkbox">
-                  <input type="checkbox" name="checkbox-inline" checked><i></i>Zapamti me</label>
-              </div>
-            </div>
-          </section>
-        </fieldset>
-        <footer>
-          <button type="submit" class="button">Prijava</button>
-          <a class="button button-secondary closedlg" data-toggle="modal" data-target="#RegistrationForm">Registracija</a>
-        </footer>
-      </form>
+                <div class="actions">
+                  <%= f.button :submit, "Prijavi se", class: "btn btn-success", style: "background-color: #1abc9c; color: white; width:100%;" %>
+                </div>
+            <% end %>
+<hr>
+            <%= render "devise/shared/links" %>
+          </div>
+
+      </div>
 
     </div>
 

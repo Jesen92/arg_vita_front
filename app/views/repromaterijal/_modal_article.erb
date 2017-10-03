@@ -93,7 +93,7 @@
                                 <% if article.single_articles.first.size != "" && article.single_articles.first.size != nil %>
 
                                     <div class="col-md-6 artikli_margin_none">
-                                      <div class="productboxcolor">Veličina* </div>
+                                      <div class="productboxcolor"><%= article.color_or_size.downcase.include?('color') ? "Boja*" : "Veličina*" %>  </div>
 
                                       <%= f.input :size, label: false, collection: SingleArticle.where(article_id: f.object.id).pluck(:size), class: "ddboje",:include_blank => false  %>
 
