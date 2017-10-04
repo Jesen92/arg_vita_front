@@ -1,4 +1,5 @@
 class Article < ActiveRecord::Base
+  include IdentityCache
 
   has_many :carts_articles
   has_many :shopping_carts, :through => :carts_articles
@@ -27,6 +28,8 @@ class Article < ActiveRecord::Base
   accepts_nested_attributes_for :single_articles, allow_destroy: true
 
   has_many :pictures, :dependent => :destroy
+
+  cache_has_many :pictures, :embed => true
 
   attr_accessor :color
 

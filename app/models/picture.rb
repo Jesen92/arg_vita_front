@@ -1,4 +1,6 @@
 class Picture < ActiveRecord::Base
+  include IdentityCache::WithoutPrimaryIndex
+
   has_one :article
 
   belongs_to :article

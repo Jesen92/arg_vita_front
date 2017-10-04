@@ -1,7 +1,7 @@
 <div id="filterrific_results">
 
 
-  <%= render partial: 'repromaterijal/modal_article', locals: {article: Article.where(raw: false).first} %>
+  <%= render partial: 'repromaterijal/modal_article', locals: {article: articles.first} %>
   <% articles.each do |art| %>
 
       <div class="product-one col-md-4 product-left ">

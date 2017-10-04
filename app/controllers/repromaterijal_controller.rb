@@ -137,9 +137,9 @@ class RepromaterijalController < ApplicationController
       ( redirect_to(reset_filterrific_url(format: :html))and  return)
     end
 
-    articles = Article.where(raw: true, for_sale: true ).includes(:single_articles).includes(:pictures)
+    articles = Article.where(raw: true, for_sale: true).includes(:picture)
 
-        @filterrific = initialize_filterrific(Article.where(raw: true, for_sale: true).includes(:picture, :single_articles), params[:filterrific], select_options: {sorted_by: Article.options_for_sorted_by,
+        @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: {sorted_by: Article.options_for_sorted_by,
                                                                                                                                                                 with_subcategory_id: Subcategory.options_for_select,
                                                                                                                                                                 with_ssubcategory_id: Ssubcategory.options_for_select,
                                                                                                                                                                 with_color_id: Color.options_for_select,
@@ -149,7 +149,7 @@ class RepromaterijalController < ApplicationController
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 
-    gon.current_min, gon.current_max = @filterrific.find.page(1).per(articles.count).order(cost: :desc).pluck(:cost).to_a.minmax
+    gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
 
     discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }

@@ -1,6 +1,15 @@
 Rails.application.configure do
   require 'active_merchant'
   # Settings specified here will take precedence over those in config/application.rb.
+  config.identity_cache_store = :memcached_store,
+      Memcached.new('localhost', {
+          support_cas: true,
+          auto_eject_hosts: false,  # avoids more cache consistency issues
+          default_ttl: 6.hours.to_i
+      })
+
+  IdentityCache.cache_backend = ActiveSupport::Cache.lookup_store(*Rails.configuration.identity_cache_store)
+
   config.after_initialize do
     Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   end
@@ -30,6 +39,8 @@ Rails.application.configure do
           :secret_access_key => ENV['SEC']
       }
   }
+
+
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

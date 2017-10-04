@@ -134,7 +134,7 @@ class TrgovinaController < ApplicationController
       ( redirect_to(reset_filterrific_url(format: :html))and  return)
     end
 
-    articles = Article.where(raw: false, for_sale: true ).includes(:single_articles).includes(:pictures)
+    articles = Article.where(raw: false, for_sale: true ).includes(:pictures)
 
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                                                                          with_category_id: Category.options_for_select,
@@ -150,7 +150,9 @@ class TrgovinaController < ApplicationController
 
     @articles = @filterrific.find.page(params[:page])
 
-    gon.current_min, gon.current_max = @filterrific.find.page(1).per(articles.count).order(cost: :desc).pluck(:cost).to_a.minmax
+    #binding.pry
+
+    gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
 
     #binding.pry
 

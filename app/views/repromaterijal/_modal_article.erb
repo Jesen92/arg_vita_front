@@ -45,7 +45,7 @@
                       <% end %>
                       <!--TODO: postotak na modal dialogu-->
                       <ul id="imageGallery<%= article.id.to_s %>" style="min-width: 340px; min-height: 400px;">
-                        <% if !article.pictures.first.nil? %>
+                        <% if article.pictures.present? %>
                             <% @ind = article.pictures.first.image.url(:picture) %>
                             <li data-thumb="<%=  article.picture.image.url(:thumbgal) %>" data-src="<%=  article.picture.image.url(:original) %>" class="img-li">
                               <%= image_tag(article.picture.image.url(:picture)) %>
@@ -95,7 +95,7 @@
                                     <div class="col-md-6 artikli_margin_none">
                                       <div class="productboxcolor"><%= article.color_or_size.present? && article.color_or_size.downcase.include?('color') ? "Boja*" : "Veličina*" %>  </div>
 
-                                      <%= f.input :size, label: false, collection: SingleArticle.where(article_id: f.object.id).pluck(:size), class: "ddboje",:include_blank => false  %>
+                                      <%= f.input :size, label: false, collection: article.single_articles.pluck(:size), class: "ddboje",:include_blank => false  %>
 
                                     </div>
                                 <% end %>
