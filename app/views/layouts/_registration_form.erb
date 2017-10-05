@@ -1,8 +1,8 @@
-<div class="modal fade" id="RegistrationForm" role="dialog">
+<div class="modal fade zoom" id="RegistrationForm" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content -->
-    <div class="modal-content">
+    <div class="modal-content" style="border-color: #1abc9c; border-width: 3px;">
 
       <div class="" style="padding-top: 10px">
 
@@ -44,10 +44,10 @@
                 </div>
 
                 <%= f.input :password, label: 'Lozinka', autocomplete: "off" %>
+                <%= f.input :password_confirmation, label: 'Ponovite lozinku', autocomplete: "off" %>
                 <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                 <% end %><br />
-                <%= f.input :password_confirmation, label: 'Ponovite lozinku', autocomplete: "off" %>
 <hr>
                 <%= recaptcha_tags callback: 'enableBtn' %>
                 <div class="actions">

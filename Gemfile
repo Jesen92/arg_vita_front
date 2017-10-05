@@ -82,6 +82,8 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'activerecord-session_store'
 gem 'google-analytics-rails', '1.1.1'
 
+gem 'bootstrap-kaminari-views'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'better_errors'

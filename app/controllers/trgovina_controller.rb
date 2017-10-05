@@ -101,6 +101,11 @@ class TrgovinaController < ApplicationController
 
 
   def index
+    if session[:article_raw].nil? || session[:article_raw]
+      session[:article_raw] = false
+      ( redirect_to(reset_filterrific_url(format: :html))and  return)
+    end
+
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
     @categories = Category.all
@@ -129,12 +134,8 @@ class TrgovinaController < ApplicationController
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
 
-    if session[:article_raw].nil? || session[:article_raw]
-      session[:article_raw] = false
-      ( redirect_to(reset_filterrific_url(format: :html))and  return)
-    end
 
-    articles = Article.where(raw: false, for_sale: true ).includes(:pictures)
+    articles = Article.where(raw: false, for_sale: true ).includes(:pictures, :picture)
 
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                                                                          with_category_id: Category.options_for_select,

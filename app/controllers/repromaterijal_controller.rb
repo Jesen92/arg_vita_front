@@ -95,6 +95,11 @@ class RepromaterijalController < ApplicationController
   end
 
   def index
+    if session[:article_raw].nil? || !session[:article_raw]
+      session[:article_raw] = true
+      ( redirect_to(reset_filterrific_url(format: :html))and  return)
+    end
+
     add_breadcrumb "Repromaterijal", :repromaterijal_index_path
 
     @ssubcategories = Ssubcategory.all
@@ -131,11 +136,6 @@ class RepromaterijalController < ApplicationController
     #binding.pry
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
-
-    if session[:article_raw].nil? || !session[:article_raw]
-      session[:article_raw] = true
-      ( redirect_to(reset_filterrific_url(format: :html))and  return)
-    end
 
     articles = Article.where(raw: true, for_sale: true).includes(:picture)
 

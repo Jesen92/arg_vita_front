@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     shopping.save
   }
 
-  validates :name, :address, :state, :postcode, :phone, presence: true
+  validates :name, :address, :state, :postcode, :phone, :city, :email, presence: true
 
   private
 

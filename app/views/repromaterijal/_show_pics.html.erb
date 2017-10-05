@@ -1,3 +1,18 @@
+<style>
+  .example .pagination>li>a,
+  .example .pagination>li>span {
+    border: 1px solid #1abc9c;
+  }
+  .pagination>li.active>a {
+    background-color: #1abc9c;
+    color: #fff;
+  }
+
+  .pagination>li a:hover {
+    background-color: rgba(26, 188, 156, 0.76);
+    color: #fff;
+  }
+</style>
 <div id="filterrific_results">
 
 
@@ -53,7 +68,8 @@
 
   <div class="row">
     <div class="col-md-12">
-      <%= paginate articles %>
+      <%= paginate articles, window: 10 ,:theme => 'twitter-bootstrap-3',
+                   :pagination_class => "pagination" %>
     </div>
   </div>
 
