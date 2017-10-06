@@ -1,4 +1,5 @@
 class Article < ActiveRecord::Base
+  acts_as_votable
   include IdentityCache
 
   has_many :carts_articles

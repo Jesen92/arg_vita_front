@@ -90,6 +90,18 @@ class ArticlesController < ApplicationController
     #@article.increment!(:counter)
   end
 
+  def upvote
+    session[:voting] = true
+    liked = Article.find(params[:id])
+    liked.liked_by current_user
+  end
+
+  def downvote
+    session[:voting] = true
+    liked = Article.find(params[:id])
+    liked.unliked_by current_user
+  end
+
   private
   def article_params
     params.require(:article).permit(:id, :title, :categories_id, :materials_id, :cost, :subcategories_id, :ssubcategories_id )

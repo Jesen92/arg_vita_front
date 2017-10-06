@@ -12,6 +12,36 @@
     background-color: rgba(26, 188, 156, 0.76);
     color: #fff;
   }
+
+  .heart_liked {
+    color: red;
+  }
+  .heart_liked::before {
+    color: red!important;
+  }
+
+  .fa-heart::before{
+    color:grey;
+  }
+
+  .heart_shaped::before :hover{
+    color: blue;
+    border-color: red;
+    border-width: 2px;
+  }
+
+  .fa-heart {
+    right: 15px;
+    top: 5px;
+    display:block;
+    float: right;
+    position: absolute;
+    z-index: 999;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 5px;
+  }
+
 </style>
 <div id="filterrific_results">
 
@@ -24,6 +54,13 @@
               <h5><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>" style="color: white;"></div></h5>
             </div>
         <% end %>
+        <% if user_signed_in? %>
+            <% if current_user.liked? art %>
+                <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked showToolTipForHearts heart_shaped', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+            <% else %>
+                <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_shaped', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+            <%end%>
+        <%end%>
         <div class="product-main simpleCart_shelfItem">
 
           <!--TODO: upisati naziv slike-->
@@ -50,7 +87,7 @@
                 </h4>
 
             <% else %>
-                <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
+                <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>></h4>
             <% end %>
           </div>
           <% if art.discount.present? && art.discount > 0 %>
@@ -66,5 +103,16 @@
 </div>
 
 <script>
+    function heart_like(e){
+        var like = document.getElementById("Heart"+e);
+        if(like.classList.contains("heart_liked")) {
+            like.classList.remove("heart_liked");
+            like.setAttribute('href',"/articles/" + e + "/like");
+        }else{
+            like.classList.add("heart_liked");
+            like.setAttribute('href',"/articles/" + e + "/dislike");
+        }
+    }
 
+    $('.showToolTipForHearts').tooltip({show: {effect:"none", delay:100}});
 </script>

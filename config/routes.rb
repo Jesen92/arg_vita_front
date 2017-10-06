@@ -148,6 +148,10 @@ Rails.application.routes.draw do
     put :complement_show, on: :collection
   end
   resources :articles do
+    member do
+      put "like" => "articles#downvote"
+      put "dislike" => "articles#upvote"
+    end
     put :search_art, on: :collection
   end
   resources :complements

@@ -96,9 +96,13 @@ class RepromaterijalController < ApplicationController
 
   def index
     if session[:article_raw].nil? || !session[:article_raw]
+      binding.pry
       session[:article_raw] = true
-      ( redirect_to(reset_filterrific_url(format: :html))and  return)
+      ( redirect_to(reset_filterrific_url(format: :html))and  return) unless session[:voting].present?
     end
+
+    #params[:filterrific][:reset_filterrific] = false if params[:filterrific].present? && params[:filterrific][:reset_filterrific].present?
+    binding.pry
 
     @page_number ||= params[:page]
     session[:page_number] = nil if params[:filterrific].present?
@@ -165,16 +169,14 @@ class RepromaterijalController < ApplicationController
     @articles.collect!(&p)
 
     session[:article_raw] = true
-
+#binding.pry
     respond_to do |format|
       format.html
       format.js
     end
-
   rescue ActiveRecord::RecordNotFound => e
     # There is an issue with the persisted param_set. Reset it.
     puts "Had to reset filterrific params: #{ e.message }"
-    redirect_to(reset_filterrific_url(format: :html)) and return
 
     ###########################################################################################################################
 
