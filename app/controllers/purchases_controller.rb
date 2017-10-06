@@ -21,6 +21,7 @@ class PurchasesController < ApplicationController
 
     if params[:past_purchase][:payment_method].include? "Paypal"
       payment = paypal_payment
+      binding.pry
       return redirect_to @payment.links.find { |link| link.rel == 'approval_url' }.href unless payment.nil?
 
       flash[:error] = "Pogreška pri kupnji! Molimo kontaktirajte dućan ili pokušajte ponovo!"
@@ -131,10 +132,31 @@ class PurchasesController < ApplicationController
     item_params = []
 
     @user = current_user
-
+    @ukupno_euro = 0.00
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
 
+
+
+    #TODO ukupna cijena bi se ovdje trebala postavljat na nulu
+    #TODO shipping se mora dodati (23 kn)
+    @current_purchase_sum = 0
+
+    @carts_article.each do |art|
+
+      if art.article != nil
+        @ukupno_euro += (art.cost/currency_conversion_rate).round(2)
+        item_params << {:name => art.article.title, :sku => art.article.code, :price => (art.cost/currency_conversion_rate).round(2).to_s, :currency => 'EUR', :quantity => art.amount}
+        #binding.pry
+      elsif art.single_article != nil
+        @ukupno_euro += (art.cost/currency_conversion_rate).round(2)
+        item_params << {:name => art.single_article.title, :sku => art.single_article.code, :price => (art.cost/currency_conversion_rate).round(2).to_s, :currency => 'EUR', :quantity => art.amount}
+        #binding.pry
+      end
+
+    end
+
+    #flash[:notice] = "Uspješno ste obavili kupnju! Dobiti ćete email sa konfirmacijom kupnje!"
     @payment = Payment.new({
                                :intent => "sale",
                                :payer => {
@@ -146,32 +168,14 @@ class PurchasesController < ApplicationController
                                                      :item_list => {
                                                          :items => []},
                                                      :amount => {
-                                                         :total => ((@shopping_cart.current_cost+23)/currency_conversion_rate).round(2).to_s,
+                                                         :total => @ukupno_euro.to_s,
                                                          :currency => "EUR"},
                                                      :description => "Argentum Vita Nakit"}]})
 
-    #TODO ukupna cijena bi se ovdje trebala postavljat na nulu
-    @current_purchase_sum = 0
-
-    @carts_article.each do |art|
-
-      if art.article != nil
-
-        item_params << {:name => art.article.title, :sku => art.article.code, :price => (art.cost/currency_conversion_rate).round(2).to_s, :currency => 'EUR', :quantity => art.amount}
-
-      elsif art.single_article != nil
-
-        item_params << {:name => art.single_article.title, :sku => art.single_article.code, :price => (art.cost/currency_conversion_rate).round(2).to_s, :currency => 'EUR', :quantity => art.amount}
-
-      end
-
-    end
-
-    #flash[:notice] = "Uspješno ste obavili kupnju! Dobiti ćete email sa konfirmacijom kupnje!"
     item_params.each do |item|
       @payment.transactions.first.item_list.items << item
     end
-
+      binding.pry
     if @payment.create
       @payment
 

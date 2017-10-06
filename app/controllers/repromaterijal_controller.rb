@@ -96,13 +96,13 @@ class RepromaterijalController < ApplicationController
 
   def index
     if session[:article_raw].nil? || !session[:article_raw]
-      binding.pry
+      #binding.pry
       session[:article_raw] = true
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless session[:voting].present?
     end
 
     #params[:filterrific][:reset_filterrific] = false if params[:filterrific].present? && params[:filterrific][:reset_filterrific].present?
-    binding.pry
+    #binding.pry
 
     @page_number ||= params[:page]
     session[:page_number] = nil if params[:filterrific].present?
