@@ -15,7 +15,6 @@
 </style>
 <div id="filterrific_results">
 
-
   <%= render partial: 'repromaterijal/modal_article', locals: {article: articles.first} %>
   <% articles.each do |art| %>
 
@@ -44,7 +43,7 @@
                 <h4>-</h4>
             <% end %>
 
-            <% if art.discount > 0 %>
+            <% if art.discount.present? && art.discount > 0 %>
                 <h4>
                   <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i> </a><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
                   <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
@@ -54,7 +53,7 @@
                 <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
             <% end %>
           </div>
-          <% if art.discount > 0 %>
+          <% if art.discount.present? && art.discount > 0 %>
               <div class="srch">
                 <span><%= art.discount %>%</span>
               </div>
@@ -63,15 +62,6 @@
       </div>
       <%= render partial: 'repromaterijal/modal_article', locals: {article: art} %>
   <% end %>
-
-
-
-  <div class="row">
-    <div class="col-md-12">
-      <%= paginate articles, window: 10 ,:theme => 'twitter-bootstrap-3',
-                   :pagination_class => "pagination" %>
-    </div>
-  </div>
 
 </div>
 

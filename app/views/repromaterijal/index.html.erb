@@ -1,3 +1,21 @@
+<style>
+  .next_page_button {
+    font-size: 1.2em;
+    padding: 4px 11px;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .next_page_button:hover {
+    background-color: #1abc9c;
+    color: white;
+  }
+
+</style>
 
 <div class="bnr" id="home">
   <div id="top" class="callbacks_container">
@@ -24,18 +42,28 @@
         <div class="prdt-top">
           <div class="col-md-9 prdt-left">
             <%= render_filterrific_spinner %>
+            <div class="infinite-table">
+              <table>
+                <tr></tr>
+
             <%= render(
                     partial: 'repromaterijal/show_pics',
                     locals: { articles: @articles }
                 ) %>
 
+              </table>
+
+              <p class="pagination" style="width: 100%; margin-top: 50px;">
+                <%= link_to_next_page(@articles, 'Next', :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
+              </p>
+            </div>
           </div>
 
           <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
 
 
           <div class="col-md-3 prdt-right">
-            <div class="w_sidebar">
+            <div class="w_sidebar follow-scroll">
 
               <section class="sky-form">
                 <h4>Pretraga</h4>
@@ -128,6 +156,7 @@
 </div><!--product-end-->
 <!--kraj sidebara -->
 <!--product-end-->
+
 
 
 <script>
@@ -269,4 +298,32 @@
         if(window.pageYOffset<20) document.getElementById('NightAndDay').style.opacity = 1;
     }
     window.onscroll=testScroll;
+</script>
+
+<script>
+    (function ($) {
+        var element = $('.follow-scroll'),
+            originalY = element.offset().top + 150;
+
+        // Space between element and top of screen (when scrolling)
+        var topMargin = 0;
+
+        // Should probably be set in CSS; but here just for emphasis
+        element.css('position', 'relative');
+
+        $(window).on('scroll', function (event) {
+            var scrollTop = $(window).scrollTop();
+
+            element.stop(false, false).animate({
+                top: scrollTop < originalY ?
+                    0 : scrollTop - originalY + topMargin
+            }, 350);
+        });
+    })(jQuery);
+
+    //$(".prdt-right").stick_in_parent();
+
+  function append_to_next(){
+      append_or_html = 1;
+  }
 </script>

@@ -100,10 +100,17 @@ class RepromaterijalController < ApplicationController
       ( redirect_to(reset_filterrific_url(format: :html))and  return)
     end
 
+    @page_number ||= params[:page]
+    session[:page_number] = nil if params[:filterrific].present?
+
     add_breadcrumb "Repromaterijal", :repromaterijal_index_path
 
     @ssubcategories = Ssubcategory.all
     @subcategories = Subcategory.all
+
+    if params[:page].present? && session[:page_number].present? && params[:page].to_i < session[:page_number].to_i
+      params[:page] = (session[:page_number].to_i+1).to_s
+    end
 
     puts "Usao je u trgovina#index"
 
@@ -145,7 +152,9 @@ class RepromaterijalController < ApplicationController
                                                                                                                                                                 with_color_id: Color.options_for_select,
                                                                                                                                                                 with_type_id: Type.options_for_select}, :persistence_id => true,) or return
 
-    @articles = @filterrific.find.page(params[:page])
+    @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
+
+    #binding.pry
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 

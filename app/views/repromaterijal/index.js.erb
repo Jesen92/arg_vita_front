@@ -1,7 +1,24 @@
+
 <% js = escape_javascript(
   render(partial: 'repromaterijal/show_pics', locals: { articles: @articles })
 ) %>
-$("#filterrific_results").html("<%= js %>");
+
+if(typeof append_or_html === 'undefined' || append_or_html === null || append_or_html != 1){
+    $("#filterrific_results").html("<%= js %>");
+    window.scrollTo(0, 0);
+}else{
+    $("#filterrific_results").append("<%= js %>");
+    append_or_html = 0;
+}
+
+// Update pagination link
+<% if @articles.last_page? %>
+$('.pagination').html("");
+<% else %>
+$('.pagination')
+    .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_to_next()") %>");
+<% end %>
+
 
 $('[data-countdown]').each(function () {
   var $this = $(this), finalDate = $(this).data('countdown');
@@ -25,6 +42,4 @@ jQuery(function() {
     $('#filterrific_with_ssubcategory_id').trigger("chosen:updated");
 
   }
-
-
 });

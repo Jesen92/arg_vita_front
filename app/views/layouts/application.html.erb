@@ -2,10 +2,10 @@
 <html>
 <head>
 
-
+  <a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
   <title><%= @main_title %></title>
   <%= include_gon %>
-  <%= stylesheet_link_tag    'application','https://fonts.googleapis.com/css?family=Exo+2:400,300,600|Bree+Serif|Nunito:700&subset=latin,latin-ext', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application','//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css','https://fonts.googleapis.com/css?family=Exo+2:400,300,600|Bree+Serif|Nunito:700&subset=latin,latin-ext', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'modal','data-turbolinks-track' => true %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 
@@ -55,7 +55,8 @@
 <% end %>
 
 <!--top-header-->
-<div class="top-header row">
+
+<div class="top-header row" id="top_">
   <div class="top-header-main col-md-12">
     <div class="col-md-8">
       <div class="nlogo">
@@ -423,7 +424,7 @@
 <!--information-end-->
 
 <!--footer-starts-->
-<div class="footer">
+<div class="footer" id="footer_bottom">
   <div class="container">
     <div class="footer-top">
       <div class="col-md-6 footer-left">

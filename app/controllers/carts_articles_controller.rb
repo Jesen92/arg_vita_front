@@ -21,6 +21,9 @@ class CartsArticlesController < ApplicationController
     #  return redirect_to :back
     #end
 
+    #binding.pry
+    session[:page_number] = params[:page_number]
+
     @ind = false
 
     art_id = params[:format] ? params[:format] : params[:article][:id]
