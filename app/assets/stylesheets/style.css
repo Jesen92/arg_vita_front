@@ -3571,3 +3571,116 @@ font-family: 'Exo 2', sans-serif;
     background-color: rgba(26, 188, 156, 0.7);
     margin-top: 5px;
 }
+
+
+/*------favorite TAB-----*/
+
+
+
+
+.favorites-tab {
+    width: 20em;
+    position: fixed;
+    z-index: 9999;
+    background: #fff;
+    right: -20em;
+    -webkit-transition: right ease .5s;
+    transition: right ease .5s;
+}
+
+.favorites-tab a.favorites-link {
+    position: absolute;
+    top: 0;
+    left: -11em;
+    width: 11em;
+    height: 55px;
+    display: block;
+    background: #fff;
+    text-decoration: none;
+    -webkit-transition: left ease .5s;
+    transition: left ease .5s;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.favorites-tab a.favorites-link:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 10px;
+    height: 100%;
+    background: #fff;
+}
+
+.favorites-tab a.favorites-link .amount {
+    display: block;
+    color: #515151;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    font-weight: bold;
+    margin: 5px 0 0px 55px;
+}
+.favorites-tab a.favorites-link .favo {
+    display: block;
+    color: #666;
+    font-size: 0.9em;
+    margin: 0 0 0 55px;
+}
+
+
+.favorite-items { display: block; margin-bottom: 20px; }
+.favorite-items ul { display: block; list-style: none; }
+.favorite-items ul li { display: block; margin-bottom: 8px; padding-bottom: 10px; cursor: pointer; border-bottom: 1px dotted #888; }
+
+.favorite-items ul li .item-price, .favorite-items ul li .quantity { display: block; margin-bottom: 2px; font-size: 0.9em; }
+.favorite-items ul li a:hover { color: #1abc9c; }
+
+.item-price { font-weight: 600; }
+
+.item-title{
+    line-height: 1.3em; /* Sets line height to 1.5 times text size */
+    height: 1.3em; /* Sets the div height to 2x line-height (3 times text size) */
+    overflow: hidden; /* Hide text that goes beyond the boundaries of the div */
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+    font-size: 1.3em;
+
+}
+.productimg { display: block; float: left; margin-right: 10px; margin-top: 10px; }
+
+.favorites-tab .favorite { margin-top: 7px; padding: 10px 10px ; }
+.favorites-tab .favorite .checkout {
+    font-size: 1.2em;
+    padding: 4px 11px;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.favorites-tab .favorite .checkout:hover { background: #1abc9c; color: #fff; }
+
+.favorites-tab a.favorites-link,.favorites-tab .favorite {
+    -o-box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+}
+
+.favorites-tab:hover { right: 0; }
+
+.favorites-tab .favorite {
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+
+/*------favorite TAB end-----*/

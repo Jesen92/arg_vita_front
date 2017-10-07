@@ -74,7 +74,7 @@
 
     </div>
 
-    <div class="cart-tab visible">
+    <div class="cart-tab visible" >
       <% if current_user != nil %>
           <a href="#" title="View your shopping cart" class="cart-link">
             <i><%=image_tag("cart-2.png") %></i>
@@ -150,6 +150,7 @@
             <!-- @end cart-items -->
             <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout" %>
           </div>
+
       <% end %>
 
 
@@ -258,6 +259,25 @@
       <!-- @end .cart -->
     </div>
     <!-- @end .cart-tab -->
+
+    <!-- //////////////////////////////////////////////////////////////////// -->
+
+    <div class="cart-tab visible" style="top: 60px; z-index: 99;">
+      <a href="#" title="View your shopping cart" class="cart-link">
+        <style>
+          .favorites_heart::before {
+            top: 10px;
+          }
+        </style>
+        <i class="fa fa-heart fa-2x heart-liked favorites_heart" style="color: red;"></i>
+        <span class="amount">Moji Favoriti</span>
+      </a>
+      <div id="favorites_list">
+        <%= render partial: 'layouts/favorites', locals: {favorites: current_user.votes} %>
+      </div>
+    </div>
+      <!-- //////////////////////////////////////////////////////////////////// -->
+
     <div class="clearfix"></div>
   </div>
 </div>

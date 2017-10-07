@@ -1,0 +1,7 @@
+
+
+    <% js = escape_javascript(
+      render(partial: 'layouts/favorites', locals: {favorites: @favorites})
+    ) %>
+
+    $("#favorites_list").html("<%= js %>");

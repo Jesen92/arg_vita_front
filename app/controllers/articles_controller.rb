@@ -94,12 +94,22 @@ class ArticlesController < ApplicationController
     session[:voting] = true
     liked = Article.find(params[:id])
     liked.liked_by current_user
+    @favorites = current_user.votes
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def downvote
     session[:voting] = true
     liked = Article.find(params[:id])
     liked.unliked_by current_user
+    @favorites = current_user.votes
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

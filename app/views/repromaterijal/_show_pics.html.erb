@@ -20,18 +20,12 @@
     color: red!important;
   }
 
-  .fa-heart::before{
+  .heart_::before{
     color:grey;
   }
 
-  .heart_shaped::before :hover{
-    color: blue;
-    border-color: red;
-    border-width: 2px;
-  }
-
-  .fa-heart {
-    right: 15px;
+  .heart_ {
+    right: 18px;
     top: 5px;
     display:block;
     float: right;
@@ -40,6 +34,28 @@
     padding-left: 10px;
     padding-right: 10px;
     margin-top: 5px;
+  }
+
+    .product-one>a.fa:hover {
+      text-decoration: none !important;
+      color: rgba(255, 0, 0, 0.6) !important;
+      border-radius: 70%;
+
+      -webkit-transform: scale(1.4);
+      -moz-transform: scale(1.4);
+      -ms-transform: scale(1.4);
+      transform: scale(1.4);
+    }
+
+  .product-one>a.heart_liked:hover {
+    text-decoration: none !important;
+    color: rgba(175, 175, 175, 0.81) !important;
+    border-radius: 70% !important;
+
+    -webkit-transform: scale(1.4);
+    -moz-transform: scale(1.4);
+    -ms-transform: scale(1.4);
+    transform: scale(1.4);
   }
 
 </style>
@@ -56,10 +72,12 @@
         <% end %>
         <% if user_signed_in? %>
             <% if current_user.liked? art %>
-                <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked showToolTipForHearts heart_shaped', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+                <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Defavoriziraj"%>
             <% else %>
-                <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_shaped', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+                <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
             <%end%>
+        <% else %>
+            <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_shaped" title="Favoriziraj" style=""></a>
         <%end%>
         <div class="product-main simpleCart_shelfItem">
 
@@ -87,7 +105,7 @@
                 </h4>
 
             <% else %>
-                <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>></h4>
+                <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
             <% end %>
           </div>
           <% if art.discount.present? && art.discount > 0 %>
@@ -113,6 +131,4 @@
             like.setAttribute('href',"/articles/" + e + "/dislike");
         }
     }
-
-    $('.showToolTipForHearts').tooltip({show: {effect:"none", delay:100}});
 </script>
