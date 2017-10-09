@@ -18,6 +18,29 @@
     });
 
 </script>
+<style>
+  .next_page_button {
+    font-size: 1.2em;
+    padding: 4px 11px;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .next_page_button:hover {
+    background-color: #1abc9c;
+    color: white;
+  }
+
+  .follow-scroll.fixed{
+    position:fixed;
+    top:0;
+  }
+
+</style>
 <div class="bnr" id="home">
   <div id="top" class="callbacks_container">
     <ul class="rslides" id="slider4">
@@ -38,25 +61,35 @@
 
 
 <%= form_for_filterrific @filterrific, remote: false do |f| %>
-    <div class="prdt">
+    <div class="prdt" id="articles_container_prdt">
       <div class="container">
         <div style="float: left;    position: fixed;
             top: 0px;"><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm btnlogin logoav" style="background-color: #1abc9c;">Noćni način</a></div>
         <div class="prdt-top">
           <div class="col-md-9 prdt-left">
             <%= render_filterrific_spinner %>
-            <%= render(
-                    partial: 'trgovina/show_pics',
-                    locals: { articles: @articles }
-                ) %>
+            <div class="infinite-table">
+              <table>
+                <tr></tr>
 
+                <%= render(
+                        partial: 'trgovina/show_pics',
+                        locals: { articles: @articles }
+                    ) %>
+
+              </table>
+
+              <p class="pagination" style="width: 100%; margin-top: 50px;">
+                <%= link_to_next_page(@articles, "Next", :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
+              </p>
+            </div>
           </div>
 
 
           <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
 
-          <div class="col-md-3 prdt-right">
-            <div class="w_sidebar">
+          <div class="col-md-3 prdt-right follow-scroll">
+            <div class="w_sidebar" id="filter_sidebar">
 
               <section class="sky-form">
                 <h4>Pretraga</h4>
@@ -277,4 +310,38 @@ if(window.pageYOffset>250) document.getElementById('NightAndDay').style.opacity 
 if(window.pageYOffset<20) document.getElementById('NightAndDay').style.opacity = 1;
 }
 window.onscroll=testScroll;
+</script>
+
+<script>
+
+    (function ($) {
+        var element = $('.follow-scroll'),
+            originalY = element.offset().top + 170;
+
+
+        // Space between element and top of screen (when scrolling)
+        var topMargin = 0;
+
+        // Should probably be set in CSS; but here just for emphasis
+        element.css('position', 'relative');
+        //alert(element.height());
+
+        $(window).on('scroll', function (event) {
+            var scrollTop = $(window).scrollTop();
+            var element_height = $('#articles_container_prdt');
+            //alert(scrollTop);
+            if(scrollTop < element_height.height()-120){
+            element.stop(false, false).animate({
+                top: scrollTop < originalY ?
+                    0 : scrollTop - originalY + topMargin
+            }, 350);}
+        });
+    })(jQuery);
+
+    //$(".follow-scroll").stick_in_parent();
+
+    function append_to_next(){
+        append_or_html = 1;
+    }
+
 </script>

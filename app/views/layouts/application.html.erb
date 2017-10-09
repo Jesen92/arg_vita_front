@@ -26,7 +26,7 @@
   <%= csrf_meta_tags %>
 </head>
 
-<body>
+<div>
 <% if params[:controller] == 'home' && params[:action] == 'index' %>
   <div id="fakeLoader"></div>
 
@@ -261,21 +261,22 @@
     <!-- @end .cart-tab -->
 
     <!-- //////////////////////////////////////////////////////////////////// -->
-
-    <div class="cart-tab visible" style="top: 60px; z-index: 99;">
-      <a href="#" title="View your shopping cart" class="cart-link">
-        <style>
-          .favorites_heart::before {
-            top: 10px;
-          }
-        </style>
-        <i class="fa fa-heart fa-2x heart-liked favorites_heart" style="color: red;"></i>
-        <span class="amount">Moji Favoriti</span>
-      </a>
-      <div id="favorites_list">
-        <%= render partial: 'layouts/favorites', locals: {favorites: current_user.votes} %>
+    <% if user_signed_in? %>
+      <div class="cart-tab visible" style="top: 60px; z-index: 99;">
+        <a href="#" title="View your favorites" class="cart-link">
+          <style>
+            .favorites_heart::before {
+              top: 10px;
+            }
+          </style>
+          <i class="fa fa-heart fa-2x heart-liked favorites_heart" style="color: red;"></i>
+          <span class="amount">Moji Favoriti</span>
+        </a>
+        <div id="favorites_list">
+          <%= render partial: 'layouts/favorites', locals: {favorites: current_user.votes} %>
+        </div>
       </div>
-    </div>
+    <% end %>
       <!-- //////////////////////////////////////////////////////////////////// -->
 
     <div class="clearfix"></div>
@@ -379,8 +380,8 @@
 
 
 <!--information-starts-->
-
-<div class="information">
+<div id="information_footer">
+<div class="information" >
   <div class="container">
     <div class="infor-top">
       <div class="col-md-3 infor-left">
@@ -460,6 +461,7 @@
     </div>
   </div>
 </div>
+</div></div>
 <!--footer-end-->
 
 <!--Registration Form dialog-->

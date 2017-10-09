@@ -1,22 +1,3 @@
-<style>
-  .next_page_button {
-    font-size: 1.2em;
-    padding: 4px 11px;
-    border: 1px solid #1abc9c;
-    color: #1abc9c;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-  }
-
-  .next_page_button:hover {
-    background-color: #1abc9c;
-    color: white;
-  }
-
-</style>
-
 <div class="bnr" id="home">
   <div id="top" class="callbacks_container">
     <ul class="rslides" id="slider4">
@@ -34,36 +15,31 @@
 
 <!--end-breadcrumbs-->
 <!--prdt-starts-->
-<%= form_for_filterrific @filterrific do |f| %>
-    <div class="prdt">
+
+
+<%= form_for_filterrific @filterrific, remote: false do |f| %>
+    <div class="prdt" style="padding-top: 35px;">
       <div class="container">
+        <h2><i class="fa fa-heart heart_liked fa-2x"></i> Moji Favoriti</h2>
+        <hr>
         <div style="float: left;    position: fixed;
             top: 0px;"><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm btnlogin logoav" style="background-color: #1abc9c;">Noćni način</a></div>
         <div class="prdt-top">
-          <div class="col-md-9 prdt-left">
-            <%= render_filterrific_spinner %>
-            <div class="infinite-table">
-              <table>
-                <tr></tr>
 
+          <div class="col-md-9 prdt-left">
+
+            <%= render_filterrific_spinner %>
             <%= render(
-                    partial: 'repromaterijal/show_pics',
+                    partial: 'favorites/show_pics',
                     locals: { articles: @articles }
                 ) %>
 
-              </table>
-
-              <p class="pagination" style="width: 100%; margin-top: 50px;">
-                <%= link_to_next_page(@articles, "Next", :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
-              </p>
-            </div>
           </div>
 
           <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
 
-
           <div class="col-md-3 prdt-right">
-            <div class="w_sidebar follow-scroll">
+            <div class="w_sidebar">
 
               <section class="sky-form">
                 <h4>Pretraga</h4>
@@ -79,72 +55,7 @@
                 </div>
               </section>
 
-              <section class="sky-form">
-                <h4>Sortiraj po</h4>
-                <div class="row1 scroll-pane">
-
-                  <div class="col col-4">
-                    <%= f.select(
-                            :sorted_by,
-                            @filterrific.select_options[:sorted_by],
-                            { include_blank: false }, class: 'form-control'
-                        )%>
-
-                  </div>
-                </div>
-              </section>
-
-
-              <section class="sky-form">
-                <h4>Kategorije</h4>
-                <div class="row1 scroll-pane" style=" padding-top: 10px; padding-bottom: 35px;">
-
-                  <div class="col col-4" style="float: right; position: absolute; display: block;">
-                    <%= f.collection_select(
-                           :with_subcategory_id,
-                           Subcategory.order(:title),
-                           :id,
-                           :title,
-                           { include_blank: '- Sve -' },
-                           class: 'filterrific-periodically-observed chosen-select'
-                       ) %>
-                  </div>
-                </div>
-              </section>
-
-              <section class="sky-form">
-                <h4>PodKategorije</h4>
-                <div class="row1 scroll-pane"  style=" padding-top: 10px; padding-bottom: 35px;">
-
-                  <div class="col col-4"  style="float: right; position: absolute; display: block;">
-                    <%= f.grouped_collection_select(
-                           :with_ssubcategory_id,
-                           Subcategory.order(:title),
-                           :ssubcategories,
-                           :title,
-                           :id,
-                           :title,
-                           {:include_blank => true },
-                           :as => :hidden,
-                           :class=>'chosen-select',
-                           style: 'height: auto;'
-                       ) %>
-                  </div>
-                </div>
-              </section>
-
               <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
-
-              <section class="sky-form">
-                <h4>CIJENA</h4>
-                <div id="range">
-                  <%= f.text_field(
-                          :min_cost, type: :hidden,
-                          class: 'form-control filterrific-periodically-observed', id: 'cost_field_slider', multiple: true
-                      ) %>
-
-                </div>
-              </section>
 
             </div>
           </div>
@@ -157,57 +68,14 @@
 <!--kraj sidebara -->
 <!--product-end-->
 
-
-
 <script>
 
-  $('[data-countdown]').each(function() {
-    var $this = $(this), finalDate = $(this).data('countdown');
-    $this.countdown(finalDate, function(event) {
-      $this.html(event.strftime('%D dana %H:%M:%S'));
+    $('[data-countdown]').each(function () {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $this.html(event.strftime('%D dana %H:%M:%S'));
+        });
     });
-  })
-</script>
-
-<script>
-  $(function () {
-
-    $("#range").ionRangeSlider({
-      hide_min_max: true,
-      keyboard: false,
-      min: parseFloat(gon.min).toFixed(2),
-      max: parseFloat(gon.max).toFixed(2),
-      from_max: gon.max-1,
-      to_min: gon.min+1,
-      from: gon.current_min,
-      to: gon.current_max,
-      type: 'double',
-      step: 1,
-      postfix: " kn",
-      grid: true
-    });
-
-  });
-
-  function changeClass() {
-      var range_slider = document.getElementById("range").value;
-
-      document.getElementById("cost_field_slider").value = range_slider;
-      document.removeEventListener('mouseup');
-  }
-
-  function mouseevent_up(){
-      document.addEventListener('mouseup',changeClass);
-      //alert('usao');
-  }
-
-  window.onload = function () {
-      var classname = document.getElementsByClassName("irs-slider");
-
-      for(i = 0; i < classname.length; i++){
-          classname[i].addEventListener('mousedown', mouseevent_up);
-      }
-  }
 </script>
 
 <script>
@@ -313,7 +181,6 @@
 
         $(window).on('scroll', function (event) {
             var scrollTop = $(window).scrollTop();
-            //alert(scrollTop);
 
             element.stop(false, false).animate({
                 top: scrollTop < originalY ?
@@ -324,7 +191,7 @@
 
     //$(".prdt-right").stick_in_parent();
 
-  function append_to_next(){
-      append_or_html = 1;
-  }
+    function append_to_next(){
+        append_or_html = 1;
+    }
 </script>

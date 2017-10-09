@@ -103,7 +103,7 @@ class TrgovinaController < ApplicationController
   def index
     if session[:article_raw].nil? || session[:article_raw]
       session[:article_raw] = false
-      ( redirect_to(reset_filterrific_url(format: :html))and  return)
+      ( redirect_to(reset_filterrific_url(format: :html))and  return) unless session[:voting].present?
     end
 
     add_breadcrumb "Gotov nakit", :trgovina_index_path
@@ -149,7 +149,7 @@ class TrgovinaController < ApplicationController
 
     #min, max = !params[:filterrific].nil? && !params[:filterrific][:min_cost].nil? ? params[:filterrific][:min_cost].nil?.to_s.split(';') : nil
 
-    @articles = @filterrific.find.page(params[:page])
+    @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
 
     #binding.pry
 

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  get 'favorites/index'
+
   get 'accounts/my_account'
 
   get 'accounts/purchases'

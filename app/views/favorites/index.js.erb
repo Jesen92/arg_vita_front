@@ -19,28 +19,9 @@ $('.pagination')
     .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_to_next()") %>");
 <% end %>
 
-
 $('[data-countdown]').each(function () {
     var $this = $(this), finalDate = $(this).data('countdown');
     $this.countdown(finalDate, function (event) {
         $this.html(event.strftime('%D dana %H:%M:%S'));
     });
 });
-
-jQuery(function() {
-    var categories, material, options;
-    categories = $('#filterrific_with_ssubcategory_id').html();
-    material = $('#filterrific_with_subcategory_id :selected').text();
-
-    if (material === "- Sve -") {
-        $('#filterrific_with_ssubcategory_id').empty();
-        $('#filterrific_with_ssubcategory_id').trigger("chosen:updated");
-
-    } else {
-        options = $(categories).filter("optgroup[label='" + material + "']").html();
-        $('#filterrific_with_ssubcategory_id').html(options);
-        $('#filterrific_with_ssubcategory_id').trigger("chosen:updated");
-
-    }
-});
-
