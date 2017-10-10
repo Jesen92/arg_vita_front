@@ -96,9 +96,8 @@ class RepromaterijalController < ApplicationController
 
   def index
     if session[:article_raw].nil? || !session[:article_raw]
-      #binding.pry
       session[:article_raw] = true
-      ( redirect_to(reset_filterrific_url(format: :html))and  return) unless session[:voting].present?
+      ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
 
     #params[:filterrific][:reset_filterrific] = false if params[:filterrific].present? && params[:filterrific][:reset_filterrific].present?
@@ -169,7 +168,8 @@ class RepromaterijalController < ApplicationController
     @articles.collect!(&p)
 
     session[:article_raw] = true
-#binding.pry
+    session[:voting] = nil
+
     respond_to do |format|
       format.html
       format.js

@@ -77,7 +77,7 @@
                 <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
             <%end%>
         <% else %>
-            <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_shaped" title="Favoriziraj" style=""></a>
+            <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_" title="Favoriziraj" style=""></a>
         <%end%>
         <div class="product-main simpleCart_shelfItem">
 

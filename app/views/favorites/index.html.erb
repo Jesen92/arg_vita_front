@@ -1,3 +1,21 @@
+<style>
+  .next_page_button {
+    font-size: 1.2em;
+    padding: 4px 11px;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .next_page_button:hover {
+    background-color: #1abc9c;
+    color: white;
+  }
+
+</style>
 <div class="bnr" id="home">
   <div id="top" class="callbacks_container">
     <ul class="rslides" id="slider4">
@@ -29,17 +47,27 @@
           <div class="col-md-9 prdt-left">
 
             <%= render_filterrific_spinner %>
-            <%= render(
-                    partial: 'favorites/show_pics',
-                    locals: { articles: @articles }
-                ) %>
+            <div class="infinite-table">
+              <table>
+                <tr></tr>
 
+                <%= render(
+                        partial: 'favorites/show_pics',
+                        locals: { articles: @articles }
+                    ) %>
+
+              </table>
+
+              <p class="pagination" style="width: 100%; margin-top: 50px;">
+                <%= link_to_next_page(@articles, "Next", :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
+              </p>
+            </div>
           </div>
 
           <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
 
           <div class="col-md-3 prdt-right">
-            <div class="w_sidebar">
+            <div class="w_sidebar follow-scroll">
 
               <section class="sky-form">
                 <h4>Pretraga</h4>

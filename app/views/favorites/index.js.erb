@@ -1,6 +1,6 @@
 
 <% js = escape_javascript(
-  render(partial: 'repromaterijal/show_pics', locals: { articles: @articles })
+  render(partial: 'favorites/show_pics', locals: { articles: @articles })
 ) %>
 
 if(typeof append_or_html === 'undefined' || append_or_html === null || append_or_html != 1){

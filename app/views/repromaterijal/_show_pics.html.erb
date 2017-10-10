@@ -72,12 +72,12 @@
         <% end %>
         <% if user_signed_in? %>
             <% if current_user.liked? art %>
-                <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Defavoriziraj"%>
+                <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Defavoriziraj"%>
             <% else %>
-                <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+                <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
             <%end%>
         <% else %>
-            <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_shaped" title="Favoriziraj" style=""></a>
+            <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_shaped heart_" title="Favoriziraj" style=""></a>
         <%end%>
         <div class="product-main simpleCart_shelfItem">
 

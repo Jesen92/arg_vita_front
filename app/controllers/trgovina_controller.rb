@@ -103,7 +103,7 @@ class TrgovinaController < ApplicationController
   def index
     if session[:article_raw].nil? || session[:article_raw]
       session[:article_raw] = false
-      ( redirect_to(reset_filterrific_url(format: :html))and  return) unless session[:voting].present?
+      ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
 
     add_breadcrumb "Gotov nakit", :trgovina_index_path
@@ -134,7 +134,6 @@ class TrgovinaController < ApplicationController
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
 
-
     articles = Article.where(raw: false, for_sale: true ).includes(:pictures, :picture)
 
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
@@ -143,7 +142,6 @@ class TrgovinaController < ApplicationController
                                                                                                                                                          with_color_id: Color.options_for_select,
                                                                                                                                                          with_type_id: Type.options_for_select},
                                                                                                                                                           persistence_id: true,) or return
-
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 
@@ -162,6 +160,7 @@ class TrgovinaController < ApplicationController
     @articles.collect!(&p)
 
     session[:article_raw] = false
+    session[:voting] = nil
 
     respond_to do |format|
       format.html
