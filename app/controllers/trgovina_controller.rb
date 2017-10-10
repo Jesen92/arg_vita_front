@@ -108,9 +108,15 @@ class TrgovinaController < ApplicationController
 
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
+    @page_number ||= params[:page]
+    session[:page_number] = nil if params[:filterrific].present?
+
     @categories = Category.all
     @materials = Material.all
 
+    if params[:page].present? && session[:page_number].present? && params[:page].to_i < session[:page_number].to_i
+      params[:page] = (session[:page_number].to_i+1).to_s
+    end
     puts "Usao je u trgovina#index"
 
     if current_user != nil
@@ -149,6 +155,7 @@ class TrgovinaController < ApplicationController
 
     @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
 
+    session[:page_number] = nil
     #binding.pry
 
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax

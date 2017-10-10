@@ -101,6 +101,7 @@ class ShoppingCartsController < ApplicationController
   def destroy
     @article = Article.find(params[:format])
 
+    session[:page_number] = params[:page_number]
     puts "usao sam u destroy!!!!"
 
     if current_user == nil
@@ -158,6 +159,7 @@ class ShoppingCartsController < ApplicationController
     @single_article = SingleArticle.find(params[:id])
     amount = params[:amount].to_i
 
+    session[:page_number] = params[:page_number]
     if current_user == nil
       if $no_user_single_articles.has_key?(@single_article.id)
         $no_user_single_articles.each do |k, v|
@@ -229,6 +231,8 @@ class ShoppingCartsController < ApplicationController
     @article = Article.find(params[:id])
     amount = params[:amount].to_i
 
+    session[:page_number] = params[:page_number]
+    #binding.pry
     puts "usao sam u destroy!!!!"
 
     if current_user == nil
@@ -276,6 +280,7 @@ class ShoppingCartsController < ApplicationController
     @single_article = SingleArticle.find(params[:id])
     amount = params[:amount].to_i
 
+    session[:page_number] = params[:page_number]
     if current_user == nil
       if $no_user_single_articles.has_key?(@single_article.id)
         $no_user_single_articles.each do |k, v|
