@@ -43,6 +43,9 @@
           <div class="col-md-9 prdt-left">
             <%= render_filterrific_spinner %>
             <div class="infinite-table">
+              <script>
+
+              </script>
               <table>
                 <tr></tr>
 
@@ -158,7 +161,7 @@
 <!--product-end-->
 
 
-
+<div class="modal-loader"><!-- Place at bottom of page --></div>
 <script>
 
   $('[data-countdown]').each(function() {
@@ -323,8 +326,7 @@
     })(jQuery);
 
     //$(".prdt-right").stick_in_parent();
-
-  function append_to_next(){
-      append_or_html = 1;
-  }
+    $("form :input").change(function() {
+        append_or_html = 0;
+    });
 </script>

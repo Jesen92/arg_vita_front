@@ -5,10 +5,9 @@
 
 if(typeof append_or_html === 'undefined' || append_or_html === null || append_or_html != 1){
     $("#filterrific_results").html("<%= js %>");
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 500);
 }else{
     $("#filterrific_results").append("<%= js %>");
-    append_or_html = 0;
 }
 
 // Update pagination link
@@ -16,7 +15,7 @@ if(typeof append_or_html === 'undefined' || append_or_html === null || append_or
 $('.pagination').html("");
 <% else %>
 $('.pagination')
-    .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_to_next()") %>");
+    .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>");
 <% end %>
 
 

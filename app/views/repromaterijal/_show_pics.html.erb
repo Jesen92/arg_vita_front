@@ -63,7 +63,19 @@
  with position:fixed. Width, height, top and left speak
  for themselves. Background we set to 80% white with
  our animation centered, and no-repeating */
-
+  .modal-spinner {
+    display:    none;
+    position:   fixed;
+    z-index:    999000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('ajax-loader.gif')
+    50% 50%
+    no-repeat;
+  }
 
   /* When the body has the loading class, we turn
      the scrollbar off with overflow:hidden */
@@ -81,7 +93,6 @@
 <div id="filterrific_results">
 
   <%= render partial: 'repromaterijal/modal_article', locals: {article: articles.first} %>
-  <img src="ajax-loader.gif">
   <% articles.each do |art| %>
 
       <div class="product-one col-md-4 product-left ">
@@ -135,10 +146,9 @@
           <% end %>
         </div>
       </div>
-
       <%= render partial: 'repromaterijal/modal_article', locals: {article: art} %>
   <% end %>
-
+  <div class="modal-spinner"><!-- Place at bottom of page --></div>
 </div>
 
 <script>
@@ -154,10 +164,5 @@
     }
 </script>
 <script>
-    function modal_spinner(){
-        $body = $("body");
 
-        $body.addClass("loading");
-    }
 </script>
-
