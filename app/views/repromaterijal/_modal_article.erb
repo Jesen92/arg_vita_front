@@ -18,7 +18,7 @@
   }
 </style>
 
-<div id="<%= "ModalId"+article.id.to_s %>" class="modal fade" role="dialog" >
+<div id="<%= "ModalId"+article.id.to_s unless article.nil? %>" class="modal fade" role="dialog" >
   <div class="modal-dialog modal-lg" >
     <div class="modal-content">
       <div class="modal-header">

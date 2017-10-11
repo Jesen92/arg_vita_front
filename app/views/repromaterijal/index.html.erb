@@ -60,6 +60,7 @@
                 <%= link_to_next_page(@articles, "Next", :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
               </p>
             </div>
+            <div id="modal-loader" style="position: absolute; left: 45%;"></div>
           </div>
 
           <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
@@ -328,5 +329,12 @@
     //$(".prdt-right").stick_in_parent();
     $("form :input").change(function() {
         append_or_html = 0;
+    });
+
+    $loader = $('#modal-loader');
+
+    $(document).on({
+        ajaxStart: function() { $loader.addClass("loader");    },
+        ajaxStop: function() { $loader.removeClass("loader"); }
     });
 </script>
