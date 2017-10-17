@@ -201,3 +201,48 @@ $red: #e74c3c;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.heart_liked {
+  color: red;
+}
+.heart_liked::before {
+  color: red!important;
+}
+
+.heart_::before{
+  color:grey;
+}
+
+.heart_ {
+  right: 18px;
+  top: 5px;
+  display:block;
+  float: right;
+  position: absolute;
+  z-index: 999;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+}
+
+.product-one>a.fa:hover {
+  text-decoration: none !important;
+  color: rgba(255, 0, 0, 0.6) !important;
+  border-radius: 70%;
+
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -ms-transform: scale(1.4);
+  transform: scale(1.4);
+}
+
+.product-one>a.heart_liked:hover {
+  text-decoration: none !important;
+  color: rgba(175, 175, 175, 0.81) !important;
+  border-radius: 70% !important;
+
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -ms-transform: scale(1.4);
+  transform: scale(1.4);
+}

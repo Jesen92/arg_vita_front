@@ -81,7 +81,7 @@
 
 
               <p class="pagination" style="width: 100%; margin-top: 50px;">
-                <%= link_to_next_page(@articles, "Next", :remote => true,class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
+                <%= link_to_next_page(@articles, "Next", :remote => true,id: "next_page_infinite", class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
               </p>
             </div>
               <div id="modal-loader" style="position: absolute; left: 45%;"></div>
@@ -344,6 +344,7 @@ window.onscroll=testScroll;
 
     function append_to_next(){
         append_or_html = 1;
+        $("#next_page_infinite").attr("disabled", "disabled");
     }
 
     $("form :input").change(function() {
@@ -355,5 +356,11 @@ window.onscroll=testScroll;
     $(document).on({
         ajaxStart: function() { $loader.addClass("loader");    },
         ajaxStop: function() { $loader.removeClass("loader"); }
+    });
+
+    $(document).ready(function () {
+        $("#next_page_infinite").on("click", function() {
+            $(this).attr("disabled", "disabled");
+        });
     });
 </script>

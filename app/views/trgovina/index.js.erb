@@ -15,7 +15,7 @@ if(typeof append_or_html === 'undefined' || append_or_html === null || append_or
 $('.pagination').html("");
 <% else %>
 $('.pagination')
-    .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true, class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>");
+    .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true,id: "next_page_infinite", class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_to_next();") %>");
 <% end %>
 
 
