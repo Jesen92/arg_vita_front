@@ -32,7 +32,6 @@ Rails.application.config.assets.precompile += %w( articles.css )
 Rails.application.config.assets.precompile += %w( style.css )
 Rails.application.config.assets.precompile += %w( lightslider.css )
 Rails.application.config.assets.precompile += %w( fakeLoader.css )
-Rails.application.config.assets.precompile += %w( lightgallery.scss )
 
 Rails.application.config.assets.precompile += %w( application.js )
 Rails.application.config.assets.precompile += %w( bootstrap.-collapse.js )
@@ -58,7 +57,7 @@ Rails.application.config.assets.precompile += %w( lightsliderInit.js )
 Rails.application.config.assets.precompile += %w( select_category.coffee )
 Rails.application.config.assets.precompile += %w( scaffold.coffee )
 Rails.application.config.assets.precompile += %w( fakeLoader.js )
-Rails.application.config.assets.precompile += %w( ion.rangeSlider.min.js )
+Rails.application.config.assets.precompile += %w( fakeLoader.js )
 
 Rails.application.config.assets.precompile += %w( 11.png )
 Rails.application.config.assets.precompile += %w( 100.png )
@@ -115,6 +114,7 @@ Rails.application.config.assets.precompile += %w( credit-card.png )
 Rails.application.config.assets.precompile += %w( paypal.png )
 Rails.application.config.assets.precompile += %w( pouzece.png )
 Rails.application.config.assets.precompile += %w( invoice.png )
+Rails.application.config.assets.precompile += %w( slika_kateg.jpg )
 
 Rails.application.config.assets.precompile += %w( ajax-loader.gif )
 
@@ -134,5 +134,3 @@ Rails.application.config.assets.precompile += %w( icons/fontawsome-webfont.woff 
 
 
 Rails.application.config.assets.precompile += %w( *.svg *.eot *.woff *.ttf )
-
-Rails.application.config.assets.precompile = ['assets/*.js', 'assets/*.css']
