@@ -1,0 +1,80 @@
+/* line 5, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter .text-filter-container input, .wice-grid .text-filter-container input {
+  width: auto;
+  margin-right: 10px;
+  display: inline;
+}
+/* line 12, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter thead th select, .wice-grid thead th select {
+  display: inline-block;
+}
+/* line 16, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter a.date-label, .wice-grid a.date-label {
+  text-decoration: none;
+}
+/* line 17, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter a.date-label:hover, .wice-grid a.date-label:hover {
+  text-decoration: line-through;
+}
+/* line 19, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter .clickable, .wice-grid .clickable {
+  cursor: pointer;
+  margin-bottom: 2px;
+  margin-right: 2px;
+}
+/* line 25, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter .ui-datepicker-trigger, .wg-detached-filter .wg-detached-filter .ui-datepicker-trigger, .wice-grid .ui-datepicker-trigger, .wice-grid .wg-detached-filter .ui-datepicker-trigger {
+  cursor: pointer;
+}
+/* line 31, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wg-detached-filter .custom-dropdown-container .expand-multi-select-icon, .wg-detached-filter .custom-dropdown-container .collapse-multi-select-icon, .wice-grid .custom-dropdown-container .expand-multi-select-icon, .wice-grid .custom-dropdown-container .collapse-multi-select-icon {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-left: 5px;
+  vertical-align: top;
+}
+
+/* line 41, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid {
+  /* in case of twitter bootstrap :) */
+}
+/* line 45, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid .desc, .wice-grid .asc {
+  padding-right: 18px;
+  text-decoration: none;
+}
+/* line 50, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid .clickable.select-all, .wice-grid .clickable.deselect-all {
+  float: left;
+}
+/* line 57, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid .pagination {
+  margin: 0px;
+  float: left;
+}
+/* line 62, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid tr.wg-filter-row input[type=text] {
+  width: 100px;
+}
+/* line 66, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid .pagination_status {
+  font-weight: bold;
+  float: right;
+}
+
+/* line 73, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid-query-panel li {
+  list-style-type: none;
+}
+/* line 75, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+.wice-grid-query-panel ul {
+  margin-left: 0;
+}
+
+/* line 78, /Users/Jesenovic/.rbenv/versions/2.2.3/lib/ruby/gems/2.2.0/gems/wice_grid-3.6.0.pre4/vendor/assets/stylesheets/wice_grid.scss */
+input.wice-grid-save-query-field {
+  width: auto;
+  display: inline-block;
+  margin-right: 10px;
+}
