@@ -35,6 +35,7 @@
 //= require owl.carousel.js
 //= require responsiveslides.min
 //= require jquery.countdown.js
+//= require ion.rangeSlider.min
 //= require_tree .
 
 
