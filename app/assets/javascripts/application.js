@@ -32,6 +32,9 @@
 //= require rangeslider_mousedown_up.js
 //= require lightslider.js
 //= require sticky-kit.js
+//= require owl.carousel.js
+//= require responsiveslides.min
+//= require jquery.countdown.js
 //= require_tree .
 
 

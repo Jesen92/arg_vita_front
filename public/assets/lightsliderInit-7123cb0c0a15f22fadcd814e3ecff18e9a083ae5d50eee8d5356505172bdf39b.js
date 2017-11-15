@@ -1,1 +1,0 @@
-$(document).ready(function(){$("#imageGallery").lightSlider({gallery:!0,item:1,loop:!0,thumbItem:4,slideMargin:0,enableDrag:!1,currentPagerPosition:"left",onSliderLoad:function(e){e.lightGallery({selector:"#imageGallery .lslide"})}})});
