@@ -11,7 +11,7 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( filterrific/filterrific-spinner.gif )
 
-Rails.application.config.assets.precompile += ['*.js', '*.css', '**/*.js', '**/*.css']
+Rails.application.config.assets.precompile += ['**/*.js', '**/*.css']
 
 Rails.application.config.assets.precompile += %w( 11.png )
 Rails.application.config.assets.precompile += %w( 100.png )
