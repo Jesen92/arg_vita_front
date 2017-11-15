@@ -28,6 +28,10 @@
 //= require jquery.infinite-pages
 //= require articles.coffee
 //= require sticky-kit
+//= require memenu
+//= require rangeslider_mousedown_up.js
+//= require lightslider.js
+//= require sticky-kit.js
 //= require_tree .
 
 
