@@ -1,0 +1,27 @@
+.chzn-select {
+    height: 0;
+    width: 200px;
+    border: 0;
+    overflow: initial;
+    outline: none;
+
+}
+
+.chzn-select option{
+    text-align: center;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #b3b3b3;
+    outline: none;
+    margin-bottom: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.chzn-select option:hover {
+    background-color: #1abc9c;
+    text-color: #FFF;
+    cursor: pointer;
+    cursor: hand;
+}
+

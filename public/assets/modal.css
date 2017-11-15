@@ -1,0 +1,35 @@
+
+a {color:#333; text-decoration:none}
+a:hover {color:#ccc; text-decoration:none}
+
+.product-bottom .productbox a:hover {color:#1abc9c; text-decoration:none}
+
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+
+#boxes .window {
+  position:fixed;
+  left:0;
+  top:0;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9999;
+  padding: 20px;
+}
+
+#boxes #dialog {
+  font-family: 'Exo 2', sans-serif;
+  width:900px;
+  height:460px;
+  padding:10px;
+  background-color: transparent;
+  /*background-image: url("../images/concrete.png"); */
+
+}
