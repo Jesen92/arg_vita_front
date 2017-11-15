@@ -332,7 +332,7 @@ window.onscroll=testScroll;
             var scrollTop = $(window).scrollTop();
             var element_height = $('#articles_container_prdt');
             //alert(scrollTop);
-            if(scrollTop < element_height.height()-120){
+            if(scrollTop < element_height.height()-200){
             element.stop(false, false).animate({
                 top: scrollTop < originalY ?
                     0 : scrollTop - originalY + topMargin
