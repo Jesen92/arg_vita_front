@@ -11,7 +11,6 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( filterrific/filterrific-spinner.gif )
 
-=begin
 Rails.application.config.assets.precompile += %w( bootstrap.css )
 Rails.application.config.assets.precompile += %w( carts_articles.css )
 Rails.application.config.assets.precompile += %w( categories.css )
@@ -133,7 +132,7 @@ Rails.application.config.assets.precompile += %w( 15.png )
 
 Rails.application.config.assets.precompile += %w( controls.png )
 Rails.application.config.assets.precompile += %w( t01.png )
-=end
+
 
 Rails.application.config.assets.precompile += %w( icons/FontAwsome.otf )
 Rails.application.config.assets.precompile += %w( icons/fontawsome-webfont.eot )
@@ -143,4 +142,3 @@ Rails.application.config.assets.precompile += %w( icons/fontawsome-webfont.woff 
 
 
 Rails.application.config.assets.precompile += %w( *.svg *.eot *.woff *.ttf )
-Rails.application.config.assets.precompile += %w(stylesheets/* javascripts/* config/*)
