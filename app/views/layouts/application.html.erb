@@ -95,7 +95,7 @@
 
                    <% if !i.article.nil? %>
                             <li class="clearfix">
-                              <%= link_to i.article.title, trgovina_show_path(i.article.id), class: "item-title", style: "color: #1abc9c;" %>
+                              <%= link_to i.article.title, trgovina_show_path(i.article.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
 
                               <% if i.article.picture != nil %>
                                 <%=image_tag(i.article.picture.image.url(:table), class: "productimg") %>
@@ -119,7 +119,7 @@
                     <% elsif i.single_article != nil %>
 
                         <li class="clearfix">
-                          <%= link_to i.single_article.title, trgovina_show_path(i.single_article.article.id), class: "item-title", style: "color: #1abc9c;" %>
+                          <%= link_to i.single_article.title, trgovina_show_path(i.single_article.article.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
 
                           <% if i.single_article.pictures.first != nil %>
                               <%=image_tag(i.single_article.pictures.first.image.url(:table), class: "productimg") %>
@@ -189,7 +189,7 @@
                           <% if a.id.to_s == k %>
                             <li class="clearfix">
 
-                              <%= link_to a.title, trgovina_show_path(a.id), class: "item-title", style: "color: #1abc9c;" %>
+                              <%= link_to a.title, trgovina_show_path(a.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
 
                               <% if a.picture != nil %>
                                   <%=image_tag(a.picture.image.url(:table), class: "productimg") %>
@@ -223,7 +223,7 @@
                       <% if sa.id == k %>
                             <% puts "Pronasao je isti id kao i key" %>
                             <li class="clearfix">
-                              <%= link_to sa.title, trgovina_show_path(sa.article.id), class: "item-title", style: "color: #1abc9c;" %>
+                              <%= link_to sa.title, trgovina_show_path(sa.article.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
 
                               <% if sa.pictures.first != nil %>
                                   <%=image_tag(sa.pictures.first.image.url(:table), class: "productimg") %>
@@ -458,18 +458,6 @@
 <!--Notice box on adding item to cart-->
 <script>
 
-    $(window).scroll(function() {
-        if ($(this).scrollTop() >= 600) {        // If page is scrolled more than 50px
-            $('#return-to-top').fadeIn(200);    // Fade in the arrow
-        } else {
-            $('#return-to-top').fadeOut(200);   // Else fade out the arrow
-        }
-    });
-    $('#return-to-top').click(function() {      // When arrow is clicked
-        $('body,html').animate({
-            scrollTop : 0                       // Scroll to top of body
-        }, 500);
-    });
 
   // Notice closes after 1 Second
   function notice1Sec() {
