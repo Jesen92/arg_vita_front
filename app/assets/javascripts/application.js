@@ -38,6 +38,7 @@
 //= require jquery.countdown.js
 //= require ion.rangeSlider.min
 //= require scaffold.coffee
+//= rquire filter.coffee
 //= require turbolinks
 //= require_tree .
 
@@ -56,7 +57,6 @@ $('#return-to-top').click(function() {      // When arrow is clicked
 });
 
 ////////
-
 
 $(document).ready(function() {
     $('#imageGallery').lightSlider({
