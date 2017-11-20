@@ -143,7 +143,7 @@
                   <div class="col col-4">
                     <% @categories.each do |a| %>
                         <label class="checkbox">
-                          <%= f.check_box(:with_category_id, {multiple: true, class: '', autocomplete: "off"}, a.id, false ) %><i></i> <%= a.title %></label>
+                          <%= f.check_box(:with_category_id, {multiple: true, class: 'filterrific-periodically-observed', autocomplete: "off"}, a.id, false ) %><i></i> <%= a.title %></label>
                     <% end %>
 
                   </div>
