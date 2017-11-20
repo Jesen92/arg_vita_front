@@ -11,8 +11,10 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
+//= require jquery.turbolinks
 //= require jquery_ujs
+//= require chosen-jquery
+//= require bootstrap-sprockets
 //= require fakeloader
 //= require filterrific/filterrific-jquery
 //= require filter
@@ -20,7 +22,6 @@
 //= require lightslider
 //= require sky-forms-ie8.js
 //= require jquery.placeholder.min
-//= require chosen-jquery
 //= require select_category
 //= require wice_grid
 //= require bootstrap-datepicker
@@ -36,8 +37,7 @@
 //= require responsiveslides.min
 //= require jquery.countdown.js
 //= require ion.rangeSlider.min
-//= require views/repromaterijal/index.js.erb
-//= require views/trgovina/index.js.erb
+//= require turbolinks
 //= require_tree .
 
 

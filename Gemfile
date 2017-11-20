@@ -86,6 +86,7 @@ gem 'bootstrap-kaminari-views'
 gem 'jquery-infinite-pages'
 gem 'acts_as_votable', '~> 0.10.0'
 
+gem 'jquery-turbolinks'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'better_errors'
