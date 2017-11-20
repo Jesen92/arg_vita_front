@@ -47,7 +47,7 @@
         <% end %>
       </div>
       <div class="col-md-4 about-left">
-        <%= link_to auctions_index_path, method: :get do %>
+        <%= link_to auctions_index_path do %>
         <figure class="effect-bubba shadow">
           <%= image_tag("slika_kateg.jpg", class: "img-responsive" ) %>
           <!--TODO: upisati naziv kategorije-->
@@ -71,52 +71,62 @@
   <div class="container">
     <div class="product-top">
 
+      <%= render partial: 'trgovina/modal_article', locals: {article: @articles.first} unless @articles.empty? %>
+      <% @articles.first(8).each do |art| %>
 
+          <div class="product-one col-md-3 product-left ">
+            <% if art.on_discount == true && art.end_date != nil %>
+                <div class="timer_popust" >
+                  <h5><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>" style="color: white;"></div></h5>
+                </div>
+            <% end %>
+            <% if user_signed_in? %>
+                <% if current_user.liked? art %>
+                    <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Defavoriziraj"%>
+                <% else %>
+                    <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+                <%end%>
+            <% else %>
+                <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_" title="Favoriziraj" style=""></a>
+            <%end%>
+            <div class="product-main simpleCart_shelfItem">
 
+              <!--TODO: upisati naziv slike-->
 
-      <% i=0 %>
-          <% @articles.each do |art| %>
-          <%if i == 8 then %>
-              <% break %>
-          <% end %>
-          <% i+=1 %>
-
-
-
-            <div class="product-one col-md-3 product-left ">
-              <% if art.on_discount == true && art.end_date != nil %>
-                  <div class="timer_popust" >
-                    <h5><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>" style="color: white;"></div></h5>
-                  </div>
+              <% if art.picture != nil %>
+                  <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');"> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img" ) %> </a>
+              <% else %>
+                  <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');"> <%= image_tag("placeholder_index.png", class: "img-responsive zoom-img" ) %> </a>>
               <% end %>
-              <div class="product-main simpleCart_shelfItem">
-                <!--TODO: upisati naziv slike-->
-                <%=link_to  trgovina_show_path(art.id)  do %> <%= image_tag(art.picture.image.url(:index), class: "img-responsive zoom-img") %> <% end %>
-                <!--<a href="#dialog" name="modal" class="mask"> </a>-->
-                <div class="product-bottom">
-                  <h3> <%= art.title %> </h3>
-                  <!--NOTE: kratki opis od jednog reda-->
+              <div class="product-bottom">
+                <h3><a data-toggle="modal" data-target="#ModalId<%= art.id %>" style="color: #1abc9c;"> <%= art.title %></a></h3>
+                <!--NOTE: kratki opis od jednog reda-->
 
-                  <% if art.short_description != nil && art.short_description !="" %>
-                      <h4><%= art.short_description  %></h4>
-                  <% else %>
-                      <h4>-</h4>
-                  <% end %>
+                <% if art.short_description != nil && art.short_description !=""  %>
+                    <h4><%= art.short_description  %></h4>
+                <% else %>
+                    <h4>-</h4>
+                <% end %>
 
-                  <% if art.discount > 0 %>
-                      <h4><%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <i></i> <% end %><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span></h4>
-                  <% else %>
-                      <h4><%=link_to  trgovina_show_path(art.id), :target => '_blank'  do %> <i></i><% end %><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
-                  <% end %></div>
-                <% if art.discount > 0 %>
-                    <div class="srch">
-                      <span><%= art.discount %>%</span>
-                    </div>
+                <% if art.discount.present? && art.discount > 0 %>
+                    <h4>
+                      <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i> </a><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
+                      <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                    </h4>
+
+                <% else %>
+                    <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
                 <% end %>
               </div>
+              <% if art.discount.present? && art.discount > 0 %>
+                  <div class="srch">
+                    <span><%= art.discount %>%</span>
+                  </div>
+              <% end %>
             </div>
-
-        <% end %>
+          </div>
+          <%= render partial: 'trgovina/modal_article', locals: {article: art} %>
+      <% end %>
 
     </div>
   </div>
