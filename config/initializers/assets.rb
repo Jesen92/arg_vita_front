@@ -63,6 +63,7 @@ Rails.application.config.assets.precompile += %w( fakeLoader.js )
 Rails.application.config.assets.precompile += %w( jquery.countdown.js )
 Rails.application.config.assets.precompile += %w( lightgallery.js )
 Rails.application.config.assets.precompile += %w( sticky-kit.js )
+Rails.application.config.assets.precompile += %w( filterrific/filterrific-jquery.js)
 
 Rails.application.config.assets.precompile += %w( 11.png )
 Rails.application.config.assets.precompile += %w( 100.png )

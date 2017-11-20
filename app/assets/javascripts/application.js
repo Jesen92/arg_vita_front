@@ -71,3 +71,21 @@ $(document).ready(function() {
         }
     });
 });
+
+$(function () {
+    $("#range").ionRangeSlider({
+        hide_min_max: true,
+        keyboard: false,
+        min: gon.min,
+        max: gon.max,
+        from_max: gon.max-1,
+        to_min: gon.min+1,
+        from: gon.current_min,
+        to: gon.current_max,
+        type: 'double',
+        step: 10,
+        postfix: " kn",
+        grid: true
+    });
+
+});
