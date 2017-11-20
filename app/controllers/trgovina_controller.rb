@@ -141,7 +141,7 @@ class TrgovinaController < ApplicationController
     @page_title = "Artikli"
 
     articles = Article.where(raw: false, for_sale: true ).includes(:pictures, :picture)
-    puts params[:filterrific]
+
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                                                                          with_category_id: Category.options_for_select,
                                                                                                                                                          with_material_id: Material.options_for_select,
@@ -168,7 +168,7 @@ class TrgovinaController < ApplicationController
 
     session[:article_raw] = false
     session[:voting] = nil
-
+    puts "prosao"
     respond_to do |format|
       format.html
       format.js

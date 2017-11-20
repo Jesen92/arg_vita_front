@@ -129,7 +129,7 @@
                   <div class="col col-4">
                     <% @materials.each do |a| %>
                         <label class="checkbox">
-                          <%= f.check_box(:with_material_id, { multiple: true, class: '', autocomplete: "off"}, a.id, false ) %><i></i> <%= a.title %></label>
+                          <%= f.check_box(:with_material_id, { multiple: true, class: 'filterrific-periodically-observed', autocomplete: "off"}, a.id, false ) %><i></i> <%= a.title %></label>
                     <% end %>
 
                   </div>
@@ -158,7 +158,7 @@
                 <div id="range">
                   <%= f.text_field(
                           :min_cost, type: :hidden,
-                          class: 'form-control row1', id: 'cost_field_slider', multiple: true
+                          class: 'form-control filterrific-periodically-observed row1', id: 'cost_field_slider', multiple: true
                       ) %>
 
                 </div>
