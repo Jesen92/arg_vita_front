@@ -57,7 +57,7 @@ gem 'font-awesome-sass',  '~> 4.3'
 gem 'country_select'
 gem "breadcrumbs_on_rails"
 #jesen
-gem 'filterrific'
+gem 'filterrific', '~> 2.0.5'
 
 gem 'gon'
 

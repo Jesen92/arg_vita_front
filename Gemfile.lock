@@ -366,7 +366,7 @@ DEPENDENCIES
   country_select
   devise
   dotenv-rails
-  filterrific
+  filterrific (~> 2.0.5)
   font-awesome-sass (~> 4.3)
   gon
   google-analytics-rails (= 1.1.1)
