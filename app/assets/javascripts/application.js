@@ -37,6 +37,7 @@
 //= require responsiveslides.min
 //= require jquery.countdown.js
 //= require ion.rangeSlider.min
+//= require scaffold.coffee
 //= require turbolinks
 //= require_tree .
 
