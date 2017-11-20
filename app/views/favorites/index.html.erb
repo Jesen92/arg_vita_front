@@ -36,7 +36,7 @@
 
 
 <%= form_for_filterrific @filterrific, remote: false do |f| %>
-    <div class="prdt" style="padding-top: 35px;">
+    <div class="prdt" style="padding-top: 35px;" id="articles_container_prdt">
       <div class="container">
         <h2><i class="fa fa-heart heart_liked fa-2x"></i> Moji Favoriti</h2>
         <hr>
@@ -97,12 +97,6 @@
 <!--product-end-->
 
 <script>
-
-    <% js = escape_javascript(
-      render(partial: 'repromaterijal/show_pics', locals: { articles: @articles })
-    ) %>
-
-    $("#filterrific_results").html("<%= js %>");
 
     $('[data-countdown]').each(function () {
         var $this = $(this), finalDate = $(this).data('countdown');
