@@ -162,6 +162,7 @@ class Article < ActiveRecord::Base
   #}
 
   scope :with_material_id, lambda { |material_ids|
+    puts "Usao"
     where(material_id: [*material_ids])
   }
 
