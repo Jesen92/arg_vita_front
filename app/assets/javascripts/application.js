@@ -36,6 +36,8 @@
 //= require responsiveslides.min
 //= require jquery.countdown.js
 //= require ion.rangeSlider.min
+//= require views/repromaterijal/index.js.erb
+//= require views/trgovina/index.js.erb
 //= require_tree .
 
 
