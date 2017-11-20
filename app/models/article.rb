@@ -117,6 +117,7 @@ class Article < ActiveRecord::Base
 
 # scopovi za podkategorije i podpodkategorije
   scope :with_subcategory_id, lambda { |subcategory_ids|
+    puts "usao"
     where(subcategory_id: [*subcategory_ids])
   }
 
