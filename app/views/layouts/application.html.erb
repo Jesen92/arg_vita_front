@@ -24,35 +24,24 @@
   <%= favicon_link_tag 'images/favicon-96x96.png', rel: 'icon', type: 'image/png' %>
   <%= favicon_link_tag 'images/favicon-16x16.png', rel: 'icon', type: 'image/png' %>
   <%= csrf_meta_tags %>
+
+
+  <div id="fakeLoader"></div>
+
+  <script type="text/javascript">
+      $("#fakeLoader").fakeLoader({
+          timeToHide:<%= params[:controller] == 'home' && params[:action] == 'index' ? '1200' : '500' %>, //Time in milliseconds for fakeLoader disappear
+          zIndex:"99999",//Default zIndex
+          spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+          bgColor:"#1abc9c" //Hex, RGB or RGBA colors
+          //imagePath:"preloader.png" //If you want can you insert your custom image
+      });
+  </script>
+
 </head>
 
 <div>
-<% if params[:controller] == 'home' && params[:action] == 'index' %>
-  <div id="fakeLoader"></div>
 
-    <script type="text/javascript">
-      $("#fakeLoader").fakeLoader({
-        timeToHide:1200, //Time in milliseconds for fakeLoader disappear
-        zIndex:"99999",//Default zIndex
-        spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
-        bgColor:"#1abc9c", //Hex, RGB or RGBA colors
-        //imagePath:"preloader.png" //If you want can you insert your custom image
-      });
-    </script>
-
-<% else %>
-  <div id="fakeLoader"></div>
-
-    <script type="text/javascript">
-      $("#fakeLoader").fakeLoader({
-        timeToHide:500, //Time in milliseconds for fakeLoader disappear
-        zIndex:"99999",//Default zIndex
-        spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
-        bgColor:"#1abc9c", //Hex, RGB or RGBA colors
-        //imagePath:"preloader.png" //If you want can you insert your custom image
-      });
-    </script>
-<% end %>
 
 <!--top-header-->
 
@@ -148,7 +137,7 @@
               </ul>
             </div>
             <!-- @end cart-items -->
-            <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout" %>
+            <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout", method: :get %>
           </div>
 
       <% end %>
@@ -252,7 +241,7 @@
               </ul>
             </div>
             <!-- @end cart-items -->
-            <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout" %>
+            <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout", method: :get %>
           </div>
 
       <% end %>
@@ -360,7 +349,7 @@
 
 <%= render partial: 'layouts/login_form' unless (params[:controller].include?("sessions") || params[:controller].include?("home") && (params[:action].include?("about") || params[:action].include?("contact"))) %>
 <%= render partial: 'layouts/registration_form' unless (params[:controller].include?("users") || params[:controller].include?("home") && (params[:action].include?("about") || params[:action].include?("contact"))) %>
-<%= yield %>
+<%= yield.force_encoding "UTF-8" %>
 
 <!--product-dialog-box-starts-->
 
@@ -433,6 +422,17 @@
 <!--footer-starts-->
 <div class="footer" id="footer_bottom">
   <div class="container">
+    <div class="row">
+      <div class="col-md-0.5 pull-right">
+        <%= image_tag('cards/mc_acc_opt_70_1x.png') %>
+      </div>
+      <div class="col-md-0.5 pull-right">
+        <%= image_tag('cards/ms_acc_opt_70_1x.png') %>
+      </div>
+      <div class="col-md-0.5 pull-right">
+        <%= image_tag('cards/visa_fc.png', style: 'width: 70px; height: 45px;') %>
+      </div>
+    </div>
     <div class="footer-top">
       <div class="col-md-6 footer-left">
         <form>

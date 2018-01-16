@@ -1,5 +1,16 @@
 <%= render partial: 'modal_information' if user_signed_in?%>
-
+<div class="container">
+<div id="fakeLoader"></div>
+</div>
+<script type="text/javascript">
+    $("#fakeLoader").fakeLoader({
+        timeToHide:500, //Time in milliseconds for fakeLoader disappear
+        zIndex:"99999",//Default zIndex
+        spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+        bgColor:"#1abc9c"//Hex, RGB or RGBA colors
+        //imagePath:"preloader.png" //If you want can you insert your custom image
+    });
+</script>
 <% unless flash[:recaptcha_error].nil? %>
     <div class="container">
       <div class="alert alert-danger" role="alert"><%= flash[:recaptcha_error].html_safe %></div>
@@ -351,6 +362,7 @@
 </div>
 
 <script>
+
     night_day = sessionStorage.getItem("night_day");
 
     function night_mode(){

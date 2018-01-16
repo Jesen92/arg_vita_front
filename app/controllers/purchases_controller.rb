@@ -5,7 +5,10 @@ class PurchasesController < ApplicationController
   require 'paypal-sdk-rest'
   require 'digest'
   include PayPal::SDK::REST
+  include ActionView::Helpers::NumberHelper
+  include HTTParty
   before_filter :set_user, :set_cart, :set_main_title
+  skip_before_action :verify_authenticity_token, only: [:purchase_success_credit_card]
 
   def create
     #unless check_service_captcha(params["g-recaptcha-response"])
@@ -21,14 +24,14 @@ class PurchasesController < ApplicationController
 
     if params[:past_purchase][:payment_method].include? "Paypal"
       payment = paypal_payment
-      binding.pry
       return redirect_to @payment.links.find { |link| link.rel == 'approval_url' }.href unless payment.nil?
 
       flash[:error] = "Pogreška pri kupnji! Molimo kontaktirajte dućan ili pokušajte ponovo!"
     elsif  params[:past_purchase][:payment_method].include? "Credit card"
-      credit_card_params = credit_card_payment
-      #uri = URI("https://testcps.corvus.hr/redirect/")
-      return redirect_to("https://testcps.corvus.hr/redirect/",credit_card_params), method: :post
+      @credit_card_params = CreditCardParam.new(credit_card_payment)
+      @delivery_info = delivery_info_params
+
+      return render :create
     elsif params[:past_purchase][:payment_method].downcase.include? "virman"
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
       flash[:notice] = "Uspješno se obavili kupnju! Na email ćete dobiti virman sa informacijama za uplatu!"
@@ -65,12 +68,10 @@ class PurchasesController < ApplicationController
   end
 
   def purchase_success_credit_card
-    binding.pry
-
     if params[:success] == 'true'
       flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
 
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
+      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23, params[:approval_code]).succesful_payment
     else
       flash[:error] = "Greška kod obavljanja kupnje!"
     end
@@ -84,8 +85,9 @@ class PurchasesController < ApplicationController
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
 
-    session[:order_number] = (0...21).map { (65 + rand(26)).chr }.join
-    sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+@shopping_cart.current_cost.round(2).to_s+":HRK"
+    session[:order_number] = (0...21).map { (65 + rand(20)).chr }.join
+    #session[:order_number] = "order_"+(PastPurchase.last.id+1).to_s
+    sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+number_to_currency(@shopping_cart.current_cost+23, unit: "", separator: ".", delimiter: "")+":HRK"
 
     cart = @carts_article.map {|cart|
       if !cart.article.nil?
@@ -95,19 +97,17 @@ class PurchasesController < ApplicationController
       end
     }.join(" ")
 
-    #binding.pry
-
     credit_card_params = {
         :target => '_top',
         :mode => 'form',
-        :store_id => ENV['CORVUS_STORE_ID'],
+        :store_id => ENV['CORVUS_STORE_ID'].to_i,
         :order_number => session[:order_number],
         :language => 'hr',
         :currency => 'HRK',
-        :amount => (@shopping_cart.current_cost.round(2)+23).to_s,
+        :amount => number_to_currency(@shopping_cart.current_cost+23, unit: "", separator: ".", delimiter: ""),
         :cart => cart,
-        :hash => sha1_hash,
-        :require_complete => false
+        :required_hash => sha1_hash,
+        :require_complete => "true"
     }
 
 =begin
@@ -116,7 +116,7 @@ class PurchasesController < ApplicationController
     &require_complete=false"
 =end
 
-    #"https://testcps.corvus.hr/redirect/?"+credit_card_params.map {|key, value| key.to_s+"="+value.to_s }.join("&")
+    #credit_card_params.map {|key, value| key.to_s+"="+value.to_s }.join("&")
     credit_card_params
   end
 

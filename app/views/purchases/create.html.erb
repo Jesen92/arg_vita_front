@@ -1,2 +1,17 @@
-<h1>Purchases#create</h1>
-<p>Find me in app/views/purchases/create.html.erb</p>
+<%= form_for(@credit_card_params, url: "https://testcps.corvus.hr/redirect/", method: :post, as: "" )do |f| %>
+    <%= f.text_field :target, hidden: true %>
+    <%= f.text_field :mode, hidden: true %>
+    <%= f.text_field :store_id, hidden: true %>
+    <%= f.text_field :order_number, hidden: true %>
+    <%= f.text_field :language, hidden: true %>
+    <%= f.text_field :currency, hidden: true %>
+    <%= f.text_field :amount, hidden: true %>
+    <%= f.text_field :cart, hidden: true %>
+    <%= f.text_field :required_hash, name: 'hash', hidden: true %>
+    <%= f.text_field :require_complete, hidden: true %>
+
+    <%= f.submit "Potvrdi", id: 'submit-form' %>
+<% end %>
+<script>
+  document.getElementById('submit-form').form.submit()
+</script>

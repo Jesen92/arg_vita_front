@@ -1,15 +1,17 @@
 class SuccessfulPurchase
-  def initialize(delivery_info, user, shipping_cost)
+  def initialize(delivery_info, user, shipping_cost, approval_code: nil)
     @delivery_info = delivery_info
     @user = user
     @shipping_cost = shipping_cost
+    @approval_code = approval_code
+    binding.pry
   end
 
   def succesful_payment
     execute_succesful_payment
   end
 
-  attr_reader :delivery_info, :user, :shipping_cost
+  attr_reader :delivery_info, :user, :shipping_cost, :approval_code
 
   private
 
@@ -25,7 +27,7 @@ class SuccessfulPurchase
       if art.article != nil
 
         @current_purchase_sum += art.cost
-        past_purchase = PastPurchase.new(delivery_info.merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost}))
+        past_purchase = PastPurchase.new(delivery_info.merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost, approval_code: approval_code}))
         #past_purchase.save
         #article = Article.find(art.article.id)
 
@@ -34,7 +36,7 @@ class SuccessfulPurchase
       elsif art.single_article != nil
 
         @current_purchase_sum += art.cost
-        past_purchase = PastPurchase.new(delivery_info.merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost}))
+        past_purchase = PastPurchase.new(delivery_info.merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost, approval_code: approval_code}))
         #past_purchase.save
         #article = SingleArticle.find(art.single_article.id)
 

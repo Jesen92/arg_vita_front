@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171006140353) do
+ActiveRecord::Schema.define(version: 20180116132405) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -178,6 +178,21 @@ ActiveRecord::Schema.define(version: 20171006140353) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "credit_card_params", force: :cascade do |t|
+    t.string   "target",           limit: 255
+    t.string   "mode",             limit: 255
+    t.integer  "store_id",         limit: 4
+    t.string   "order_number",     limit: 255
+    t.string   "language",         limit: 255
+    t.string   "currency",         limit: 255
+    t.float    "amount",           limit: 24
+    t.string   "cart",             limit: 255
+    t.string   "required_hash",    limit: 255
+    t.string   "require_complete", limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "csv_uploads", force: :cascade do |t|
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
@@ -264,6 +279,7 @@ ActiveRecord::Schema.define(version: 20171006140353) do
     t.string   "email",             limit: 255
     t.text     "remark",            limit: 65535
     t.string   "payment_method",    limit: 255
+    t.string   "approval_code",     limit: 255
   end
 
   create_table "pictures", force: :cascade do |t|

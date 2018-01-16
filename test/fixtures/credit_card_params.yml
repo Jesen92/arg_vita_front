@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  target: MyString
+  mode: MyString
+  store_id: 1
+  order_number: MyString
+  language: MyString
+  currency: MyString
+  amount: 1.5
+  cart: MyString
+  hash: MyString
+  require_complete: MyString
+
+two:
+  target: MyString
+  mode: MyString
+  store_id: 1
+  order_number: MyString
+  language: MyString
+  currency: MyString
+  amount: 1.5
+  cart: MyString
+  hash: MyString
+  require_complete: MyString
