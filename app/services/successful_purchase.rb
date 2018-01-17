@@ -1,10 +1,9 @@
 class SuccessfulPurchase
-  def initialize(delivery_info, user, shipping_cost, approval_code: nil)
+  def initialize(delivery_info, user, shipping_cost, approval_code = nil)
     @delivery_info = delivery_info
     @user = user
     @shipping_cost = shipping_cost
     @approval_code = approval_code
-    binding.pry
   end
 
   def succesful_payment
