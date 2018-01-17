@@ -369,6 +369,7 @@ DEPENDENCIES
   chosen-rails
   cityhash
   coffee-rails (~> 4.1.0)
+  compass (~> 1.0.3)
   country_select
   devise
   dotenv-rails
