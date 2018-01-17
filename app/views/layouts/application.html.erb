@@ -25,9 +25,9 @@
   <%= favicon_link_tag 'images/favicon-16x16.png', rel: 'icon', type: 'image/png' %>
   <%= csrf_meta_tags %>
 
-
+  <div class="container">
   <div id="fakeLoader"></div>
-
+  </div>
   <script type="text/javascript">
       $("#fakeLoader").fakeLoader({
           timeToHide:<%= params[:controller] == 'home' && params[:action] == 'index' ? '1200' : '500' %>, //Time in milliseconds for fakeLoader disappear
@@ -49,10 +49,16 @@
   <div class="top-header-main col-md-12">
     <div class="col-md-8">
       <div class="nlogo">
-        <%= link_to root_path do %><%=image_tag("av-color.png", class: "logoav") %><% end %>
+        <div class="col-md-6">
+          <%= link_to root_path do %><%=image_tag("av-color.png", class: "logoav") %><% end %>
+        </div>
+        <div class="col-md-6">
+          <% if params[:action] != 'about_us_page' && params[:action] != 'contact_page' %><div style="margin-top: 10px;"><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm logoav" style="background-color: #1abc9c;">Noćni način</a></div><% end %>
+        </div>
       </div>
 
     </div>
+
     <div class="col-md-3">
 
       <div> <% if !user_signed_in? && params[:controller].exclude?("sessions") && params[:action].exclude?("about") && params[:action].exclude?("contact") %><a data-toggle="modal" data-target="#LoginForm" class="btn btn-primary btn-sm btnlogin" style="background-color: #1abc9c">Prijava</a><% end %></div>
@@ -552,4 +558,87 @@
   $('.showTooltipPayment').tooltip({show: {effect:"none", delay:100}});
 </script>
 
+<% if params[:action] != 'about_us_page' && params[:action] != 'contact_page' %>
+<script>
+    night_day = sessionStorage.getItem("night_day");
+
+    function night_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+
+        night_day = "night";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    function day_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+
+        night_day = "day";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    var cols =     document.getElementsByClassName('row1');
+    for(i=0; i<cols.length; i++) {
+        cols[i].style.backgroundColor =    'white';
+    }
+    var cols2 =     document.getElementsByClassName('js-irs-0');
+    for(i=0; i<cols2.length; i++) {
+        cols2[i].style.backgroundColor =    'white';
+    }
+
+    if(night_day === "night"){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+    }else{
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+    }
+
+</script>
+<% end %>
 </html>

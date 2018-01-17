@@ -63,8 +63,6 @@
 <%= form_for_filterrific @filterrific, remote: false do |f| %>
     <div class="prdt" id="articles_container_prdt">
       <div class="container">
-        <div style="float: left;    position: fixed;
-            top: 0px;"><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm btnlogin logoav" style="background-color: #1abc9c;">Noćni način</a></div>
         <div class="prdt-top">
           <div class="col-md-9 prdt-left">
             <%= render_filterrific_spinner %>
@@ -332,7 +330,7 @@ window.onscroll=testScroll;
             var scrollTop = $(window).scrollTop();
             var element_height = $('#articles_container_prdt');
             //alert(scrollTop);
-            if(scrollTop < element_height.height()-200){
+            if(scrollTop < element_height.height()-210){
             element.stop(false, false).animate({
                 top: scrollTop < originalY ?
                     0 : scrollTop - originalY + topMargin
