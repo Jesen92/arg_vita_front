@@ -122,12 +122,11 @@ class Article < ActiveRecord::Base
   }
 
   scope :with_ssubcategory_id, lambda { |ssubcategory_ids|
+    return if ssubcategory_ids == 9999
     where(ssubcategory_id: [*ssubcategory_ids])
   }
 
 ##################################################################
-
-
 
  #scopovi za cijene
   scope :with_cost_gte, lambda { |ref_int|
@@ -174,7 +173,6 @@ class Article < ActiveRecord::Base
   scope :search_query, lambda { |query|
 
     return nil  if query.blank?
-
 
     terms = query.downcase
 

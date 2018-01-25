@@ -126,7 +126,7 @@
                            :title,
                            :id,
                            :title,
-                           {:include_blank => true },
+                           {:include_blank => '- Sve -' },
                            :as => :hidden,
                            :class=>'chosen-select',
                            style: 'height: auto;'
@@ -169,6 +169,11 @@
       $this.html(event.strftime('%D dana %H:%M:%S'));
     });
   })
+</script>
+
+<script>
+    $( document ).ready(function() {
+    });
 </script>
 
 <script>
