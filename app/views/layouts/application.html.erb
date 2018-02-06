@@ -2,7 +2,7 @@
 <html>
 <head>
 
-  <a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+
   <title><%= @main_title %></title>
   <%= include_gon %>
   <%= stylesheet_link_tag    'application','//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css','https://fonts.googleapis.com/css?family=Exo+2:400,300,600|Bree+Serif|Nunito:700&subset=latin,latin-ext', media: 'all', 'data-turbolinks-track' => true %>
@@ -22,21 +22,9 @@
 
   <%= csrf_meta_tags %>
 
-  <div class="container">
-  <div id="fakeLoader"></div>
-  </div>
-  <script type="text/javascript">
-      $("#fakeLoader").fakeLoader({
-          timeToHide:<%= params[:controller] == 'home' && params[:action] == 'index' ? '1200' : '500' %>, //Time in milliseconds for fakeLoader disappear
-          zIndex:"99999",//Default zIndex
-          spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
-          bgColor:"#1abc9c" //Hex, RGB or RGBA colors
-          //imagePath:"preloader.png" //If you want can you insert your custom image
-      });
-  </script>
-
 </head>
-
+<body>
+<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
 <div>
 <!--top-header-->
 
@@ -449,7 +437,7 @@
 <!--footer-end-->
 
 <!--Registration Form dialog-->
-</body>
+
 
 
 
@@ -632,5 +620,16 @@
     }
 
 </script>
+
+    <script type="text/javascript">
+        $("#fakeLoader").fakeLoader({
+            timeToHide:<%= params[:controller] == 'home' && params[:action] == 'index' ? '1200' : '500' %>, //Time in milliseconds for fakeLoader disappear
+            zIndex:"99999",//Default zIndex
+            spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+            bgColor:"#1abc9c" //Hex, RGB or RGBA colors
+            //imagePath:"preloader.png" //If you want can you insert your custom image
+        });
+    </script>
 <% end %>
+</body>
 </html>
