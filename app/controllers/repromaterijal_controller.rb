@@ -158,7 +158,6 @@ class RepromaterijalController < ApplicationController
     @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
 
     session[:page_number] = nil
-    #binding.pry
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 

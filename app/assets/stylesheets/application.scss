@@ -42,6 +42,11 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+.cart-items {
+  max-height: 550px;
+  overflow-y: scroll;
+}
+
 #NightAndDay:hover {
   opacity: 1!important;
 }
