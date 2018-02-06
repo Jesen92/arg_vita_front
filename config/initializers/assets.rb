@@ -145,3 +145,7 @@ Rails.application.config.assets.precompile += %w( icons/fontawsome-webfont.woff 
 
 
 Rails.application.config.assets.precompile += %w( *.svg *.eot *.woff *.ttf )
+
+Rails.application.config.assets.precompile += %w( favicon-32x32.png )
+Rails.application.config.assets.precompile += %w( favicon-16x16.png )
+Rails.application.config.assets.precompile += %w( favicon-96x96.png )
