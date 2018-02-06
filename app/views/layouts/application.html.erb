@@ -21,7 +21,16 @@
   <meta name="theme-color" content="#ffffff">
 
   <%= csrf_meta_tags %>
-
+<div id="fakeLoader"></div>
+  <script type="text/javascript">
+      $("#fakeLoader").fakeLoader({
+          timeToHide:<%= params[:controller] == 'home' && params[:action] == 'index' ? '1000' : '400' %>, //Time in milliseconds for fakeLoader disappear
+          zIndex:"99999",//Default zIndex
+          spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+          bgColor:"#1abc9c" //Hex, RGB or RGBA colors
+          //imagePath:"preloader.png" //If you want can you insert your custom image
+      });
+  </script>
 </head>
 <body>
 <a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
@@ -621,15 +630,7 @@
 
 </script>
 
-    <script type="text/javascript">
-        $("#fakeLoader").fakeLoader({
-            timeToHide:<%= params[:controller] == 'home' && params[:action] == 'index' ? '1200' : '500' %>, //Time in milliseconds for fakeLoader disappear
-            zIndex:"99999",//Default zIndex
-            spinner:"spinner3",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
-            bgColor:"#1abc9c" //Hex, RGB or RGBA colors
-            //imagePath:"preloader.png" //If you want can you insert your custom image
-        });
-    </script>
+
 <% end %>
 </body>
 </html>
