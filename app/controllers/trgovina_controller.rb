@@ -100,21 +100,22 @@ class TrgovinaController < ApplicationController
 
 
   def index
-    if session[:article_raw].nil? || session[:article_raw]
-      session[:article_raw] = false
+    if cookies[:article_raw].nil? || cookies[:article_raw].include?('true')
+      binding.pry
+      cookies[:article_raw] = false
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
-    #binding.pry
+    binding.pry
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
     @page_number ||= params[:page]
-    session[:page_number] = nil if params[:filterrific].present?
+    cookies[:page_number] = nil if params[:filterrific].present?
 
     @categories = Category.all
     @materials = Material.all
 
-    if params[:page].present? && session[:page_number].present? && params[:page].to_i < session[:page_number].to_i
-      params[:page] = (session[:page_number].to_i+1).to_s
+    if params[:page].present? && cookies[:page_number].present? && params[:page].to_i < cookies[:page_number].to_i
+      params[:page] = (cookies[:page_number].to_i+1).to_s
     end
 
     puts "Usao je u trgovina#index"
@@ -153,9 +154,9 @@ class TrgovinaController < ApplicationController
 
     #min, max = !params[:filterrific].nil? && !params[:filterrific][:min_cost].nil? ? params[:filterrific][:min_cost].nil?.to_s.split(';') : nil
 
-    @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
+    @articles = cookies[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*cookies[:page_number].to_i) : @filterrific.find.page(params[:page])
     #binding.pry
-    session[:page_number] = nil
+    #cookies[:page_number] = nil
     #binding.pry
 
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
@@ -166,7 +167,7 @@ class TrgovinaController < ApplicationController
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @articles.collect!(&p)
 
-    session[:article_raw] = false
+    cookies[:article_raw] = false
     session[:voting] = nil
     puts "prosao"
     respond_to do |format|

@@ -21,7 +21,7 @@ $ ->
 
     if options
       $('#filterrific_with_ssubcategory_id').html(options)
-      #$('#filterrific_with_ssubcategory_id').trigger("chosen:updated")
+      $('#filterrific_with_ssubcategory_id').trigger("chosen:updated")
       $('#filterrific_with_ssubcategory_id').parent().show()
     else
       $('#filterrific_with_ssubcategory_id').trigger("chosen:updated").empty()

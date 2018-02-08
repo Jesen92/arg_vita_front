@@ -95,24 +95,26 @@ class RepromaterijalController < ApplicationController
   end
 
   def index
-    if session[:article_raw].nil? || !session[:article_raw]
-      session[:article_raw] = true
+    if cookies[:article_raw].nil? || !cookies[:article_raw].include?('false')
+      binding.pry
+      cookies[:article_raw] = true
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
 
     #params[:filterrific][:reset_filterrific] = false if params[:filterrific].present? && params[:filterrific][:reset_filterrific].present?
-    #binding.pry
+    binding.pry
 
     @page_number ||= params[:page]
-    session[:page_number] = nil if params[:filterrific].present?
+    cookies[:page_number] = nil if params[:filterrific].present?
 
     add_breadcrumb "Repromaterijal", :repromaterijal_index_path
 
     @ssubcategories = Ssubcategory.all
     @subcategories = Subcategory.all
 
-    if params[:page].present? && session[:page_number].present? && params[:page].to_i < session[:page_number].to_i
-      params[:page] = (session[:page_number].to_i+1).to_s
+    if params[:page].present? && cookies[:page_number].present? && params[:page].to_i < cookies[:page_number].to_i
+      params[:page] = (cookies[:page_number].to_i+1).to_s
+      binding.pry
     end
 
     puts "Usao je u trgovina#index"
@@ -155,9 +157,9 @@ class RepromaterijalController < ApplicationController
                                                                                                                                                                 with_color_id: Color.options_for_select,
                                                                                                                                                                 with_type_id: Type.options_for_select}, :persistence_id => true,) or return
 
-    @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
+    @articles = cookies[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*cookies[:page_number].to_i) : @filterrific.find.page(params[:page])
 
-    session[:page_number] = nil
+    #cookies[:page_number] = nil
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 
@@ -167,7 +169,7 @@ class RepromaterijalController < ApplicationController
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @articles.collect!(&p)
 
-    session[:article_raw] = true
+    cookies[:article_raw] = true
     session[:voting] = nil
 
     respond_to do |format|

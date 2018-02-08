@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_user, :set_cart, :set_article_raw_session
 
   def set_article_raw_session
-    session[:article_raw] = nil
+    cookies[:article_raw] = nil
   end
 
   def set_user

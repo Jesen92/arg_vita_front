@@ -22,7 +22,7 @@ class CartsArticlesController < ApplicationController
     #end
 
     #binding.pry
-    session[:page_number] = params[:page_number]
+    cookies[:page_number] = params[:page_number]
 
     @ind = false
 
@@ -135,7 +135,7 @@ class CartsArticlesController < ApplicationController
     #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
     #  return redirect_to :back
     #end
-
+    cookies[:page_number] = params[:page_number]
 
     if current_user != nil  #kad ima usera #############################################################################################################################
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -271,7 +271,7 @@ class CartsArticlesController < ApplicationController
 
 
   def create_single
-
+    cookies[:page_number] = params[:page_number]
     if params[:article]
       @single_article = SingleArticle.find_by(article_id: params[:article][:id], size: params[:article][:size])
     else
@@ -375,7 +375,7 @@ class CartsArticlesController < ApplicationController
 
 
   def create_complement
-
+    cookies[:page_number] = params[:page_number]
     if current_user == nil
       flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
       return redirect_to :back
