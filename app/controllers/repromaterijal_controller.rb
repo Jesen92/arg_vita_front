@@ -95,7 +95,7 @@ class RepromaterijalController < ApplicationController
   end
 
   def index
-    if cookies[:article_raw].nil? || !cookies[:article_raw].include?('false')
+    if cookies[:article_raw].nil? || cookies[:article_raw].include?('false')
       #binding.pry
       cookies[:article_raw] = true
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
