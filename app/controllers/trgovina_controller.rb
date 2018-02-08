@@ -101,11 +101,11 @@ class TrgovinaController < ApplicationController
 
   def index
     if cookies[:article_raw].nil? || cookies[:article_raw].include?('true')
-      binding.pry
+      #binding.pry
       cookies[:article_raw] = false
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
-    binding.pry
+    #binding.pry
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
     @page_number ||= params[:page]

@@ -96,13 +96,13 @@ class RepromaterijalController < ApplicationController
 
   def index
     if cookies[:article_raw].nil? || !cookies[:article_raw].include?('false')
-      binding.pry
+      #binding.pry
       cookies[:article_raw] = true
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
 
     #params[:filterrific][:reset_filterrific] = false if params[:filterrific].present? && params[:filterrific][:reset_filterrific].present?
-    binding.pry
+    #binding.pry
 
     @page_number ||= params[:page]
     cookies[:page_number] = nil if params[:filterrific].present?
@@ -114,7 +114,7 @@ class RepromaterijalController < ApplicationController
 
     if params[:page].present? && cookies[:page_number].present? && params[:page].to_i < cookies[:page_number].to_i
       params[:page] = (cookies[:page_number].to_i+1).to_s
-      binding.pry
+      #binding.pry
     end
 
     puts "Usao je u trgovina#index"
