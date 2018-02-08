@@ -16,7 +16,6 @@ class TrgovinaController < ApplicationController
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
-
     end
 
 
@@ -105,11 +104,11 @@ class TrgovinaController < ApplicationController
       session[:article_raw] = false
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
-
+    #binding.pry
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
     @page_number ||= params[:page]
-    session[:page_number] = nil if params[:filterrific].present?
+    #session[:page_number] = nil if params[:filterrific].present?
 
     @categories = Category.all
     @materials = Material.all

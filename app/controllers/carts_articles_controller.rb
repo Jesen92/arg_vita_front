@@ -36,7 +36,7 @@ class CartsArticlesController < ApplicationController
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @article = p.call(@article)
 
-    (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount > @article.amount
+    (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if @amount != nil && amount > @article.amount
 
     if current_user == nil  # kad nema usera #############################################################################################
 

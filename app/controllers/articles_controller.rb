@@ -3,8 +3,6 @@ class ArticlesController < ApplicationController
 
 
   def index
-
-
     @page_title = "Artikli"
     @filterrific = initialize_filterrific(Article.where(raw: false, for_sale: true), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                              with_category_id: Category.options_for_select,
@@ -23,7 +21,6 @@ class ArticlesController < ApplicationController
     redirect_to(reset_filterrific_url(format: :html)) and return
 
   end
-
 
   def search_art
     if current_user == nil
