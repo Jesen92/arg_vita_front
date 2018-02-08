@@ -108,7 +108,7 @@ class TrgovinaController < ApplicationController
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
     @page_number ||= params[:page]
-    #session[:page_number] = nil if params[:filterrific].present?
+    session[:page_number] = nil if params[:filterrific].present?
 
     @categories = Category.all
     @materials = Material.all
@@ -116,6 +116,7 @@ class TrgovinaController < ApplicationController
     if params[:page].present? && session[:page_number].present? && params[:page].to_i < session[:page_number].to_i
       params[:page] = (session[:page_number].to_i+1).to_s
     end
+
     puts "Usao je u trgovina#index"
 
     if current_user != nil
@@ -153,7 +154,7 @@ class TrgovinaController < ApplicationController
     #min, max = !params[:filterrific].nil? && !params[:filterrific][:min_cost].nil? ? params[:filterrific][:min_cost].nil?.to_s.split(';') : nil
 
     @articles = session[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*session[:page_number].to_i) : @filterrific.find.page(params[:page])
-
+    #binding.pry
     session[:page_number] = nil
     #binding.pry
 
@@ -175,7 +176,7 @@ class TrgovinaController < ApplicationController
   rescue ActiveRecord::RecordNotFound => e
     # There is an issue with the persisted param_set. Reset it.
     puts "Had to reset filterrific params: #{ e.message }"
-    redirect_to(reset_filterrific_url(format: :html)) and return
+    #redirect_to(reset_filterrific_url(format: :html)) and return
 
     ###########################################################################################################################
   end
