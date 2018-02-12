@@ -9,10 +9,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
    def create
-     unless check_service_captcha(params["g-recaptcha-response"])
-       flash[:error] = "Označite captcha-u!"
-       return redirect_to root_path
-     end
+     #unless check_service_captcha(params["g-recaptcha-response"])
+     #  flash[:error] = "Označite captcha-u!"
+     #  return redirect_to root_path
+     #end
 
      super
      set_user_for_adding_items_to_shopping_cart(params[:user][:email])
