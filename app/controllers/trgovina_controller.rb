@@ -78,15 +78,12 @@ class TrgovinaController < ApplicationController
                                                                                                                                                          with_color_id: Color.options_for_select,
                                                                                                                                                          with_type_id: Type.options_for_select},:persistence_id => false,) or return
 
-
-
     @articles = @filterrific.find.page(params[:page])
 
     respond_to do |format|
       format.html
       format.js
     end
-
 
   rescue ActiveRecord::RecordNotFound => e
     # There is an issue with the persisted param_set. Reset it.
@@ -96,8 +93,6 @@ class TrgovinaController < ApplicationController
     ###########################################################################################################################
 
   end
-
-
 
   def index
     if cookies[:article_raw].nil? || cookies[:article_raw].include?('true')

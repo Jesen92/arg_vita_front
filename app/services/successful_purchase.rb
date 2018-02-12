@@ -57,7 +57,7 @@ class SuccessfulPurchase
     #@shopping_cart.current_cost = 0
     #@shopping_cart.save
 
-    #UserMailer.checkout_mail(user, delivery_info).deliver_now
+    UserMailer.checkout_mail(user, delivery_info).deliver_now
     # Note that you'll need to `Payment.find` the payment again to access user info like shipping address
   end
 
