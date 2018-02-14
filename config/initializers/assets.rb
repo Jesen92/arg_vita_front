@@ -126,6 +126,8 @@ Rails.application.config.assets.precompile += %w( mc_acc_opt_70_1x.png )
 Rails.application.config.assets.precompile += %w( ms_acc_opt_70_1x.png )
 Rails.application.config.assets.precompile += %w( visa_fc.png )
 Rails.application.config.assets.precompile += %w( corvpay-small.png )
+Rails.application.config.assets.precompile += %w( verified_by_visa.jpg )
+Rails.application.config.assets.precompile += %w( mastercard_securecode.gif )
 
 Rails.application.config.assets.precompile += %w( ajax-loader.gif )
 

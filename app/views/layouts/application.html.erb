@@ -375,6 +375,11 @@
               <p>Izjava o privatnosti</p>
             <% end %>
           </li>
+          <li>
+            <%= link_to payment_methods_path do %>
+              <p>Načini plaćanja</p>
+            <% end %>
+          </li>
         </ul>
       </div>
       <div class="col-md-3 infor-left">
@@ -418,20 +423,31 @@
 <div class="footer" id="footer_bottom">
   <div class="container">
     <div class="row">
-      <div class="col-md-0.5">
+      <div class="col-md-0.5" style="margin-bottom: 10px;">
         <%= link_to "http://www.corvuspay.hr/", target: "_blank" do %><%= image_tag('cards/corvpay-small.png') %><% end %>
+        <br>
+        <!-- PayPal Logo --><table border="0" cellpadding="10" cellspacing="0" align="left"><tr><td align="left"></td></tr><tr><td align="left"><a href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_74x46.jpg" border="0" alt="PayPal Logo"></a></td></tr></table><!-- PayPal Logo -->
       </div>
-      <div class="col-md-0.5 pull-right">
-        <%= link_to "https://www.mastercard.hr/hr-hr.html", target: "_blank" do %><%= image_tag('cards/mc_acc_opt_70_1x.png') %><% end %>
+
+
+
+      <div class="col-md-0.5 pull-right" style="margin-left: 25px;">
+        <%= link_to "https://www.zaba.hr/download/ecommerce/master_securecode.htm", target: "_blank" do %><%= image_tag('cards/mastercard_securecode.gif') %><% end %>
+      </div>
+      <div class="col-md-0.5 pull-right" style="margin-left: 25px;">
+        <%= link_to "https://www.zaba.hr/download/ecommerce/verified_by_visa.htm", target: "_blank" do %><%= image_tag('cards/verified_by_visa.jpg') %><% end %>
       </div>
       <div class="col-md-0.5 pull-right">
         <%= link_to "http://www.maestrocard.com/gateway/index.html", target: "_blank" do %><%= image_tag('cards/ms_acc_opt_70_1x.png') %><% end %>
       </div>
       <div class="col-md-0.5 pull-right">
+        <%= link_to "https://www.mastercard.hr/hr-hr.html", target: "_blank" do %><%= image_tag('cards/mc_acc_opt_70_1x.png') %><% end %>
+      </div>
+      <div class="col-md-0.5 pull-right" style="margin-right: 25px;">
         <%= link_to "http://www.visa.com.hr/", target: "_blank" do %><%= image_tag('cards/visa_fc.png', style: 'width: 70px; height: 45px;') %><% end %>
       </div>
     </div>
-    <div class="footer-top">
+    <div class="footer-top" style="margin-top: 10px;">
       <div class="col-md-6 footer-left">
         <form>
           <input type="text" value="unesite e-mail adresu" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Your Email';}">

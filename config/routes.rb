@@ -125,6 +125,8 @@ Rails.application.routes.draw do
 
   get 'home/general' => "home#general", :as => 'general'
 
+  get 'home/payment_methods' => "home#payment_methods", :as => 'payment_methods'
+
   get 'home/download_pdf' => "home#download_pdf", :as => 'download_pdf'
 
   get 'home/privacy'

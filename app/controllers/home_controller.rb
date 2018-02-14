@@ -57,6 +57,10 @@ class HomeController < ApplicationController
   def about_us_page
   end
 
+  def payment_methods
+
+  end
+
   def contact_us
     unless check_service_captcha(params["g-recaptcha-response"])
       flash[:recaptcha_error] = "Označite captcha-u!"
