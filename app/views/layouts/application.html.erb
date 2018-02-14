@@ -418,14 +418,17 @@
 <div class="footer" id="footer_bottom">
   <div class="container">
     <div class="row">
-      <div class="col-md-0.5 pull-right">
-        <%= image_tag('cards/mc_acc_opt_70_1x.png') %>
+      <div class="col-md-0.5">
+        <%= link_to "http://www.corvuspay.hr/", target: "_blank" do %><%= image_tag('cards/corvpay-small.png') %><% end %>
       </div>
       <div class="col-md-0.5 pull-right">
-        <%= image_tag('cards/ms_acc_opt_70_1x.png') %>
+        <%= link_to "https://www.mastercard.hr/hr-hr.html", target: "_blank" do %><%= image_tag('cards/mc_acc_opt_70_1x.png') %><% end %>
       </div>
       <div class="col-md-0.5 pull-right">
-        <%= image_tag('cards/visa_fc.png', style: 'width: 70px; height: 45px;') %>
+        <%= link_to "http://www.maestrocard.com/gateway/index.html", target: "_blank" do %><%= image_tag('cards/ms_acc_opt_70_1x.png') %><% end %>
+      </div>
+      <div class="col-md-0.5 pull-right">
+        <%= link_to "http://www.visa.com.hr/", target: "_blank" do %><%= image_tag('cards/visa_fc.png', style: 'width: 70px; height: 45px;') %><% end %>
       </div>
     </div>
     <div class="footer-top">
@@ -436,7 +439,7 @@
         </form>
       </div>
       <div class="col-md-6 footer-right">
-        <p>© 2015 Argentum Vita. All Rights Reserved | Design by <a href="http:\\www.cactus-code.com" target="_blank">CactusCode</a> </p>
+        <p>© 2018 Argentum Vita. All Rights Reserved | Design by <a href="http:\\www.cactus-code.com" target="_blank">CactusCode</a> </p>
       </div>
       <div class="clearfix"></div>
     </div>

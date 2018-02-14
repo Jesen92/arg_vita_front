@@ -48,7 +48,7 @@
                 <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                 <% end %><br />
-                <%= recaptcha_tags callback: 'enableBtn' %>
+                <% recaptcha_tags callback: 'enableBtn' %>
 <hr>
 
                 <div class="actions">
