@@ -45,6 +45,9 @@
 
                 <%= f.input :password, label: 'Lozinka', autocomplete: "off" %>
                 <%= f.input :password_confirmation, label: 'Ponovite lozinku', autocomplete: "off" %>
+
+                <%= f.input :articles_newsletter, label: 'Želim primati newsletter o artiklima!' %>
+                <%= f.input :raw_articles_newsletter, label: 'Želim primati newsletter o repromaterijalu!' %>
                 <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                 <% end %><br />

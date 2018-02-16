@@ -25,8 +25,6 @@
 
       <%= f.input :phone, autofocus: true %>
 
-      <%= f.input :email, autofocus: true %>
-
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
@@ -47,13 +45,16 @@
     <%= f.input :current_password, autocomplete: "off" %>
   </div>
 
+      <%= f.input :articles_newsletter, label: 'Želim primati newsletter o artiklima!' %>
+      <%= f.input :raw_articles_newsletter, label: 'Želim primati newsletter o repromaterijalu!' %>
+
   <div class="actions">
     <%= f.button :submit, "Ažuriraj", class:"btn btn-success" %>
   </div>
 <% end %>
 
 
-<%= link_to "Back", :back %>
+<%= link_to "Back", accounts_my_account_path %>
 </div>
   </div>
 </div>

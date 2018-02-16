@@ -37,6 +37,8 @@
   <h4><b>Poštanski broj:</b> <%= current_user.postcode %></h4>
   <h4><b>Broj mobitela:</b> <%= current_user.phone %></h4>
   <h4><b>Datum rođenja:</b> <%= current_user.date_of_birth.strftime("%d.%m.%Y.") %></h4>
+  <h4><b>Preplaćeni na Newsletter o Artiklima:</b> <%= current_user.articles_newsletter ? 'Da' : 'Ne' %></h4>
+  <h4><b>Preplaćeni na Newsletter o Repromaterijalu:</b> <%= current_user.raw_articles_newsletter ? 'Da' : 'Ne' %></h4>
   <br>
   <%= link_to "Izmijeni informacije", edit_user_registration_path, class: "btn btn-default" %>
   <br>

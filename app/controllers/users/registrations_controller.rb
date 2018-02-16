@@ -26,9 +26,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+     super
+  end
 
   # DELETE /resource
   # def destroy
@@ -45,12 +45,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   private
 
+   def update_resource(resource, params)
+     resource.update_without_password(params)
+   end
+
   def sign_up_params
     params.require(:user).permit(:name, :date_of_birth, :state, :city, :address, :postcode, :phone, :email, :password, :password_confirmation)
   end
 
   def account_update_params
-    params.require(:user).permit(:name, :date_of_birth, :state, :city, :address, :postcode, :phone, :email, :password, :password_confirmation, :current_password)
+    params.require(:user).permit(:id, :name, :date_of_birth, :state, :city, :address, :postcode, :phone, :email, :password, :password_confirmation, :articles_newsletter, :raw_articles_newsletter)
   end
 
    def set_user_for_adding_items_to_shopping_cart(email)
