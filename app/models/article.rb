@@ -174,7 +174,7 @@ class Article < ActiveRecord::Base
 
     return nil  if query.blank?
 
-    terms = query.downcase
+    terms = query.is_a? String ? query.downcase : query
 
     # replace "*" with "%" for wildcard searches,
     # append '%', remove duplicate '%'s
