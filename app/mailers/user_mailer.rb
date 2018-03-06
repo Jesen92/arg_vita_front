@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: "no-reply@argentumvita.com"
+  default from: "NO REPLY - Argentum Vita d.o.o. <no-reply@mail.com>"
 
   def welcome_email(user)
     @user = user
