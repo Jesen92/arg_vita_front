@@ -1,5 +1,6 @@
 class UserMailer < ApplicationMailer
   default from: "NO REPLY - Argentum Vita d.o.o. <no-reply@mail.com>"
+  default to:
 
   def welcome_email(user)
     @user = user
@@ -11,7 +12,7 @@ class UserMailer < ApplicationMailer
     @shopping_cart = ShoppingCart.find_by(user_id: user.id)
     @delivery_info = params
 
-    mail(to: 'info@argentumvita.com', subject: "Argentum Vita d.o.o. - Kupnja "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'checkout_mail')
+    mail(to: [@user.email, 'info@argentumvita.com'], subject: "Argentum Vita d.o.o. - Kupnja "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'checkout_mail')
   end
 
   def contact_us_mail(params)
@@ -20,6 +21,6 @@ class UserMailer < ApplicationMailer
     @subject = params[:subject]
     @message = params[:message]
 
-    mail(to: @email, cc: 'info@argentumvita.com', subject: "Argentum Vita d.o.o. - Upit "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'contact_us_mail')
+    mail(to: [@user.email, 'info@argentumvita.com'], subject: "Argentum Vita d.o.o. - Upit "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'contact_us_mail')
   end
 end
