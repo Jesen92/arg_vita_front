@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     @shopping_cart = ShoppingCart.find_by(user_id: user.id)
     @delivery_info = params
 
-    mail(to: user.email, cc: 'info@argentumvita.com', subject: "Argentum Vita d.o.o. - Kupnja "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'checkout_mail')
+    mail(to: 'info@argentumvita.com', subject: "Argentum Vita d.o.o. - Kupnja "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'checkout_mail')
   end
 
   def contact_us_mail(params)
