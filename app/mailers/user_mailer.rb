@@ -1,10 +1,9 @@
 class UserMailer < ApplicationMailer
   default from: "NO REPLY - Argentum Vita d.o.o. <no-reply@mail.com>"
-  default to:
 
   def welcome_email(user)
     @user = user
-    mail(to: @user.email, subject: "Welcome to Puppify!")
+    mail(to: @user.email, subject: "Welcome to Argentum Vita d.o.o.!")
   end
 
   def checkout_mail(user, params={})

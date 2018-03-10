@@ -215,16 +215,18 @@
     <div class="container">
       <hr>
       <h2 style="color: #18876b">Informacije o dostavi:</h2>
-      <h3>email: <b><%= @delivery_info[:email] %></b></h3>
+      <h3>e-mail: <b><%= @delivery_info[:email] %></b></h3>
+      <h3>Ime i Prezime: <b><%= @user.name %></b></h3>
+      <hr>
       <div class="row">
-        <div class="col-md-4"><h3><span  style="color: #1abc9c; font-size: 80%;">Država: </span><b><%= @delivery_info[:country] %></b></h3></div>
-        <div class="col-md-4"><h3><span  style="color: #1abc9c; font-size: 80%;">Poštanski broj: </span><b><%= @delivery_info[:postal_code] %></b></h3></div>
-        <div class="col-md-4"><h3><span  style="color: #1abc9c; font-size: 80%;">Grad: </span><b><%= @delivery_info[:city] %></b></h3></div>
+        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Država: </span><b><%= @delivery_info[:country] %></b></h3></div>
+        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Poštanski broj: </span><b><%= @delivery_info[:postal_code] %></b></h3></div>
+        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Grad: </span><b><%= @delivery_info[:city] %></b></h3></div>
       </div>
-      <h3><span  style="color: #1abc9c; font-size: 80%;">Adresa: </span><b><%= @delivery_info[:address] %></b></h3>
-      <h3><span  style="color: #1abc9c; font-size: 80%;">Broj mobitela: </span><b><%= @delivery_info[:phone_num] %></b></h3>
-      <h3><span  style="color: #1abc9c; font-size: 80%;">Način plaćanja: </span><b><%= @delivery_info[:payment_method] %></b></h3>
-      <h3><span  style="color: #1abc9c; font-size: 80%;">Napomena: </span><b><%= @delivery_info[:remark] %></b></h3>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Adresa: </span><b><%= @delivery_info[:address] %></b></h3>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Broj mobitela: </span><b><%= @delivery_info[:phone_num] %></b></h3>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Način plaćanja: </span><b><%= @delivery_info[:payment_method] %></b></h3>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Napomena: </span><b><%= @delivery_info[:remark] %></b></h3>
     </div>
   </div>
   <h3 style="margin-top:25px; margin-bottom:25px;">Mail za kontakt i upite:<span> <%= mail_to "info@argentumvita.hr" %></span></h3>
