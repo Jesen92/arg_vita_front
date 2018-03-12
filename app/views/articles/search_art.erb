@@ -1,3 +1,15 @@
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
 <div class="prdt">
   <div class="container">
     <div class="prdt-top">
@@ -13,6 +25,15 @@
                         <h5><div data-countdown="<%= art.end_date.strftime("%Y/%m/%d %H:%M") %>" style="color: white;"></div></h5>
                       </div>
                   <% end %>
+                  <% if user_signed_in? %>
+                      <% if current_user.liked? art %>
+                          <%= link_to "", dislike_article_path(art), method: :put , class: 'fa fa-2x fa-heart heart_liked showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Defavoriziraj"%>
+                      <% else %>
+                          <%= link_to "", like_article_path(art), method: :put , class: 'fa fa-2x fa-heart showToolTipForHearts heart_', id: "Heart#{art.id}" , :remote => true, onclick: "heart_like(#{art.id})", title: "Favoriziraj"%>
+                      <%end%>
+                  <% else %>
+                      <a data-toggle="modal" data-target="#RegistrationForm" class="fa fa-2x fa-heart showToolTipForHearts heart_" title="Favoriziraj" style=""></a>
+                  <%end%>
                   <div class="product-main simpleCart_shelfItem">
 
                     <!--TODO: upisati naziv slike-->
@@ -61,3 +82,15 @@
   </div>
 </div>
 
+<script>
+    function heart_like(e){
+        var like = document.getElementById("Heart"+e);
+        if(like.classList.contains("heart_liked")) {
+            like.classList.remove("heart_liked");
+            like.setAttribute('href',"/articles/" + e + "/like");
+        }else{
+            like.classList.add("heart_liked");
+            like.setAttribute('href',"/articles/" + e + "/dislike");
+        }
+    }
+</script>
