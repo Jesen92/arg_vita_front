@@ -1,6 +1,7 @@
 class ShoppingCartsController < ApplicationController
  # before_action :authenticate_user!
   before_filter :set_user, :set_cart, :set_main_title
+  before_action :set_anchor
   skip_before_action :set_article_raw_session, only: [:destroy_item, :destroy_single_item, :destroy_single, :destroy, :destroy_complement, :destroy_complement_item]
   def index
   end
@@ -348,5 +349,7 @@ class ShoppingCartsController < ApplicationController
     params.require(:cart).permit(:id, :user_id, :current_cost)
   end
 
-
+  def set_anchor
+    env["HTTP_REFERER"] += '#articles_end'
+  end
 end

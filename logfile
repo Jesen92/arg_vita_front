@@ -1,0 +1,8 @@
+2018-04-09 19:56:30.664 CEST [64853] LOG:  listening on IPv6 address "::1", port 5432
+2018-04-09 19:56:30.664 CEST [64853] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2018-04-09 19:56:30.665 CEST [64853] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2018-04-09 19:56:30.694 CEST [64854] LOG:  database system was shut down at 2018-04-05 15:40:19 CEST
+2018-04-09 19:56:30.701 CEST [64853] LOG:  database system is ready to accept connections
+2018-04-09 19:56:51.029 CEST [64910] ERROR:  syntax error at or near "ls" at character 1
+2018-04-09 19:56:51.029 CEST [64910] STATEMENT:  ls
+	select * from users;

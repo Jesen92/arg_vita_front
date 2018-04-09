@@ -50,7 +50,6 @@ gem 'sucker_punch', '~> 1.0'
 gem 'activemerchant'
 gem 'chosen-rails'
 gem 'kaminari'
-gem 'bootstrap-kaminari-views'
 
 gem "wice_grid", '3.6.0.pre4'
 gem 'font-awesome-sass',  '~> 4.3'

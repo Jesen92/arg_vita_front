@@ -1,7 +1,7 @@
 class CartsArticlesController < ApplicationController
   #before_action :authenticate_user!
   before_action :set_user, :set_cart
-  before_action :set_main_title
+  before_action :set_main_title, :set_anchor
   skip_before_action :set_article_raw_session
 
   def index
@@ -525,19 +525,21 @@ class CartsArticlesController < ApplicationController
 
   end
 
+  def edit
+  end
 
+  def update
+  end
 
-        def edit
-        end
+  def destroy
+  end
 
-        def update
-        end
+  private
+  def cartsArticles_params
+    params.require(:cartsArticles).permit(:id, :shopping_cart_id, :single_articles_id, :amount)
+  end
 
-        def destroy
-        end
-
-        private
-        def cartsArticles_params
-          params.require(:cartsArticles).permit(:id, :shopping_cart_id, :single_articles_id, :amount)
-        end
+  def set_anchor
+    env["HTTP_REFERER"] += '#articles_end'
+  end
 end
