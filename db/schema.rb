@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216100735) do
+ActiveRecord::Schema.define(version: 20180428091751) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -280,6 +280,13 @@ ActiveRecord::Schema.define(version: 20180216100735) do
     t.text     "remark",            limit: 65535
     t.string   "payment_method",    limit: 255
     t.string   "approval_code",     limit: 255
+    t.integer  "users_purchase_id", limit: 4
+  end
+
+  create_table "picture_numbers", force: :cascade do |t|
+    t.string   "title",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "pictures", force: :cascade do |t|
@@ -310,6 +317,13 @@ ActiveRecord::Schema.define(version: 20180216100735) do
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
+  create_table "shapes", force: :cascade do |t|
+    t.string   "title",      limit: 255
+    t.string   "title_eng",  limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "shop_banners", force: :cascade do |t|
     t.string   "title",              limit: 255
@@ -412,6 +426,24 @@ ActiveRecord::Schema.define(version: 20180216100735) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "users_purchases", force: :cascade do |t|
+    t.integer  "user_id",        limit: 4
+    t.decimal  "total_purchase",             precision: 5, scale: 2
+    t.string   "email",          limit: 255
+    t.string   "country",        limit: 255
+    t.string   "city",           limit: 255
+    t.string   "county",         limit: 255
+    t.string   "address",        limit: 255
+    t.string   "postal_code",    limit: 255
+    t.string   "phone_num",      limit: 255
+    t.string   "remark",         limit: 255
+    t.string   "payment_method", limit: 255
+    t.string   "approval_code",  limit: 255
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.decimal  "shipping_cost",              precision: 5, scale: 2
+  end
 
   create_table "votes", force: :cascade do |t|
     t.integer  "votable_id",   limit: 4

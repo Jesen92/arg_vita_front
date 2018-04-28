@@ -33,7 +33,6 @@
       </div>
     </div>
   </div>
-
   <% if @delivery_info[:payment_method].downcase.include? "virman" %>
   <hr>
       <div class="alert alert-success" role="alert" style="margin: 15px 35px 15px 35px">
@@ -103,7 +102,7 @@
                         </div>
 
                         <div class="col-xs-6 col-md-3" >
-                          <div class="item-title"> <%=  a.article.title+" (#{a.article.code})"  %> </div>
+                          <div class="item-title"> <%= link_to a.article.title+" (#{a.article.code})", trgovina_show_path(a.article.id) %> </div>
                         </div>
 
                         <div class="col-xs-6 col-md-4">
@@ -134,7 +133,7 @@
                         </div>
 
                         <div class="col-xs-6 col-md-3" >
-                          <div class="item-title"> <%=  a.single_article.title+" (#{a.single_article.article.code})" %> </div>
+                          <div class="item-title"> <%= link_to a.single_article.title+" (#{a.single_article.article.code})", trgovina_show_path(a.single_article.article.id) %> </div>
                         </div>
 
                         <div class="col-xs-6 col-md-4">
@@ -184,7 +183,6 @@
                           <div class="item-price"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.single_article.article.discount/100))*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                         </div>
 
-
                     <% end %>
                   </div>
                 </li>
@@ -197,11 +195,14 @@
                   <% if @user != nil %>
                       <div style="text-align: right"><p>Bez PDV-a: <%= number_to_currency(@cijena_bez_pdv = (@shopping_cart.current_cost-(@shopping_cart.current_cost*0.2)), :unit => 'Kn', :format => "%n %u") %></p></div>
                       <div style="text-align: right"><p>PDV: <%= number_to_currency(@shopping_cart.current_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
-                      <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
-                      <% if @delivery_info[:payment_method].include? 'pouze' %><div style="text-align: right"><p>Opcija plaćanja 'Pri pouzeću': <%= number_to_currency(5, :unit => 'Kn', :format => "%n %u") %> </p></div><% end %>
-
-                      <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency((@delivery_info[:payment_method].include? 'pouze') ? (@shopping_cart.current_cost+28) : (@shopping_cart.current_cost+23), :unit => 'Kn', :format => "%n %u") %></div>
-                      </br>
+                      
+                      <% @shipping_cost = 0 %>  
+                      <% if @shopping_cart.current_cost < 400 %>
+                        <% @shipping_cost = 23 %>
+                        <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
+                      <% end %>
+                      <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency($items_cost+@shipping_cost, :unit => 'Kn', :format => "%n %u") unless $items_cost.nil? || $items_cost <= 0 %></div>
+                    </br>
                   <% end %>
                 </div>
               </div>

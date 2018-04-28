@@ -87,7 +87,8 @@ class PurchasesController < ApplicationController
 
     session[:order_number] = (0...21).map { (65 + rand(20)).chr }.join
     #session[:order_number] = "order_"+(PastPurchase.last.id+1).to_s
-    sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+number_to_currency(@shopping_cart.current_cost+23, unit: "", separator: ".", delimiter: "")+":HRK"
+    shipping_cost = @shopping_cart.current_cost >= 400 ? 0 : 23
+    sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+number_to_currency(@shopping_cart.current_cost+shipping_cost, unit: "", separator: ".", delimiter: "")+":HRK"
 
     cart = @carts_article.map {|cart|
       if !cart.article.nil?
@@ -135,8 +136,6 @@ class PurchasesController < ApplicationController
     @ukupno_euro = 0.00
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
-
-
 
     #TODO ukupna cijena bi se ovdje trebala postavljat na nulu
     #TODO shipping se mora dodati (23 kn)

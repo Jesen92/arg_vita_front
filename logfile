@@ -6,3 +6,7 @@
 2018-04-09 19:56:51.029 CEST [64910] ERROR:  syntax error at or near "ls" at character 1
 2018-04-09 19:56:51.029 CEST [64910] STATEMENT:  ls
 	select * from users;
+2018-04-09 23:38:47.840 CEST [64853] LOG:  received smart shutdown request
+2018-04-09 23:38:47.848 CEST [64853] LOG:  worker process: logical replication launcher (PID 64860) exited with exit code 1
+2018-04-09 23:38:47.848 CEST [64855] LOG:  shutting down
+2018-04-09 23:38:47.865 CEST [64853] LOG:  database system is shut down

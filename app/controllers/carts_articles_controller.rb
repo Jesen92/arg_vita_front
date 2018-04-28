@@ -14,7 +14,6 @@ class CartsArticlesController < ApplicationController
     @carts_article = CartsArticle.new
   end
 
-
   def create
     #if current_user == nil
     #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"
