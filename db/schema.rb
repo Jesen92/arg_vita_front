@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180428091751) do
+ActiveRecord::Schema.define(version: 20180505011546) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -170,12 +170,14 @@ ActiveRecord::Schema.define(version: 20180428091751) do
   end
 
   create_table "coupons", force: :cascade do |t|
-    t.string   "code",       limit: 255
-    t.integer  "discount",   limit: 4
-    t.integer  "article_id", limit: 4
+    t.string   "code",           limit: 255
+    t.integer  "discount",       limit: 4
+    t.integer  "article_id",     limit: 4
     t.boolean  "used"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "number_of_uses", limit: 4
+    t.boolean  "infinite_uses"
   end
 
   create_table "credit_card_params", force: :cascade do |t|
@@ -443,6 +445,7 @@ ActiveRecord::Schema.define(version: 20180428091751) do
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.decimal  "shipping_cost",              precision: 5, scale: 2
+    t.integer  "coupon_id",      limit: 4
   end
 
   create_table "votes", force: :cascade do |t|

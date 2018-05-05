@@ -17,6 +17,7 @@ class SuccessfulPurchase
   def execute_succesful_payment
     @shopping_cart = ShoppingCart.find_by(user_id: user.id)
     @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
+    coupon = Coupon.find_by(id: delivery_info[:coupon_id] ) if delivery_info[:coupon_id].present?
     @user = user
 
     @current_purchase_sum = @carts_article.pluck(:cost).inject(:+)
@@ -26,16 +27,18 @@ class SuccessfulPurchase
     @carts_article.each do |art|
 
       if art.article != nil
-        past_purchase = PastPurchase.new(delivery_info
-          .merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost, approval_code: approval_code, users_purchase_id: @user_purchase_id}))
+        past_purchase = PastPurchase.new(delivery_info.except(:coupon_id)
+          .merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost, approval_code: approval_code, users_purchase_id: @user_purchase_id})
+          )
         past_purchase.save
         #article = Article.find(art.article.id)
 
         #article.amount -= art.amount
         #article.save
       elsif art.single_article != nil
-        past_purchase = PastPurchase.new(delivery_info
-          .merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost, approval_code: approval_code, users_purchase_id: @user_purchase_id}))
+        past_purchase = PastPurchase.new(delivery_info.except(:coupon_id)
+          .merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost, approval_code: approval_code, users_purchase_id: @user_purchase_id}
+          ))
         past_purchase.save
         #article = SingleArticle.find(art.single_article.id)
 
@@ -44,6 +47,8 @@ class SuccessfulPurchase
       end
 
     end
+
+    @current_purchase_sum = @current_purchase_sum-(@current_purchase_sum*(coupon.discount/100.00)) if coupon.present?
 
     if @user.purchase_sum == nil || @user.purchase_sum == 0
       @user.purchase_sum = @current_purchase_sum

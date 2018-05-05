@@ -210,8 +210,14 @@
     <% if current_user != nil %>
         <div style="text-align: right"><p>Bez PDV-a: <%= number_to_currency(@cijena_bez_pdv = (@shopping_cart.current_cost-(@shopping_cart.current_cost*0.2)), :unit => 'Kn', :format => "%n %u") %></p></div>
         <div style="text-align: right"><p>PDV: <%= number_to_currency(@shopping_cart.current_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
+        <% @shipping_cost = 0 %>  
+        <% if @shopping_cart.current_cost < 400 %>
+        <% @shipping_cost = 23 %>
         <div style="text-align: right"><p>Cijena poštarine: <b><%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </b></p></div>
-        <div class="item-price"  style="text-align: right; font-size: 210%;"><hr><%= number_to_currency(@shopping_cart.current_cost+23, :unit => 'Kn', :format => "%n %u") unless @shopping_cart.carts_articles.empty?  %></div>
+        <% end %>
+        <div class="item-price"  style="text-align: right; font-size: 210%;" id="totalPrice" value="<%= @shopping_cart.current_cost+@shipping_cost %>"><hr><%= number_to_currency(@shopping_cart.current_cost+@shipping_cost, :unit => 'Kn', :format => "%n %u") unless @shopping_cart.carts_articles.empty?  %></div>
+        <div class="item-price"  style="text-align: right; font-size: 200%; color: red;" id="discount"></div>
+        <div class="item-price"  style="text-align: right; font-size: 200%; color: green" id="discountTotalPrice"></div>
         </br>
     <% end %>
         </div>
@@ -275,6 +281,7 @@
                 </div>
 
                 <div class="col-xs-6 col-md-2" style="text-align: right;">
+                <div id="divCheckbox" style="display: none;"></div>
                   <div class="item-price"><%if a.on_discount && a.discount != 0 %> <%=  number_to_currency((a.cost-(a.cost*a.discount/100))*v, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.cost*v, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
 
@@ -345,7 +352,9 @@
               <% @shipping_cost = 23 %>
               <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
             <% end %>
-            <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency($items_cost+@shipping_cost, :unit => 'Kn', :format => "%n %u") unless $items_cost.nil? || $items_cost <= 0 %></div>
+            <div class="item-price"  style="text-align: right; font-size: 200%;" id="totalPrice" value="<%= $items_cost+@shipping_cost %>"><hr><%= number_to_currency($items_cost+@shipping_cost, :unit => 'Kn', :format => "%n %u") unless $items_cost.nil? || $items_cost <= 0 %></div>
+            <div class="item-price"  style="text-align: right; font-size: 200%; color: red;" id="discount"></div>
+            <div class="item-price"  style="text-align: right; font-size: 200%;" id="discountTotalPrice"></div>
             </br>
 
           </div>
@@ -358,10 +367,43 @@
 
 
 <div style="margin-top: 20px;">
-<%= link_to 'Kupi', user_signed_in? ? "#" : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px",  disabled: (true if @shopping_cart.present? && @shopping_cart.carts_articles.empty?), data: {toggle:user_signed_in? ? "modal" : "", target:user_signed_in? ? "#informationDialog" : ""} %>
-</div>
+<div class="row">
+<div class="col-md-2"><input placeholder="Unesi kupon" style="display: inline-block;" class="form-control" type="text" name="coupon" id="couponId"></div>
+<div class="col-md-1"><input id="submitCoupon" class="btn btn-default" type="submit" value="Primjeni"></div>
+<div class="col-md-6 pull-right"><%= link_to 'Kupi', user_signed_in? ? "#" : new_user_registration_path, class: "btn btn-default pull-right btn-lg" , style:"margin-right: 15px",  disabled: (true if @shopping_cart.present? && @shopping_cart.carts_articles.empty?), data: {toggle:user_signed_in? ? "modal" : "", target:user_signed_in? ? "#informationDialog" : ""} %></div>
+</div></div>
 
-</div>
+<script>
+$("#submitCoupon").click(function(){
+    var code = $('#couponId').val();
+    if (code.length === 0) {
+      alert("Molimo unesite kupon prije primjene");
+    }else {
+      $.post("/shopping_carts/check_coupon",
+      {
+        coupon:
+        {
+          code: code
+        }
+      },
+      function(data, status){
+        if (status == "success") {
+          $("#couponValue").val(parseInt(data.coupon.id));
+          var price = parseFloat($("#totalPrice").attr("value")).toFixed(2);
+          var discount = price*parseFloat(data.coupon.discount/100).toFixed(2);
+          var discountedPrice = price-discount;
+          $("#discount").text("-"+parseFloat(discount).toFixed(2)+" Kn");
+          $("#discountTotalPrice").text("Cijena s kuponom: "+parseFloat(discountedPrice).toFixed(2)+" Kn");
+          $("#pouzeceCijena").text(parseFloat(discountedPrice+5).toFixed(2)+" Kn");
+        } else {
+          alert("Unijeli ste neispravan kupon!");
+        }  
+      });
+    }
+});
+</script>
+
+</div></div>
 </div>
 
 <script>
@@ -445,3 +487,4 @@
         topTitle.style.color = 'black';
     }
 </script>
+

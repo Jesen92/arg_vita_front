@@ -344,9 +344,20 @@ class ShoppingCartsController < ApplicationController
     redirect_to :back
   end
 
+  def check_coupon
+    coupon = Coupon.find_by("code = ? AND infinite_uses = ? OR code = ? AND number_of_uses > 0", coupon_params[:code], true, coupon_params[:code])
+    
+    return render json: { coupon: nil }, status: 400 unless coupon.present?
+    render json: { coupon: coupon }, status: 200
+  end
+
   private
   def cart_params
     params.require(:cart).permit(:id, :user_id, :current_cost)
+  end
+
+  def coupon_params
+    params.require(:coupon).permit(:code)
   end
 
   def set_anchor

@@ -9,13 +9,14 @@
         <h4 class="modal-title">Informacije o dostavi</h4>
       </div>
       <div class="modal-body">
-        <%= simple_form_for PastPurchase.new, url: purchases_path, method: :post do |f| %>
+        <%= simple_form_for UsersPurchase.new, url: purchases_path, method: :post do |f| %>
             <h4>Email
               <small> adresa na koju želite da dostavimo račun!</small>
             </h4>
+            <%= f.input :coupon_id, hidden: true, input_html: {id: 'couponValue'}, as: :integer%>
             <%= f.input :email, label: false, required: true, input_html: {value: current_user.email} %>
             <%= f.label "Država" %>
-            <%= country_select("past_purchase", "country", {priority_countries: ["HR", "BA", "SI"], selected: current_user.state}, {class: 'form-control', style: "margin-bottom: 10px;", data: {attribute: "value"}}) %>
+            <%= country_select("users_purchase", "country", {priority_countries: ["HR", "BA", "SI"], selected: current_user.state}, {class: 'form-control', style: "margin-bottom: 10px;", data: {attribute: "value"}}) %>
             <div class="row">
               <div class="col-md-6" style="padding: 0;">
                 <%= f.input :postal_code, label: "Poštanski broj", required: true, input_html: {value: current_user.postcode} %>
@@ -26,7 +27,7 @@
             </div>
             <%= f.input :address, label: "Adresa", required: true, input_html: {value: current_user.address} %>
             <%= f.input :phone_num, label: "Broj tel./mob.", required: true, input_html: {value: current_user.phone} %>
-            <%= f.input :remark, label: "Napomena" %>
+            <%= f.input :remark, label: "Napomena", as: :text %>
             <%= f.label "Metoda plaćanja" %>
             <div class="row">
 
@@ -42,7 +43,7 @@
             <% end %>
 
               <div class="alert alert-danger" role="alert" style="display: none;" id="alert_if_extra_cost">
-                Kod odabira plaćanja 'Pri pouzeću' na ukupnu cijenu se dodaje <span style="font-size: 120%; font-weight: bold">5 Kn</span> te vaša ukupna cijena iznosi <span style="font-size: 120%; font-weight: bold"> <%= number_to_currency(@shopping_cart.current_cost+28, :unit => 'Kn', :format => "%n %u") %></span>
+                Kod odabira plaćanja 'Pri pouzeću' na ukupnu cijenu se dodaje <span style="font-size: 120%; font-weight: bold">5 Kn</span> te vaša ukupna cijena iznosi <span style="font-size: 120%; font-weight: bold" id="pouzeceCijena"> <%= number_to_currency(@shopping_cart.current_cost+28, :unit => 'Kn', :format => "%n %u") %></span>
               </div>
             </div>
             <br/>

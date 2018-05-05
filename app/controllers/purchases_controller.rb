@@ -16,23 +16,23 @@ class PurchasesController < ApplicationController
     #  return redirect_to :back
     #end #TODO odkomentiraj provjeru captcha-e; u html-u i js-u takodjer
     if @carts_article == nil
-      flash[:error] = "Nemate ništa u košarici!"
+      flash[:error] = "Košarica je prazna!"
 
       return redirect_to :back
     end
     session[:delivery_info_params] = delivery_info_params
 
-    if params[:past_purchase][:payment_method].include? "Paypal"
+    if params[:users_purchase][:payment_method].include? "Paypal"
       payment = paypal_payment
       return redirect_to @payment.links.find { |link| link.rel == 'approval_url' }.href unless payment.nil?
 
       flash[:error] = "Pogreška pri kupnji! Molimo kontaktirajte dućan ili pokušajte ponovo!"
-    elsif  params[:past_purchase][:payment_method].include? "Credit card"
+    elsif  params[:users_purchase][:payment_method].include? "Credit card"
       @credit_card_params = CreditCardParam.new(credit_card_payment)
       @delivery_info = delivery_info_params
 
       return render :create
-    elsif params[:past_purchase][:payment_method].downcase.include? "virman"
+    elsif params[:users_purchase][:payment_method].downcase.include? "virman"
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
       flash[:notice] = "Uspješno se obavili kupnju! Na email ćete dobiti virman sa informacijama za uplatu!"
       return redirect_to root_path
@@ -84,6 +84,7 @@ class PurchasesController < ApplicationController
   def credit_card_payment
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
+    coupon = Coupon.find_by(id: delivery_info_params[:coupon_id] ) if delivery_info_params[:coupon_id].present?
 
     session[:order_number] = (0...21).map { (65 + rand(20)).chr }.join
     #session[:order_number] = "order_"+(PastPurchase.last.id+1).to_s
@@ -98,6 +99,11 @@ class PurchasesController < ApplicationController
       end
     }.join(" ")
 
+    amount = @shopping_cart.current_cost+shipping_cost
+    if coupon.present?
+      amount = amount-(amount*(coupon.discount/100.00))
+    end
+    
     credit_card_params = {
         :target => '_top',
         :mode => 'form',
@@ -105,7 +111,7 @@ class PurchasesController < ApplicationController
         :order_number => session[:order_number],
         :language => 'hr',
         :currency => 'HRK',
-        :amount => number_to_currency(@shopping_cart.current_cost+23, unit: "", separator: ".", delimiter: ""),
+        :amount => number_to_currency(amount, unit: "", separator: ".", delimiter: ""),
         :cart => cart,
         :required_hash => sha1_hash,
         :require_complete => "true"
@@ -174,7 +180,7 @@ class PurchasesController < ApplicationController
     item_params.each do |item|
       @payment.transactions.first.item_list.items << item
     end
-      binding.pry
+    
     if @payment.create
       @payment
 
@@ -189,7 +195,7 @@ class PurchasesController < ApplicationController
   end
 
   def delivery_info_params
-    params.require(:past_purchase).permit(:email, :country, :postal_code, :city, :address, :phone_num, :remark, :payment_method)
+    params.require(:users_purchase).permit(:coupon_id, :email, :country, :postal_code, :city, :address, :phone_num, :remark, :payment_method)
   end
 
   def check_service_captcha(recaptcha_param)
