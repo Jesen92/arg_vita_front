@@ -13,7 +13,7 @@
             <h4>Email
               <small> adresa na koju želite da dostavimo račun!</small>
             </h4>
-            <%= f.input :coupon_id, hidden: true, input_html: {id: 'couponValue'}, as: :integer%>
+            <%= f.input :coupon_id, hidden: true, input_html: {id: 'couponValue'}, as: :hidden%>
             <%= f.input :email, label: false, required: true, input_html: {value: current_user.email} %>
             <%= f.label "Država" %>
             <%= country_select("users_purchase", "country", {priority_countries: ["HR", "BA", "SI"], selected: current_user.state}, {class: 'form-control', style: "margin-bottom: 10px;", data: {attribute: "value"}}) %>
@@ -43,7 +43,8 @@
             <% end %>
 
               <div class="alert alert-danger" role="alert" style="display: none;" id="alert_if_extra_cost">
-                Kod odabira plaćanja 'Pri pouzeću' na ukupnu cijenu se dodaje <span style="font-size: 120%; font-weight: bold">5 Kn</span> te vaša ukupna cijena iznosi <span style="font-size: 120%; font-weight: bold" id="pouzeceCijena"> <%= number_to_currency(@shopping_cart.current_cost+28, :unit => 'Kn', :format => "%n %u") %></span>
+                <% extra_cost = @shopping_cart.current_cost < 400 ? 28 : 5 %>
+                Kod odabira plaćanja 'Pri pouzeću' na ukupnu cijenu se dodaje <span style="font-size: 120%; font-weight: bold">5 Kn</span> te vaša ukupna cijena iznosi <span style="font-size: 120%; font-weight: bold" id="pouzeceCijena"> <%= number_to_currency(@shopping_cart.current_cost+extra_cost, :unit => 'Kn', :format => "%n %u") %></span>
               </div>
             </div>
             <br/>

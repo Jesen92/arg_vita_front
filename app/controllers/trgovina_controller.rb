@@ -136,14 +136,14 @@ class TrgovinaController < ApplicationController
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
 
-    articles = Article.where(raw: false, for_sale: true ).includes(:pictures, :picture)
+    articles = Article.where("raw= false and for_sale= true and amount > 0").includes(:pictures, :picture)
 
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
-                                                                                                                                                         with_category_id: Category.options_for_select,
-                                                                                                                                                         with_material_id: Material.options_for_select,
-                                                                                                                                                         with_color_id: Color.options_for_select,
-                                                                                                                                                         with_type_id: Type.options_for_select},
-                                                                                                                                                          persistence_id: true,) or return
+                                                                                           with_category_id: Category.options_for_select,
+                                                                                           with_material_id: Material.options_for_select,
+                                                                                           with_color_id: Color.options_for_select,
+                                                                                           with_type_id: Type.options_for_select},
+                                                                                            persistence_id: true,) or return
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 

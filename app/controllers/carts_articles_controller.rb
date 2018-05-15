@@ -63,7 +63,7 @@ class CartsArticlesController < ApplicationController
 
       if @carts_article == nil
 
-        if amount <= @article.amount
+        if @article.amount.present? && amount <= @article.amount
           CartsArticle.create(shopping_cart_id: @shopping_cart.id, article_id: art_id, amount: params[:article] ? params[:article][:amount] : 1 )
           @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: art_id )
         else

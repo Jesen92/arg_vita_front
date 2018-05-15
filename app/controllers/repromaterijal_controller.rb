@@ -149,13 +149,13 @@ class RepromaterijalController < ApplicationController
     # filterific ###########################################################################################################################
     @page_title = "Artikli"
 
-    articles = Article.where(raw: true, for_sale: true).includes(:picture)
+    articles = Article.where("raw = true and for_sale = true and amount > 0").includes(:picture)
 
         @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: {sorted_by: Article.options_for_sorted_by,
-                                                                                                                                                                with_subcategory_id: Subcategory.options_for_select,
-                                                                                                                                                                with_ssubcategory_id: Ssubcategory.options_for_select,
-                                                                                                                                                                with_color_id: Color.options_for_select,
-                                                                                                                                                                with_type_id: Type.options_for_select}, :persistence_id => true,) or return
+                                                                                                with_subcategory_id: Subcategory.options_for_select,
+                                                                                                with_ssubcategory_id: Ssubcategory.options_for_select,
+                                                                                                with_color_id: Color.options_for_select,
+                                                                                                with_type_id: Type.options_for_select}, :persistence_id => true,) or return
 
     @articles = cookies[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*cookies[:page_number].to_i) : @filterrific.find.page(params[:page])
 
