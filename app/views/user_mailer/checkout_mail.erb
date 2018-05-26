@@ -202,6 +202,7 @@
                         <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
                       <% end %>
                       <% pouzece = @delivery_info[:payment_method].include?("Pri pouze") ? 5 : 0 %>
+                      <% if pouzece != 0 %><div style="text-align: right"><p>Cijena za pouzeće: <%= number_to_currency(5, :unit => 'Kn', :format => "%n %u") %></p></div><% end %>
                       <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency(@shopping_cart.current_cost+@shipping_cost+pouzece, :unit => 'Kn', :format => "%n %u") %></div>                    
                       <% if @coupon %>
                         <% discount = (@shopping_cart.current_cost+@shipping_cost+pouzece)*@coupon.discount/100.00%>
@@ -226,14 +227,14 @@
       <h3>Ime i Prezime: <b><%= @user.name %></b></h3>
       <hr>
       <div class="row">
-        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Država: </span><b><%= @delivery_info[:country] %></b></h3></div>
-        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Poštanski broj: </span><b><%= @delivery_info[:postal_code] %></b></h3></div>
-        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Grad: </span><b><%= @delivery_info[:city] %></b></h3></div>
+        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Država: </span><b><%= @delivery_info[:country] %></b></h4></div>
+        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Poštanski broj: </span><b><%= @delivery_info[:postal_code] %></b></h4></div>
+        <div class="col-md-2"><h4><span  style="color: #1abc9c; font-size: 80%;">Grad: </span><b><%= @delivery_info[:city] %></b></h4></div>
       </div>
-      <h4><span  style="color: #1abc9c; font-size: 80%;">Adresa: </span><b><%= @delivery_info[:address] %></b></h3>
-      <h4><span  style="color: #1abc9c; font-size: 80%;">Broj mobitela: </span><b><%= @delivery_info[:phone_num] %></b></h3>
-      <h4><span  style="color: #1abc9c; font-size: 80%;">Način plaćanja: </span><b><%= @delivery_info[:payment_method] %></b></h3>
-      <h4><span  style="color: #1abc9c; font-size: 80%;">Napomena: </span><b><%= @delivery_info[:remark] %></b></h3>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Adresa: </span><b><%= @delivery_info[:address] %></b></h4>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Broj mobitela: </span><b><%= @delivery_info[:phone_num] %></b></h4>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Način plaćanja: </span><b><%= @delivery_info[:payment_method] %></b></h4>
+      <h4><span  style="color: #1abc9c; font-size: 80%;">Napomena: </span><b><%= @delivery_info[:remark] %></b></h4>
     </div>
   </div>
   <h3 style="margin-top:25px; margin-bottom:25px;">Mail za kontakt i upite:<span> <%= mail_to "info@argentumvita.hr" %></span></h3>

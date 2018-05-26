@@ -20,9 +20,7 @@ class SuccessfulPurchase
     coupon = Coupon.find_by(id: delivery_info[:coupon_id] ) if delivery_info[:coupon_id].present?
     @user = user
 
-    @current_purchase_sum = @carts_article.pluck(:cost).inject(:+)
-    
-    create_users_purchase
+    @current_purchase_sum = @carts_article.map {|a| (a.cost.to_f*a.amount.to_f)}.inject(:+)
     
     @carts_article.each do |art|
 
@@ -49,6 +47,8 @@ class SuccessfulPurchase
     end
 
     @current_purchase_sum = @current_purchase_sum-(@current_purchase_sum*(coupon.discount/100.00)) if coupon.present?
+
+    create_users_purchase
 
     if @user.purchase_sum == nil || @user.purchase_sum == 0
       @user.purchase_sum = @current_purchase_sum

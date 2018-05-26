@@ -12,7 +12,7 @@ class UserMailer < ApplicationMailer
     @delivery_info = params
     @coupon = Coupon.find_by(id: params[:coupon_id] ) if params[:coupon_id].present?
 
-    mail(to: [@user.email, 'info@argentumvita.com'], subject: "Argentum Vita d.o.o. - Kupnja "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'checkout_mail')
+    mail(to: [@user.email, 'info@argentumvita.com'], bcc: 'hrvoje.jesenovic@cactus-code.com', subject: "Argentum Vita d.o.o. - Kupnja "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'checkout_mail')
   end
 
   def contact_us_mail(params)
@@ -21,6 +21,6 @@ class UserMailer < ApplicationMailer
     @subject = params[:subject]
     @message = params[:message]
 
-    mail(to: [@user.email, 'info@argentumvita.com'], subject: "Argentum Vita d.o.o. - Upit "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'contact_us_mail')
+    mail(to: [@user.email, 'info@argentumvita.com'], bcc: 'hrvoje.jesenovic@cactus-code.com', subject: "Argentum Vita d.o.o. - Upit "+DateTime.now.strftime("%d.%m.%Y. - %H:%M"), template_path: 'user_mailer', template_name: 'contact_us_mail')
   end
 end
