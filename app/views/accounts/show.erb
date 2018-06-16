@@ -1,0 +1,14 @@
+<div class="prdt" style="padding-top: 10px">
+  <div class="container">
+    <div class="page-header head-page">
+      <h1>Vaša Kupnja</h1>
+      <p><%= @purchase_info.created_at.strftime("%d.%m.%Y %H:%M") %></p>
+    </div>
+    <h3>Ukupna cijena: <%=number_to_currency(@purchase_info.total_purchase.round(2), :unit => 'Kn', :format => "%n %u") %></h3>
+
+    <%= render partial: 'accounts/kupnje_grid' %>
+
+    <%= render partial: 'accounts/pakupnje_grid' %>
+
+  </div>
+</div>

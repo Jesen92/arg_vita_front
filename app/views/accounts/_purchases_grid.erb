@@ -1,0 +1,35 @@
+<%= grid(@purchases_grid, show_filters: :always) do |g|
+
+  g.column name: "ID", attribute: 'id' do |t|
+    t.id
+  end
+
+  g.column name: "Cijena(ukupno)", attribute: 'total_purchase' do |t|
+    number_to_currency(t.total_purchase, :unit => 'Kn', :format => "%n %u")
+  end
+
+  g.column name: "Država", attribute: 'country' do |t|
+    t.country
+  end
+
+  g.column name: "Grad", attribute: 'city' do |t|
+    t.city
+  end
+
+  g.column name: "Adresa", attribute: 'address' do |t|
+    t.address
+  end
+
+  g.column name: "Poštanski kod", attribute: 'postal_code' do |t|
+    t.postal_code
+  end
+
+
+  g.column name: "Datum kupnje", attribute: 'created_at' do |t|
+    t.created_at.strftime("%d.%m.%Y %H:%M")
+  end
+
+  g.column do |t|
+    link_to('Pregled kupnje', show_purchase_path(id: t.id))
+  end
+end-%>

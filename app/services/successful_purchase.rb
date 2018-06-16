@@ -21,6 +21,10 @@ class SuccessfulPurchase
     @user = user
 
     @current_purchase_sum = @carts_article.map {|a| (a.cost.to_f*a.amount.to_f)}.inject(:+)
+
+    @current_purchase_sum = @current_purchase_sum-(@current_purchase_sum*(coupon.discount/100.00)) if coupon.present?
+
+    create_users_purchase
     
     @carts_article.each do |art|
 
@@ -46,9 +50,6 @@ class SuccessfulPurchase
 
     end
 
-    @current_purchase_sum = @current_purchase_sum-(@current_purchase_sum*(coupon.discount/100.00)) if coupon.present?
-
-    create_users_purchase
 
     if @user.purchase_sum == nil || @user.purchase_sum == 0
       @user.purchase_sum = @current_purchase_sum
@@ -57,12 +58,14 @@ class SuccessfulPurchase
     end
 
     @user.save
+
+    delivery_info.merge!({purchase_id: @user_purchase_id})
     
     UserMailer.checkout_mail(user, delivery_info).deliver_now
 
-    @carts_article.destroy_all
-    @shopping_cart.current_cost = 0
-    @shopping_cart.save
+    #@carts_article.destroy_all
+    #@shopping_cart.current_cost = 0
+    #@shopping_cart.save
 
     # Note that you'll need to `Payment.find` the payment again to access user info like shipping address
   end

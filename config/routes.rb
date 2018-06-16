@@ -137,6 +137,8 @@ Rails.application.routes.draw do
 
   get 'home/about_us_page' => "home#about_us_page", :as => 'about_us_page'
 
+  get 'accounts/:id' => "accounts#show", :as => 'show_purchase'
+
   put 'shopping_carts/destroy_item' => "shopping_carts#destroy_item", :as => 'destroy_item'
   put 'shopping_carts/destroy_single_item' => "shopping_carts#destroy_single_item", :as => 'destroy_single_item'
 
