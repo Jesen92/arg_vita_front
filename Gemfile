@@ -41,7 +41,6 @@ gem 'money'
 
 gem 'cityhash'
 gem 'identity_cache' #caching
-gem 'memcached_store'
 
 gem 'autoprefixer-rails'
 gem 'devise'

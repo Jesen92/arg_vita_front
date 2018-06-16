@@ -208,10 +208,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    memcached (1.8.0)
-    memcached_store (1.1.1)
-      activesupport (>= 4)
-      memcached (~> 1.8.0)
     meta-tags (2.1.0)
       actionpack (>= 3.0.0)
     method_source (0.8.2)
@@ -386,7 +382,6 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails (~> 5.0, >= 5.0.5)
   kaminari
-  memcached_store
   meta-tags (~> 2.1)
   money
   mysql2 (~> 0.3.18)
