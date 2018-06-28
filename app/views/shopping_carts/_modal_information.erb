@@ -31,7 +31,7 @@
             <%= f.label "Metoda plaćanja" %>
             <div class="row">
 
-            <%= f.collection_radio_buttons(:payment_method, [['Paypal', 'paypal.png'], ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png'], ['Plaćanje virmanom', 'invoice.png']],
+            <%= f.collection_radio_buttons(:payment_method, [ ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png'], ['Plaćanje virmanom', 'invoice.png']],
                                            :first, :last, :checked => ['Paypal', 'paypal.png'], :item_wrapper_class => 'horizontal',
                                            :onclick => 'alert_if_option_selected()', :id => 'payment_method_select') do |method| %>
               <div class="col-md-1">

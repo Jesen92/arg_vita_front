@@ -1,4 +1,4 @@
-<%= form_for(@credit_card_params, url: "https://testcps.corvus.hr/redirect/", method: :post, as: "" )do |f| %>
+<%= form_for(@credit_card_params, url: "https://merchant.corvus.hr/redirect/", method: :post, as: "" )do |f| %>
     <%= f.text_field :target, hidden: true %>
     <%= f.text_field :mode, hidden: true %>
     <%= f.text_field :store_id, hidden: true %>
