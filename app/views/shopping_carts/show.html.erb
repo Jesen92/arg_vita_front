@@ -103,7 +103,7 @@
 
       <div class="col-xs-6 col-md-4">
       <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-        <%= link_to '-', shopping_carts_destroy_path(a.article.id ), class: "btn btn-default" %>
+        <%= link_to '-', shopping_carts_destroy_path(a.article.id ), class: "btn btn-default quantity" %>
       </div>
 
       <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -111,7 +111,11 @@
       </div>
 
       <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-        <%= link_to '+', carts_articles_create_path(a.article.id, :article => {:amount => 1}), class: "btn btn-default " %>
+        <%= link_to '+', carts_articles_create_path(a.article.id, :article => {:amount => 1}), class: "btn btn-default quantity" %>
+      </div>
+
+      <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
+          <%= link_to 'remove item', destroy_item_path(id: a.article.id, amount: a.amount ), method: :put, style: "color: #1abc9c;" %>
       </div>
       </div>
 
@@ -139,7 +143,7 @@
 
           <div class="col-xs-6 col-md-4">
             <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-              <%= link_to '-', destroy_single_shopping_carts_path(a.single_article.id ), :method => :put, class: "btn btn-default" %>
+              <%= link_to '-', destroy_single_shopping_carts_path(a.single_article.id ), :method => :put, class: "btn btn-default quantity" %>
             </div>
 
             <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -147,9 +151,11 @@
             </div>
 
             <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
+              <%= link_to '+', create_single_carts_articles_path(id: a.single_article.id), :method => :post, class: "btn btn-default quantity" %>
+            </div>
 
-              <%= link_to '+', create_single_carts_articles_path(id: a.single_article.id), :method => :post, class: "btn btn-default " %>
-
+            <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
+              <%= link_to 'remove item', destroy_single_item_path(id: a.single_article.id, amount: a.amount), :method => :put, style: "color: #1abc9c;" %>
             </div>
           </div>
 
@@ -178,7 +184,7 @@
 
           <div class="col-xs-6 col-md-4">
             <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-              <%= link_to '-', destroy_complement_shopping_carts_path(a.complement.id ), :method => :put, class: "btn btn-default" %>
+              <%= link_to '-', destroy_complement_shopping_carts_path(a.complement.id ), :method => :put, class: "btn btn-default quantity" %>
             </div>
 
             <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -186,7 +192,7 @@
             </div>
 
             <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-              <%= link_to '+', create_complement_carts_articles_path(a.complement.id ), :method => :put, class: "btn btn-default " %>
+              <%= link_to '+', create_complement_carts_articles_path(a.complement.id ), :method => :put, class: "btn btn-default quantity" %>
             </div>
           </div>
 
@@ -264,7 +270,7 @@
 
                 <div class="col-xs-6 col-md-4">
                   <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-                    <%= link_to '-', shopping_carts_destroy_path(a.id ), class: "btn btn-default" %>
+                    <%= link_to '-', shopping_carts_destroy_path(a.id ), class: "btn btn-default quantity" %>
                   </div>
 
                   <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -272,7 +278,7 @@
                   </div>
 
                   <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                    <%= link_to '+', carts_articles_create_path(a.id ), class: "btn btn-default " %>
+                    <%= link_to '+', carts_articles_create_path(a.id ), class: "btn btn-default quantity" %>
                   </div>
                 </div>
 
@@ -313,7 +319,7 @@
 
                       <div class="col-xs-6 col-md-4">
                         <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-                          <%= link_to '-', min_no_user_carts_articles_path(a.id ), :method => :put ,class: "btn btn-default" %>
+                          <%= link_to '-', min_no_user_carts_articles_path(a.id ), :method => :put ,class: "btn btn-default quantity" %>
                         </div>
 
                         <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -321,7 +327,7 @@
                         </div>
 
                         <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                          <%= link_to '+', plus_no_user_carts_articles_path(a.id ), :method => :put, class: "btn btn-default " %>
+                          <%= link_to '+', plus_no_user_carts_articles_path(a.id ), :method => :put, class: "btn btn-default quantity" %>
                         </div>
                       </div>
 
@@ -488,3 +494,8 @@ $("#submitCoupon").click(function(){
     }
 </script>
 
+<script>
+    jQuery("a.quantity").click(function(){
+        $('.quantity').attr('disabled', true);
+    });
+</script>

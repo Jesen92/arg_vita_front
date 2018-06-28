@@ -60,6 +60,7 @@
 
     </div>
 
+    <% if params[:controller].exclude?("shopping_cart")%>
     <div class="cart-tab visible" >
       <% if current_user != nil %>
           <a href="#" title="View your shopping cart" class="cart-link">
@@ -243,6 +244,7 @@
     </div>
     <!-- @end .cart-tab -->
 
+
     <!-- //////////////////////////////////////////////////////////////////// -->
     <% if user_signed_in? %>
       <div class="cart-tab visible" style="top: 60px; z-index: 99;">
@@ -259,6 +261,7 @@
           <%= render partial: 'layouts/favorites', locals: {favorites: current_user.votes} %>
         </div>
       </div>
+    <% end %>
     <% end %>
       <!-- //////////////////////////////////////////////////////////////////// -->
 
