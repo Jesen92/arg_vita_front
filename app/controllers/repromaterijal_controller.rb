@@ -161,6 +161,8 @@ class RepromaterijalController < ApplicationController
 
     #cookies[:page_number] = nil
 
+    ( redirect_to(reset_filterrific_url(format: :html))and  return) if @articles.blank?
+
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
 
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax

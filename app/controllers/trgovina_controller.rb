@@ -154,6 +154,8 @@ class TrgovinaController < ApplicationController
     #cookies[:page_number] = nil
     #binding.pry
 
+    ( redirect_to(reset_filterrific_url(format: :html))and  return) if @articles.blank?
+
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
 
     #binding.pry
