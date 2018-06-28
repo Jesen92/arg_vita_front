@@ -352,6 +352,24 @@
 
 <!--product-dialog-box-end-->
 <!--information-starts-->
+
+  <div>
+    <% if flash[:error]  %>
+        <div class="alert alert-danger" role="alert" style="margin: 15px 35px 15px 35px">
+          <span class="sr-only">Error:</span>
+          <strong>Oprez! <%= flash[:error]  %></strong>
+        </div>
+    <% end %>
+
+    <% if flash[:notice] %>
+        <div class="alert alert-success" role="alert" style="margin: 15px 35px 15px 35px">
+          <span class="sr-only">Success:</span>
+          <strong><%= flash[:notice] %></strong>
+        </div>
+    <% end %>
+
+  </div>
+
 <div id="information_footer">
 <div class="information" >
   <div class="container">
