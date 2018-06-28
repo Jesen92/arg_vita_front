@@ -187,8 +187,6 @@ class ShoppingCartsController < ApplicationController
 
       @shopping_cart.save
 
-      binding.pry
-
       if amount == 1
         @carts_article.destroy!
       else
