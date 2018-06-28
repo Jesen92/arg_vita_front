@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
         @shopping_cart.update(current_cost: 0)
       end
       discount = current_user.purchase_sum  < 1000 ? 5 : (((current_user.purchase_sum.to_i/500).round*500)/100)
+      discount = 0 if current_user.purchase_sum < 500
       flash[:discount_notice] = discount > 0 ? '<span style="color: #348877;">Svojom vjernosti ostvarili ste popust od <span style="font-size: 150%; color: #515151;"> '+discount.to_s+'%</span> na sve artikle</span>' : nil
     end
   end
