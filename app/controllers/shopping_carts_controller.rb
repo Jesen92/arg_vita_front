@@ -187,7 +187,7 @@ class ShoppingCartsController < ApplicationController
 
       @shopping_cart.save
 
-      if amount == 1
+      if amount == 1 || amount < 1
         @carts_article.destroy!
       else
         @carts_article.amount -= 1
