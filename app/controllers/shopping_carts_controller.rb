@@ -363,6 +363,6 @@ class ShoppingCartsController < ApplicationController
   end
 
   def set_anchor
-    env["HTTP_REFERER"] += '#articles_end'
+    env["HTTP_REFERER"] += '#articles_end' unless env["HTTP_REFERER"].blank?
   end
 end
