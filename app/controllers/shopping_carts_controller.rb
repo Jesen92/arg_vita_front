@@ -183,11 +183,13 @@ class ShoppingCartsController < ApplicationController
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
 
-        @shopping_cart.current_cost -= @carts_article.cost
+      @shopping_cart.current_cost -= @carts_article.cost
 
       @shopping_cart.save
 
-      if amount == 1 || amount < 1
+      binding.pry
+
+      if amount == 1
         @carts_article.destroy!
       else
         @carts_article.amount -= 1
