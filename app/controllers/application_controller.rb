@@ -30,9 +30,11 @@ class ApplicationController < ActionController::Base
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
-      if @shopping_cart.current_cost < 0
+
+      if @shopping_cart.current_cost < 0 || @carts_article.nil?
         @shopping_cart.update(current_cost: 0)
       end
+
       discount = current_user.purchase_sum  < 1000 ? 5 : (((current_user.purchase_sum.to_i/500).round*500)/100)
       discount = 0 if current_user.purchase_sum < 500
       flash[:discount_notice] = discount > 0 ? '<span style="color: #348877;">Svojom vjernosti ostvarili ste popust od <span style="font-size: 150%; color: #515151;"> '+discount.to_s+'%</span> na sve artikle</span>' : nil

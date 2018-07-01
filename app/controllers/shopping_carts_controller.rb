@@ -138,6 +138,8 @@ class ShoppingCartsController < ApplicationController
 
     else
 
+      binding.pry
+
     @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
     @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:format] )
 
@@ -263,7 +265,6 @@ class ShoppingCartsController < ApplicationController
       end
 
     else
-
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
 
