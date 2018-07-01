@@ -183,6 +183,8 @@ class ShoppingCartsController < ApplicationController
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
 
+      return redirect_to :back if @carts_article.nil?
+
       @shopping_cart.current_cost -= @carts_article.cost
 
       @shopping_cart.save
@@ -265,6 +267,8 @@ class ShoppingCartsController < ApplicationController
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
+
+      return redirect_to :back if @carts_article.nil?
 
         @shopping_cart.current_cost -= @carts_article.cost*amount
 
