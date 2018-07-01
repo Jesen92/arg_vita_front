@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
   get 'carts_articles/new'
 
-  get 'carts_articles/create'
+  put 'carts_articles/create'
 
   get 'carts_articles/edit'
 
