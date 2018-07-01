@@ -71,13 +71,13 @@ Rails.application.routes.draw do
 
   get 'shopping_carts/new'
 
-  get 'shopping_carts/create'
+  put 'shopping_carts/create'
 
   get 'shopping_carts/edit'
 
   get 'shopping_carts/update'
 
-  get 'shopping_carts/destroy'
+  put 'shopping_carts/destroy'
 
   post 'shopping_carts/check_coupon'
 

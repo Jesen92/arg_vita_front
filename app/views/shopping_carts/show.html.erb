@@ -109,7 +109,7 @@
 
       <div class="col-xs-6 col-md-4">
       <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-        <%= link_to '-', shopping_carts_destroy_path(a.article.id ), class: "btn btn-default quantity hidden_button" %>
+        <%= link_to '-', shopping_carts_destroy_path(a.article.id ), :method => :put, class: "btn btn-default quantity hidden_button" %>
       </div>
 
       <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -117,7 +117,7 @@
       </div>
 
       <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-        <%= link_to '+', carts_articles_create_path(a.article.id, :article => {:amount => 1}), class: "btn btn-default quantity hidden_button" %>
+        <%= link_to '+', carts_articles_create_path(a.article.id, :article => {:amount => 1}), :method => :put, class: "btn btn-default quantity hidden_button" %>
       </div>
 
       <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">

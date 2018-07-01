@@ -153,7 +153,7 @@ class ShoppingCartsController < ApplicationController
       else
         @carts_article.destroy!
       end
-  end
+    end
 
     redirect_to :back
   end
