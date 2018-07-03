@@ -1,3 +1,4 @@
+<h2>Preusmjeravamo Vas na finalizaciju kupovine!</h2>
 <%= form_for(@credit_card_params, url: "https://cps.corvus.hr/redirect/", method: :post, as: "" )do |f| %>
     <%= f.text_field :target, hidden: true %>
     <%= f.text_field :mode, hidden: true %>
@@ -10,7 +11,7 @@
     <%= f.text_field :required_hash, name: 'hash', hidden: true %>
     <%= f.text_field :require_complete, hidden: true %>
 
-    <%= f.submit "Potvrdi", id: 'submit-form' %>
+    <%= f.submit "Potvrdi", id: 'submit-form', style: 'visibility: hidden;' %>
 <% end %>
 <script>
   document.getElementById('submit-form').form.submit()
