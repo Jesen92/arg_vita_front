@@ -33,19 +33,19 @@ class SuccessfulPurchase
           .merge({user_id: user.id, article_id: art.article.id, amount: art.amount, cost: art.cost, approval_code: approval_code, users_purchase_id: @user_purchase_id})
           )
         past_purchase.save
-        #article = Article.find(art.article.id)
+        article = Article.find(art.article.id)
 
-        #article.amount -= art.amount
-        #article.save
+        article.amount -= art.amount
+        article.save
       elsif art.single_article != nil
         past_purchase = PastPurchase.new(delivery_info.except(:coupon_id)
           .merge({user_id: user.id, single_article_id: art.single_article.id, amount: art.amount, cost: art.cost, approval_code: approval_code, users_purchase_id: @user_purchase_id}
           ))
         past_purchase.save
-        #article = SingleArticle.find(art.single_article.id)
+        article = SingleArticle.find(art.single_article.id)
 
-        #article.amount -= art.amount
-        #article.save
+        article.amount -= art.amount
+        article.save
       end
 
     end
@@ -63,9 +63,9 @@ class SuccessfulPurchase
     
     UserMailer.checkout_mail(user, delivery_info).deliver_now
 
-    #@carts_article.destroy_all
-    #@shopping_cart.current_cost = 0
-    #@shopping_cart.save
+    @carts_article.destroy_all
+    @shopping_cart.current_cost = 0
+    @shopping_cart.save
 
     # Note that you'll need to `Payment.find` the payment again to access user info like shipping address
   end
