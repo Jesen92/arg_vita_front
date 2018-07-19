@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
+      deleteArticlesWithoutAmount
 
       if @shopping_cart.current_cost < 0 || @carts_article.nil?
         @shopping_cart.update(current_cost: 0)
@@ -46,6 +47,11 @@ class ApplicationController < ActionController::Base
     @main_title = 'Argentum Vita'
   end
 
+  private
+
+  def deleteArticlesWithoutAmount
+    @shopping_cart.carts_articles.map {|cart| cart.destroy if cart.amount.blank?}
+  end
 end
 
 #### u layout-u za komplete kada se ubace

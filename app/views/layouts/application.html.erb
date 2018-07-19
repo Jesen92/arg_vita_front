@@ -68,8 +68,7 @@
             <span class="amount"><%=   number_to_currency(@shopping_cart.current_cost, :unit => 'Kn', :format => "%n %u") %></span>
             <% i=0 %>
             <% @shopping_cart.carts_articles.each do |cart| %>
-                  <% i +=cart.amount unless cart.amount.blank %>
-              <% end %>
+                  <% i +=cart.amount %>
             <% end %>
             <span class="contents">stavki: <%= i %></span>
           </a>
