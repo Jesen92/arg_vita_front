@@ -41,6 +41,7 @@ class CartsArticlesController < ApplicationController
 
       puts "Ispred if za provjeru jel se artikl nalazi u hash-u"
       if $no_user_articles.has_key?(@article.id.to_s)
+        binding.pry
         $no_user_articles.each do |k, v|
           if k == @article.id.to_s
             (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if $no_user_articles[k]+amount > @article.amount
