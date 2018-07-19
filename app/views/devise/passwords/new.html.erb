@@ -1,16 +1,17 @@
-<h2>Forgot your password?</h2>
+<div class="container">
+<h2>Zaboravio lozinku?</h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form-horizontal' }) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= f.input :email, autofocus: true %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+    <%= f.submit "Pošalji zahtjev za resetiranje lozinke", class: 'btn btn-default' %>
   </div>
+<br>
 <% end %>
-
+</div>
 <%= render "devise/shared/links" %>
