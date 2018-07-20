@@ -13,7 +13,7 @@ class AccountsController < ApplicationController
 
     @purchases_grid = initialize_grid(@purchases, include: [ :user ], name: 'kompkupnje', order: 'users_purchases.created_at', order_direction: 'desc', per_page: 10, enable_export_to_csv: true, csv_file_name: 'Kupnje', csv_field_separator: ';' )
 
-    export_grid_if_requested
+    #export_grid_if_requested
   end
 
   def show
