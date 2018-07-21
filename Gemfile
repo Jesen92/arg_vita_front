@@ -38,6 +38,7 @@ gem 'httparty'
 #dodano
 gem 'paypal-sdk-rest'
 gem 'money'
+gem 'premailer-rails'
 
 gem 'cityhash'
 gem 'identity_cache' #caching

@@ -17,7 +17,7 @@
     }
     tr:nth-child(even){background-color: #f2f2f2}
   </style>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
 
 </head>
@@ -52,36 +52,25 @@
         <li class="list-group-item"  >
           <div class="row" >
 
-            <div class="col-xs-6 col-md-1">
+            <div class="col-md-1">
 
             </div>
 
-            <div class="col-xs-6 col-md-3">
+            <div class=" col-md-4">
               <div class="item-title"> Naziv Artikla </div>
             </div>
 
-            <div class="col-xs-6 col-md-4">
-              <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-
-              </div>
-
-              <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
-                <div class="item-title"> Količina</div>
-              </div>
-
-              <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-
-              </div>
+            <div class="col-md-2" style="">
+              <div class="item-title"> Količina</div>
             </div>
 
-            <div class="col-xs-6 col-md-2">
+            <div class=" col-md-2">
               <div class="item-title"  style="text-align: right;"> Pojedinačna Cijena </div>
             </div>
 
-            <div class="col-xs-6 col-md-2" style="text-align: right;">
+            <div class=" col-md-3" style="text-align: right;">
               <div class="item-title"> Cijena </div>
             </div>
-
           </div>
         </li>
 
@@ -93,7 +82,7 @@
                 <li class="list-group-item"  >
                   <div class="row" >
                     <% if !a.article.nil? %>
-                        <div class="col-xs-6 col-md-1" >
+                        <div class=" col-md-1" >
                           <% if a.article.picture != nil %>
                               <%= image_tag(a.article.picture.image.url(:table)) %>
                           <% else %>
@@ -102,29 +91,25 @@
 
                         </div>
 
-                        <div class="col-xs-6 col-md-3" >
+                        <div class=" col-md-4" >
                           <div class="item-title"> <%= link_to a.article.title+" (#{a.article.code})", trgovina_show_url(a.article.id) %> </div>
                         </div>
 
-                        <div class="col-xs-6 col-md-4">
-
-                          <div class="col-xs-6 col-md-2 col-md-offset-2" style="width: auto; height:auto;">
-                            <div class="item-title" > <%=  a.amount %></div>
-                          </div>
-
+                        <div class=" col-md-2" style="">
+                          <div class="item-title" > <%=  a.amount %></div>
                         </div>
 
-                        <div class="col-xs-6 col-md-2">
-                          <div class="item-price" style="text-align: right;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
+                        <div class=" col-md-2">
+                          <div class="item-title" style="text-align: right;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
-                        <div class="col-xs-6 col-md-2" style="text-align: right;">
-                          <div class="item-price"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
+                        <div class=" col-md-3" style="text-align: right;">
+                          <div class="item-title"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
                     <% elsif !a.single_article.nil? %>
 
-                        <div class="col-xs-6 col-md-1" >
+                        <div class=" col-md-1" >
                           <% if a.single_article.article.picture != nil %>
                               <%= image_tag(a.single_article.article.picture.image.url(:table)) %>
                           <% else %>
@@ -133,29 +118,25 @@
 
                         </div>
 
-                        <div class="col-xs-6 col-md-3" >
+                        <div class=" col-md-4" >
                           <div class="item-title"> <%= link_to a.single_article.title+" (#{a.single_article.article.code})", trgovina_show_url(a.single_article.article.id) %> </div>
                         </div>
 
-                        <div class="col-xs-6 col-md-4">
-
-                          <div class="col-xs-6 col-md-2 col-md-offset-2" style="width: auto; height:auto;">
-                            <div class="item-title"> <%=  a.amount %></div>
-                          </div>
-
+                        <div class=" col-md-2" style="text-align: right;">
+                          <div class="item-title"> <%=  a.amount %></div>
                         </div>
 
-                        <div class="col-xs-6 col-md-2">
-                          <div class="item-price" style="text-align: right;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
+                        <div class=" col-md-2">
+                          <div class="item-title" style="text-align: center;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
-                        <div class="col-xs-6 col-md-2" style="text-align: right;">
-                          <div class="item-price"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
+                        <div class=" col-md-3" style="text-align: center;">
+                          <div class="item-title"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
                     <% else %>
 
-                        <div class="col-xs-6 col-md-1" >
+                        <div class=" col-md-1" >
                           <% if a.complement.picture != nil %>
                               <%= image_tag(a.complement.picture.image.url(:table)) %>
                           <% else %>
@@ -164,23 +145,23 @@
 
                         </div>
 
-                        <div class="col-xs-6 col-md-3" >
+                        <div class=" col-md-3" >
                           <div class="item-title"> <%=  a.complement.title  %> </div>
                         </div>
 
-                        <div class="col-xs-6 col-md-4">
+                        <div class=" col-md-4">
 
-                          <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
+                          <div class=" col-md-2" style="text-align: right;">
                             <div class="item-title"> <%=  a.amount %></div>
                           </div>
 
                         </div>
 
-                        <div class="col-xs-6 col-md-2">
+                        <div class=" col-md-2">
                           <div class="item-price" style="text-align: right;"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.complement.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                         </div>
 
-                        <div class="col-xs-6 col-md-2" style="text-align: right;">
+                        <div class=" col-md-2" style="text-align: right;">
                           <div class="item-price"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.single_article.article.discount/100))*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                         </div>
 
@@ -190,7 +171,7 @@
             <% end %>
             <li class="list-group-item"  >
               <div class="row" >
-                <div class="col-xs-6 col-md-12">
+                <div class=" col-md-12">
                   <div class="item-title" style="text-align: right;">Ukupna cijena izabranih proizvoda je:</div>
 
                   <% if @user != nil %>
