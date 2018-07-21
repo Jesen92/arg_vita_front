@@ -103,7 +103,7 @@
                         </div>
 
                         <div class="col-xs-6 col-md-3" >
-                          <div class="item-title"> <%= link_to a.article.title+" (#{a.article.code})", trgovina_show_path(a.article.id) %> </div>
+                          <div class="item-title"> <%= link_to a.article.title+" (#{a.article.code})", trgovina_show_url(a.article.id) %> </div>
                         </div>
 
                         <div class="col-xs-6 col-md-4">
@@ -134,7 +134,7 @@
                         </div>
 
                         <div class="col-xs-6 col-md-3" >
-                          <div class="item-title"> <%= link_to a.single_article.title+" (#{a.single_article.article.code})", trgovina_show_path(a.single_article.article.id) %> </div>
+                          <div class="item-title"> <%= link_to a.single_article.title+" (#{a.single_article.article.code})", trgovina_show_url(a.single_article.article.id) %> </div>
                         </div>
 
                         <div class="col-xs-6 col-md-4">

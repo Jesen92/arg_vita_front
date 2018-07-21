@@ -284,7 +284,7 @@
                   </div>
 
                   <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                    <%= link_to '+', carts_articles_create_path(a.id ), class: "btn btn-default quantity" %>
+                    <%= link_to '+', carts_articles_create_path(a.id, :article => {:amount => 1} ), class: "btn btn-default quantity" %>
                   </div>
                 </div>
 

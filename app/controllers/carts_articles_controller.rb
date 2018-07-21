@@ -436,10 +436,6 @@ class CartsArticlesController < ApplicationController
       @shopping_cart.save
     end
 
-
-
-
-
     redirect_to shopping_carts_show_path
 
   end
