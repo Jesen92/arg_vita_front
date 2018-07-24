@@ -29,13 +29,13 @@ class Users::SessionsController < Devise::SessionsController
   def add_session_items_to_shopping_cart
     shopping_cart = @user.shopping_cart
 
-    $no_user_articles.each do |k, v|
+    @no_user_articles.each do |k, v|
       cost = get_article_cost(k)
       shopping_cart.carts_articles.create(article_id: k, cost: cost, amount: v)
       shopping_cart.update(current_cost: shopping_cart.current_cost+cost*v)
     end
 
-    $no_user_single_articles.each do |k, v|
+    @no_user_single_articles.each do |k, v|
       cost = get_single_article_cost(k)
       shopping_cart.carts_articles.create(single_article_id: k, cost: cost, amount: v)
       shopping_cart.update(current_cost: shopping_cart.current_cost+cost*v)

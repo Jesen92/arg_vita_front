@@ -14,8 +14,8 @@ class AuctionsController < ApplicationController
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
     else
       puts "NEMA USER-A!!!!"
-      @articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     end
 
@@ -31,8 +31,8 @@ class AuctionsController < ApplicationController
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
     else
       puts "NEMA USER-A!!!!"
-      @articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     end
 
@@ -48,8 +48,8 @@ class AuctionsController < ApplicationController
       @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
     else
       puts "NEMA USER-A!!!!"
-      @articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     end
 

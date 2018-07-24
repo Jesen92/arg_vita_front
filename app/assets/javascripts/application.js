@@ -39,6 +39,7 @@
 //= require ion.rangeSlider.min
 //= require scaffold.coffee
 //= require turbolinks
+//= require cookies_eu
 //= require_tree .
 
 

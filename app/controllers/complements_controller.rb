@@ -2,8 +2,8 @@ class ComplementsController < ApplicationController
   before_filter :set_user, :set_cart, :set_main_title
   def index
     if current_user == nil
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -16,8 +16,8 @@ class ComplementsController < ApplicationController
 
   def show
     if current_user == nil
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)

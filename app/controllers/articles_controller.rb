@@ -24,8 +24,8 @@ class ArticlesController < ApplicationController
 
   def search_art
     if current_user == nil
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -44,7 +44,7 @@ class ArticlesController < ApplicationController
       ).page(params[:page] || 1).per(12)
     end
 
-    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @articles.collect!(&p) unless @articles.nil?
   end
@@ -78,8 +78,8 @@ class ArticlesController < ApplicationController
 
   def show
     if current_user == nil
-      @articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
     end
 
     @article = Article.find(params[:id])

@@ -10,8 +10,8 @@ class TrgovinaController < ApplicationController
 
   def categories
     if current_user == nil
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -52,8 +52,8 @@ class TrgovinaController < ApplicationController
     else
       puts "NEMA USER-A!!!!"
 
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
     end
 
 
@@ -125,8 +125,8 @@ class TrgovinaController < ApplicationController
     else
       puts "NEMA USER-A!!!!"
 
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
     end
 
     if params[:id] != nil
@@ -160,7 +160,7 @@ class TrgovinaController < ApplicationController
 
     #binding.pry
 
-    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @articles.collect!(&p)
 
@@ -199,9 +199,9 @@ class TrgovinaController < ApplicationController
         @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id )
       else
         puts "NEMA USER-A!!!!"
-        @no_articles = Article.where(id: $no_user_articles.keys)
+        @no_articles = Article.where(id: @no_user_articles.keys)
 
-        @sa = SingleArticle.where(id: $no_user_single_articles.keys) # single article dodan ####################################################################################################
+        @sa = SingleArticle.where(id: @no_user_single_articles.keys) # single article dodan ####################################################################################################
       end
     else
       flash[:error] = "Taj artikl ne postoji!"
@@ -209,7 +209,7 @@ class TrgovinaController < ApplicationController
     end
     @main_title = 'AV|'+@article.title.split.map(&:capitalize).join(' ')
 
-    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @article = p.call(@article)
 

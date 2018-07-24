@@ -3,6 +3,7 @@ class CartsArticlesController < ApplicationController
   before_action :set_user, :set_cart
   before_action :set_main_title, :set_anchor
   skip_before_action :set_article_raw_session
+  after_action :set_article_session
 
   def index
   end
@@ -20,7 +21,6 @@ class CartsArticlesController < ApplicationController
     #  return redirect_to :back
     #end
 
-    #binding.pry
     cookies[:page_number] = params[:page_number]
 
     @ind = false
@@ -31,7 +31,7 @@ class CartsArticlesController < ApplicationController
 
     @article = Article.find(art_id)
 
-    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @article = p.call(@article)
 
@@ -40,18 +40,18 @@ class CartsArticlesController < ApplicationController
     if current_user == nil  # kad nema usera #############################################################################################
 
       puts "Ispred if za provjeru jel se artikl nalazi u hash-u"
-      if $no_user_articles.has_key?(@article.id.to_s)
-        $no_user_articles.each do |k, v|
+      if @no_user_articles.has_key?(@article.id.to_s)
+        @no_user_articles.each do |k, v|
           if k == @article.id.to_s
-            (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if $no_user_articles[k]+amount > @article.amount
-            $no_user_articles[k] += amount
+            (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if @no_user_articles[k]+amount > @article.amount
+            @no_user_articles[k] += amount
 
           end
         end
+
       else
         puts "Unutar if-else-a kada nije pronaden artikl unutar hash-a"
-        $no_user_articles[art_id] = amount
-        #binding.pry
+        @no_user_articles[art_id] = amount
       end
     else   # kad ima usera ################################################################################################################
 
@@ -92,7 +92,7 @@ class CartsArticlesController < ApplicationController
 
       if current_user == nil
 
-        $items_cost += @article.cost*amount
+        @items_cost += @article.cost*amount
         #binding.pry
 
       elsif current_user != nil
@@ -109,7 +109,7 @@ class CartsArticlesController < ApplicationController
     elsif
       if current_user == nil
 
-        $items_cost += (@article.cost- (@article.cost*@article.discount/100))*amount
+        @items_cost += (@article.cost- (@article.cost*@article.discount/100))*amount
 
       elsif current_user != nil
 
@@ -242,23 +242,23 @@ class CartsArticlesController < ApplicationController
     if current_user == nil # dodaje single article u hash single article ##############################################################
       if @sa != nil
         puts "single article nije nil"
-        if $no_user_single_articles.has_key?(@sa.id.to_s)
+        if @no_user_single_articles.has_key?(@sa.id.to_s)
           puts "nasao je taj key od single article-a"
-          $no_user_single_articles.each do |k, v|
+          @no_user_single_articles.each do |k, v|
             if k == @sa.id.to_s
-              $no_user_single_articles[k] += 1
+              @no_user_single_articles[k] += 1
               puts "nasao je da postoji vec u varijabli"
             end
           end
     else
       puts "Unutar if-else-a kada nije pronaden artikl unutar hash-a"
-      $no_user_single_articles[@sa.id] = 1
+      @no_user_single_articles[@sa.id] = 1
     end
-    $items_cost+=prize
+    @items_cost+=prize
     end
     end
 
-    $no_user_single_articles.each do |k,v|
+    @no_user_single_articles.each do |k,v|
       puts "#{k}"
     end
 ############################################################################################################################################
@@ -279,7 +279,7 @@ class CartsArticlesController < ApplicationController
 
       amount = params[:article].blank? ? 1 : params[:article][:amount].to_i
 
-    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @article = p.call(@single_article.article)
 
@@ -322,15 +322,15 @@ class CartsArticlesController < ApplicationController
   #kad nema usera   ################################################################################################################
 
     else
-      if $no_user_single_articles.has_key?(@single_article.id)
-        $no_user_single_articles.each do |k, v|
+      if @no_user_single_articles.has_key?(@single_article.id)
+        @no_user_single_articles.each do |k, v|
           if k == @single_article.id
-            (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount+$no_user_single_articles[k] > @single_article.amount
-            $no_user_single_articles[k] += amount
+            (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount+@no_user_single_articles[k] > @single_article.amount
+            @no_user_single_articles[k] += amount
           end
         end
       else
-        $no_user_single_articles[@single_article.id] = amount
+        @no_user_single_articles[@single_article.id] = amount
       end
      end
   ###################################################################################################################################
@@ -343,7 +343,7 @@ class CartsArticlesController < ApplicationController
 
       if current_user == nil
 
-        $items_cost += @single_article.article.cost*amount
+        @items_cost += @single_article.article.cost*amount
 
       else
         @shopping_cart.current_cost += @single_article.article.cost*amount
@@ -356,7 +356,7 @@ class CartsArticlesController < ApplicationController
     elsif
       if current_user == nil
 
-        $items_cost += (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
+        @items_cost += (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
 
       else
         cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
@@ -399,14 +399,14 @@ class CartsArticlesController < ApplicationController
     else  #kad nema usera   ################################################################################################################
 
 
-      if $no_user_articles.has_key?(@complement.id.to_s)
-        $no_user_articles.each do |k, v|
+      if @no_user_articles.has_key?(@complement.id.to_s)
+        @no_user_articles.each do |k, v|
           if k == @article.id.to_s
-            $no_user_articles[k] += 1
+            @no_user_articles[k] += 1
           end
         end
       else
-        $no_user_articles[params[:format]] = 1
+        @no_user_articles[params[:format]] = 1
       end
 
 
@@ -415,7 +415,7 @@ class CartsArticlesController < ApplicationController
     if @complement.on_discount.nil? || @complement.on_discount == false || @complement.discount != 0
       if current_user == nil
 
-        $items_cost += @complement.cost
+        @items_cost += @complement.cost
 
       end
 
@@ -429,7 +429,7 @@ class CartsArticlesController < ApplicationController
     else
       if current_user == nil
 
-        $items_cost += (@complement.cost- (@complement.cost*@complement.discount/100))
+        @items_cost += (@complement.cost- (@complement.cost*@complement.discount/100))
 
       end
       @shopping_cart.current_cost += (@complement.cost- (@complement.cost*@complement.discount/100))
@@ -449,8 +449,8 @@ class CartsArticlesController < ApplicationController
     #  return redirect_to :back
     #end
 
-    @no_articles = Article.where(id: $no_user_articles.keys)
-    @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+    @no_articles = Article.where(id: @no_user_articles.keys)
+    @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     puts "uso plus _no user"
 
@@ -466,12 +466,12 @@ class CartsArticlesController < ApplicationController
 
 
         puts "uso u has key?"
-       $no_user_single_articles.each do |k, v|
+       @no_user_single_articles.each do |k, v|
          puts "uso u no user articles petlju"
          if k == art.id
            puts "uso u if provjeru"
-          $no_user_single_articles[k] += 1
-          $items_cost+=prize
+          @no_user_single_articles[k] += 1
+          @items_cost+=prize
          end
           end
 
@@ -485,8 +485,8 @@ class CartsArticlesController < ApplicationController
     #  return redirect_to :back
     #end
 
-    @articles = Article.where(id: $no_user_articles.keys)
-    @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+    @articles = Article.where(id: @no_user_articles.keys)
+    @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     puts "uso plus _no user"
 
@@ -501,16 +501,16 @@ class CartsArticlesController < ApplicationController
     #binding.pry
 
     puts "uso u has key?"
-    $no_user_single_articles.each do |k, v|
+    @no_user_single_articles.each do |k, v|
       puts "uso u no user articles petlju"
       if k == art.id
         if v > 1
         puts "uso u if provjeru"
-        $no_user_single_articles[k] -= 1
-        $items_cost-=prize
+        @no_user_single_articles[k] -= 1
+        @items_cost-=prize
         else
-          $no_user_single_articles.delete(k)
-          $items_cost-=prize
+          @no_user_single_articles.delete(k)
+          @items_cost-=prize
         end
       end
     end
@@ -536,5 +536,13 @@ class CartsArticlesController < ApplicationController
 
   def set_anchor
     env["HTTP_REFERER"] += '#articles_end' unless env["HTTP_REFERER"].blank?
+  end
+
+  def set_article_session
+    if current_user == nil
+      session[:no_user_articles] = @no_user_articles
+      session[:no_user_single_articles] = @no_user_single_articles
+      session[:items_cost] = @items_cost
+    end
   end
 end

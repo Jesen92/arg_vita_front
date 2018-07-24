@@ -8,8 +8,8 @@ class RepromaterijalController < ApplicationController
 
   def categories
     if current_user == nil
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
     else
       @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
@@ -54,8 +54,8 @@ class RepromaterijalController < ApplicationController
     else
       puts "NEMA USER-A!!!!"
 
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
     end
 
     if params[:id] != nil
@@ -129,8 +129,8 @@ class RepromaterijalController < ApplicationController
     else
       puts "NEMA USER-A!!!!"
 
-      @no_articles = Article.where(id: $no_user_articles.keys)
-      @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+      @no_articles = Article.where(id: @no_user_articles.keys)
+      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
     end
 
     if params[:id] != nil
@@ -167,7 +167,7 @@ class RepromaterijalController < ApplicationController
 
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
 
-    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : $items_cost}
+    discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
     @articles.collect!(&p)
 
@@ -205,8 +205,8 @@ class RepromaterijalController < ApplicationController
         @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id)
       else
         puts "NEMA USER-A!!!!"
-        @articles = Article.where(id: $no_user_articles.keys)
-        @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+        @articles = Article.where(id: @no_user_articles.keys)
+        @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
       end
     else

@@ -33,6 +33,7 @@
 </head>
 <body>
 <a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+<%= render 'cookies_eu/consent_banner' %>
 <div>
 <!--top-header-->
 
@@ -146,15 +147,15 @@
           <a href="#" title="View your shopping cart" class="cart-link">
             <i><%=image_tag("cart-2.png") %></i>
 
-            <span class="amount"><%=   number_to_currency($items_cost, :unit => 'Kn', :format => "%n %u") %></span>
+            <span class="amount"><%=   number_to_currency(@items_cost, :unit => 'Kn', :format => "%n %u") %></span>
             <% a=0 %>
-            <%  $no_user_articles.each do |k, v| %>
+            <%  @no_user_articles.each do |k, v| %>
 
                 <% a+=v.to_i %>
 
             <% end %>
 
-            <%  $no_user_single_articles.each do |k, v| %>
+            <%  @no_user_single_articles.each do |k, v| %>
 
                 <% a+=v.to_i %>
 
@@ -168,7 +169,7 @@
             <div class="cart-items">
               <ul>
 
-                  <%  $no_user_articles.each do |k, v| %>
+                  <%  @no_user_articles.each do |k, v| %>
                       <% @no_articles.each do |a| %>
                           <% if a.id.to_s == k %>
                             <li class="clearfix">
@@ -198,7 +199,7 @@
                   <% end %>
 
                 <% if !@sa.nil? %>
-                <% $no_user_single_articles.each do |k,v| %>
+                <% @no_user_single_articles.each do |k,v| %>
                     <% puts "Usao je u petlju" %>
                   <%  @sa.each do |sa| %>
                     <% puts "Usao je u drugu petlju" %>

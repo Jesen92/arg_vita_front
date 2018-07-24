@@ -8,12 +8,12 @@ class ShoppingCartsController < ApplicationController
 
   def show
     if current_user == nil
-      #$no_user_articles.each do |k, v|
-        @no_articles = Article.where(id: $no_user_articles.keys)
+      #@no_user_articles.each do |k, v|
+        @no_articles = Article.where(id: @no_user_articles.keys)
 
-        @sa = SingleArticle.where(id: $no_user_single_articles.keys)
+        @sa = SingleArticle.where(id: @no_user_single_articles.keys)
 
-      $no_user_single_articles.each do |k,v|
+      @no_user_single_articles.each do |k,v|
         puts "#{k}"
       end
 
@@ -34,24 +34,24 @@ class ShoppingCartsController < ApplicationController
       @article = Article.find(params[:format])
 
       puts "Ispred if za provjeru jel se artikl nalazi u hash-u"
-      if $no_user_articles.has_key?(@article.id.to_s)
-        $no_user_articles.each do |k, v|
+      if @no_user_articles.has_key?(@article.id.to_s)
+        @no_user_articles.each do |k, v|
           if k == @article.id.to_s
-            $no_user_articles[k] += 1
+            @no_user_articles[k] += 1
             if @article.on_discount
-              $items_cost += (@article.cost- (@article.cost*@article.discount/100))
+              @items_cost += (@article.cost- (@article.cost*@article.discount/100))
             else
-              $items_cost += @article.cost
+              @items_cost += @article.cost
             end
           end
         end
       else
         puts "Unutar if-else-a kada nije pronaden artikl unutar hash-a"
-        $no_user_articles[params[:format]] = 1
+        @no_user_articles[params[:format]] = 1
         if @article.on_discount
-          $items_cost += (@article.cost- (@article.cost*@article.discount/100))
+          @items_cost += (@article.cost- (@article.cost*@article.discount/100))
         else
-          $items_cost += @article.cost
+          @items_cost += @article.cost
         end
       end
     else
@@ -72,7 +72,7 @@ class ShoppingCartsController < ApplicationController
       if @article.on_discount.nil? || @article.on_discount == false || @article.discount != 0
         if current_user == nil
 
-          $items_cost += @article.cost
+          @items_cost += @article.cost
 
         else
           @shopping_cart.current_cost += @article.cost
@@ -81,7 +81,7 @@ class ShoppingCartsController < ApplicationController
       else
         if current_user == nil
 
-          $items_cost += (@article.cost- (@article.cost*@article.discount/100))
+          @items_cost += (@article.cost- (@article.cost*@article.discount/100))
 
         end
         @shopping_cart.current_cost += (@article.cost- (@article.cost*@article.discount/100))
@@ -107,30 +107,30 @@ class ShoppingCartsController < ApplicationController
 
     if current_user == nil
 
-      if $no_user_articles.has_key?(@article.id.to_s)
+      if @no_user_articles.has_key?(@article.id.to_s)
 
-        $no_user_articles.each do |k, v|
+        @no_user_articles.each do |k, v|
 
           if k == @article.id.to_s && v.to_i > 1
             puts "ulazi u if"
-            $no_user_articles[k] -= 1
+            @no_user_articles[k] -= 1
             if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
-              $items_cost -= @article.cost
+              @items_cost -= @article.cost
             else
-              $items_cost -= (@article.cost- (@article.cost*@article.discount/100))
+              @items_cost -= (@article.cost- (@article.cost*@article.discount/100))
             end
           end
 
           if k == @article.id.to_s && v.to_i == 1
             puts "ulazi u else"
             if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
-              $items_cost -= @article.cost
+              @items_cost -= @article.cost
 
             else
-              $items_cost -= (@article.cost- (@article.cost*@article.discount/100))
+              @items_cost -= (@article.cost- (@article.cost*@article.discount/100))
 
             end
-            $no_user_articles.delete(k)
+            @no_user_articles.delete(k)
           end
 
         end
@@ -164,18 +164,18 @@ class ShoppingCartsController < ApplicationController
 
     cookies[:page_number] = params[:page_number]
     if current_user == nil
-      if $no_user_single_articles.has_key?(@single_article.id)
-        $no_user_single_articles.each do |k, v|
+      if @no_user_single_articles.has_key?(@single_article.id)
+        @no_user_single_articles.each do |k, v|
           if k == @single_article.id
 
-            $no_user_single_articles[k] -= 1
+            @no_user_single_articles[k] -= 1
             if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
-              $items_cost -= @single_article.article.cost
+              @items_cost -= @single_article.article.cost
             else
-              $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
+              @items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
             end
 
-            $no_user_single_articles.delete(k) if amount < 1
+            @no_user_single_articles.delete(k) if amount < 1
           end
         end
       end
@@ -242,23 +242,23 @@ class ShoppingCartsController < ApplicationController
 
     if current_user == nil
 
-      if $no_user_articles.has_key?(@article.id.to_s)
+      if @no_user_articles.has_key?(@article.id.to_s)
 
-        $no_user_articles.each do |k, v|
+        @no_user_articles.each do |k, v|
 
           if k == @article.id.to_s
             puts "ulazi u if"
 
             if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
-              $items_cost -= @article.cost*amount
+              @items_cost -= @article.cost*amount
 
             else
 
-              $items_cost -= (@article.cost- (@article.cost*@article.discount/100))*amount
+              @items_cost -= (@article.cost- (@article.cost*@article.discount/100))*amount
 
             end
 
-            $no_user_articles.delete(k)
+            @no_user_articles.delete(k)
           end
 
         end
@@ -288,18 +288,18 @@ class ShoppingCartsController < ApplicationController
 
     cookies[:page_number] = params[:page_number]
     if current_user == nil
-      if $no_user_single_articles.has_key?(@single_article.id)
-        $no_user_single_articles.each do |k, v|
+      if @no_user_single_articles.has_key?(@single_article.id)
+        @no_user_single_articles.each do |k, v|
 
           if k == @single_article.id
 
             if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
-              $items_cost -= @single_article.article.cost*amount
+              @items_cost -= @single_article.article.cost*amount
             else
-              $items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
+              @items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
             end
 
-            $no_user_single_articles.delete(k)
+            @no_user_single_articles.delete(k)
           end
         end
       end
