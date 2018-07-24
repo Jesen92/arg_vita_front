@@ -8,6 +8,8 @@ class ShoppingCartsController < ApplicationController
 
   def show
     if current_user == nil
+      flash[:notice] = "Molimo registrirajte se prije izvršenja kupnje!"
+      return redirect_to :root
       #@no_user_articles.each do |k, v|
         @no_articles = Article.where(id: @no_user_articles.keys)
 
