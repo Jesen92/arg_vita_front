@@ -96,22 +96,29 @@ class TrgovinaController < ApplicationController
 
   def index
     if cookies[:article_raw].nil? || cookies[:article_raw].include?('true')
-      #binding.pry
+      session[:page_number] = nil
       cookies[:article_raw] = false
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
-    #binding.pry
+
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
-    @page_number ||= params[:page]
-    cookies[:page_number] = nil if params[:filterrific].present?
+    if params[:page].present? && session[:page_number].present? && session[:page_number].to_i > params[:page].to_i
+      params[:page] = session[:page_number].to_i + 1
+    else
+      session[:page_number] = params[:page] if params[:page].present?
+    end
+
+    @page_number = session[:page_number].present? ? session[:page_number].to_i : 1
+
+    if session[:page_number].present?
+      @page_number = params[:page].to_i if params[:page].present?
+    elsif params[:page].present?
+      @page_number = params[:page].to_i
+    end
 
     @categories = Category.all
     @materials = Material.all
-
-    if params[:page].present? && cookies[:page_number].present? && params[:page].to_i < cookies[:page_number].to_i
-      params[:page] = (cookies[:page_number].to_i+1).to_s
-    end
 
     puts "Usao je u trgovina#index"
 
@@ -149,16 +156,11 @@ class TrgovinaController < ApplicationController
 
     #min, max = !params[:filterrific].nil? && !params[:filterrific][:min_cost].nil? ? params[:filterrific][:min_cost].nil?.to_s.split(';') : nil
 
-    @articles = cookies[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*cookies[:page_number].to_i) : @filterrific.find.page(params[:page])
-    #binding.pry
-    #cookies[:page_number] = nil
-    #binding.pry
+    @articles = params[:page].blank? ? @filterrific.find.page(1).per(9*@page_number.to_i) : @filterrific.find.page(@page_number)
 
     ( redirect_to(reset_filterrific_url(format: :html))and  return) if @articles.blank?
 
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
-
-    #binding.pry
 
     discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }

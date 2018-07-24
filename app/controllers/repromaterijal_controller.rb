@@ -97,24 +97,31 @@ class RepromaterijalController < ApplicationController
   def index
     if cookies[:article_raw].nil? || cookies[:article_raw].include?('false')
       #binding.pry
+      session[:page_number] = nil
       cookies[:article_raw] = true
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
 
     #params[:filterrific][:reset_filterrific] = false if params[:filterrific].present? && params[:filterrific][:reset_filterrific].present?
-    #binding.pry
-
-    @page_number ||= params[:page]
-    cookies[:page_number] = nil if params[:filterrific].present?
 
     add_breadcrumb "Repromaterijal", :repromaterijal_index_path
 
     @ssubcategories = Ssubcategory.all
     @subcategories = Subcategory.all
 
-    if params[:page].present? && cookies[:page_number].present? && params[:page].to_i < cookies[:page_number].to_i
-      params[:page] = (cookies[:page_number].to_i+1).to_s
-      #binding.pry
+
+    if params[:page].present? && session[:page_number].present? && session[:page_number].to_i > params[:page].to_i
+      params[:page] = session[:page_number].to_i + 1
+    else
+      session[:page_number] = params[:page] if params[:page].present?
+    end
+
+    @page_number = session[:page_number].present? ? session[:page_number].to_i : 1
+
+    if session[:page_number].present?
+      @page_number = params[:page].to_i if params[:page].present?
+    elsif params[:page].present?
+      @page_number = params[:page].to_i
     end
 
     puts "Usao je u trgovina#index"
@@ -157,9 +164,9 @@ class RepromaterijalController < ApplicationController
                                                                                                 with_color_id: Color.options_for_select,
                                                                                                 with_type_id: Type.options_for_select}, :persistence_id => true,) or return
 
-    @articles = cookies[:page_number].present? ? @filterrific.find.page(params[:page]).per(9*cookies[:page_number].to_i) : @filterrific.find.page(params[:page])
+    @articles = params[:page].blank? ? @filterrific.find.page(1).per(9*@page_number.to_i) : @filterrific.find.page(@page_number)
 
-    #cookies[:page_number] = nil
+    #session[:page_number] = nil
 
     ( redirect_to(reset_filterrific_url(format: :html))and  return) if @articles.blank?
 
