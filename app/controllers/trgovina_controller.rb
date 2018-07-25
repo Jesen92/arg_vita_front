@@ -103,6 +103,8 @@ class TrgovinaController < ApplicationController
 
     add_breadcrumb "Gotov nakit", :trgovina_index_path
 
+    session[:page_number] = nil if params[:filterrific].present?
+
     if params[:page].present? && session[:page_number].present? && session[:page_number].to_i > params[:page].to_i
       params[:page] = session[:page_number].to_i + 1
     else
@@ -156,7 +158,7 @@ class TrgovinaController < ApplicationController
 
     #min, max = !params[:filterrific].nil? && !params[:filterrific][:min_cost].nil? ? params[:filterrific][:min_cost].nil?.to_s.split(';') : nil
 
-    @articles = params[:page].blank? ? @filterrific.find.page(1).per(9*@page_number.to_i) : @filterrific.find.page(@page_number)
+    @articles = params[:page].blank? ? @filterrific.find.page(1).per(18*@page_number.to_i) : @filterrific.find.page(@page_number)
 
     ( redirect_to(reset_filterrific_url(format: :html))and  return) if @articles.blank?
 

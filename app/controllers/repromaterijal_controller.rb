@@ -109,6 +109,7 @@ class RepromaterijalController < ApplicationController
     @ssubcategories = Ssubcategory.all
     @subcategories = Subcategory.all
 
+    session[:page_number] = nil if params[:filterrific].present?
 
     if params[:page].present? && session[:page_number].present? && session[:page_number].to_i > params[:page].to_i
       params[:page] = session[:page_number].to_i + 1
@@ -164,7 +165,7 @@ class RepromaterijalController < ApplicationController
                                                                                                 with_color_id: Color.options_for_select,
                                                                                                 with_type_id: Type.options_for_select}, :persistence_id => true,) or return
 
-    @articles = params[:page].blank? ? @filterrific.find.page(1).per(9*@page_number.to_i) : @filterrific.find.page(@page_number)
+    @articles = params[:page].blank? ? @filterrific.find.page(1).per(18*@page_number.to_i) : @filterrific.find.page(@page_number)
 
     #session[:page_number] = nil
 
