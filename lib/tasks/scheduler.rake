@@ -16,7 +16,7 @@ namespace :scheduler do
 
       else #provjeri ako je na popustu da li treba artikl maknuti sa popusta
 
-        if art.end_date != nil && art.end_date.to_datetime <= DateTime.now
+        if art.end_date != nil && art.end_date.to_datetime < DateTime.now
           puts "Mičem popust sa #{art.title}!"
           art.update(on_discount: false)
         end
