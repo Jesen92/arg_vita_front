@@ -218,8 +218,9 @@ class RepromaterijalController < ApplicationController
 
       end
     else
-      flash[:error] = "Taj artikl ne postoji!"
-      redirect_to :back
+      flash[:error] = "Taj artikl ne postoji ili trenutno nije na skladištu!"
+      return redirect_to :back if env['HTTP_REFERER'].present?
+      redirect_to repromaterijal_index_path
     end
 
   end

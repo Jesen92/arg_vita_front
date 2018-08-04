@@ -208,8 +208,9 @@ class TrgovinaController < ApplicationController
         @sa = SingleArticle.where(id: @no_user_single_articles.keys) # single article dodan ####################################################################################################
       end
     else
-      flash[:error] = "Taj artikl ne postoji!"
-      return redirect_to :back
+      flash[:error] = "Taj artikl ne postoji ili trenutno nije na skladištu!"
+      return redirect_to :back if env['HTTP_REFERER'].present?
+      return redirect_to trgovina_index_path
     end
     @main_title = 'AV|'+@article.title.split.map(&:capitalize).join(' ')
 
