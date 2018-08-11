@@ -68,12 +68,12 @@ class HomeController < ApplicationController
     end
 
     if params[:email_form][:name].blank? || params[:email_form][:email].blank? || params[:email_form][:subject].blank? || params[:email_form][:message].blank?
-      flash[:recaptcha_error] = "Molimo ispunite sva polja prije slanja upita! Hvala!"
+      flash[:recaptcha_error] = "Molimo ispunite sva polja prije slanja upita!"
       return redirect_to about_us_page_path(anchor: 'CONTACT')
     end
 
     UserMailer.contact_us_mail(params[:email_form]).deliver_now
-    flash[:notice] = "Zahvaljujemo na vašem upitu! Netko će vas kontaktirati! :)"
+    flash[:notice] = "Zahvaljujemo na vašem upitu!"
     redirect_to :back
   end
 
