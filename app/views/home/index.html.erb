@@ -63,7 +63,7 @@
                     <h4>-</h4>
                 <% end %>
 
-                <% if art.discount.present? && art.discount > 0 %>
+                <% if art.on_discount == true && art.discount.present? && art.discount > 0 %>
                     <h4>
                       <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i> </a><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
                       <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
@@ -73,7 +73,7 @@
                     <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
                 <% end %>
               </div>
-              <% if art.discount.present? && art.discount > 0 %>
+              <% if art.on_discount == true && art.discount.present? && art.discount > 0 %>
                   <div class="srch">
                     <span style="padding: 12px 8px;">-<%= art.discount %>%</span>
                   </div>
