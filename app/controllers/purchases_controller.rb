@@ -22,6 +22,12 @@ class PurchasesController < ApplicationController
     end
     session[:delivery_info_params] = delivery_info_params
 
+    if params[:users_purchase][:payment_method].blank?
+      flash[:error] = "Molimo odaberite način plaćanja prije izvršavanja kupnje!"
+      return redirect_to :shopping_carts_show
+    end
+
+
     if params[:users_purchase][:payment_method].include? "Paypal"
       payment = paypal_payment
       return redirect_to @payment.links.find { |link| link.rel == 'approval_url' }.href unless payment.nil?

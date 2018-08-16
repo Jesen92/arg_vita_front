@@ -28,11 +28,11 @@
             <%= f.input :address, label: "Adresa", required: true, input_html: {value: current_user.address} %>
             <%= f.input :phone_num, label: "Broj tel./mob.", required: true, input_html: {value: current_user.phone} %>
             <%= f.input :remark, label: "Napomena", as: :text %>
-            <%= f.label "Metoda plaćanja" %>
+            <%= f.label "Način plaćanja" %>
             <div class="row">
-
+r
             <%= f.collection_radio_buttons(:payment_method, [ ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png'], ['Plaćanje virmanom', 'invoice.png']],
-                                           :first, :last, :checked => ['Paypal', 'paypal.png'], :item_wrapper_class => 'horizontal',
+                                           :first, :last, :checked => ['Credit card', 'credit-card.png'], :item_wrapper_class => 'horizontal', :required => true,
                                            :onclick => 'alert_if_option_selected()', :id => 'payment_method_select') do |method| %>
               <div class="col-md-1">
                 <%= method.radio_button :onclick => "alert_if_option_selected('#{method.value}')" %>
