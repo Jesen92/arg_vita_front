@@ -1,6 +1,8 @@
 module Ajax
   class CartsArticlesController < ApplicationController
     before_filter :set_user, :set_cart, :set_main_title
+    skip_before_action :set_article_raw_session
+    after_action :set_ajax_article_session
 
     def create
       session[:page_number] = params[:page_number]
@@ -55,7 +57,6 @@ module Ajax
         puts @carts_article
 
         if @carts_article == nil
-
           if @article.amount.present? && amount <= @article.amount
             CartsArticle.create(shopping_cart_id: @shopping_cart.id, article_id: art_id, amount: params[:article] ? params[:article][:amount] : 1 )
             @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: art_id )
@@ -79,11 +80,11 @@ module Ajax
           @carts_article.amount += amount
           @carts_article.save
 
+        else
           @message = "Nema dovoljne kolicine artikla u ducanu"
           respond_to do |format|
             return format.js {flash[:error] = @message}
           end
-
         end
       end
 
@@ -124,6 +125,11 @@ module Ajax
           @carts_article.save
 
         end
+      end
+
+      if current_user == nil
+        @no_articles = Article.where(id: @no_user_articles.keys)
+        @sa = SingleArticle.where(id: @no_user_single_articles.keys)
       end
 
       respond_to do |format|
@@ -248,8 +254,23 @@ module Ajax
       end
       end
 
+      if current_user == nil
+        @no_articles = Article.where(id: @no_user_articles.keys)
+        @sa = SingleArticle.where(id: @no_user_single_articles.keys)
+      end
+
       respond_to do |format|
         format.js {flash[:notice] = "Artikl dodan u košaricu" }
+      end
+    end
+
+    private
+
+    def set_ajax_article_session
+      if current_user == nil
+        session[:no_user_articles] = @no_user_articles
+        session[:no_user_single_articles] = @no_user_single_articles
+        session[:items_cost] = @items_cost
       end
     end
   end

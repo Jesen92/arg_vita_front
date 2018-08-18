@@ -44,6 +44,8 @@ $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
 <% else %>
 $("#flash_error").html("Nema dovoljne količine u dućanu!");
 
+$("#error-alert").attr('display: block;');
+
 $("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
     $("#error-alert").slideUp(500);
 });

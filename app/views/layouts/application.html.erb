@@ -75,7 +75,6 @@
 
       <% if current_user == nil %>
 
-
           <div id="cart_partial">
             <%= render partial: 'layouts/cart', locals:
                 {
@@ -146,7 +145,6 @@
 
   <div id="error-alert" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
     <strong id="flash_error"><%= flash[:error] %></strong>
-    <button type="button" class="close close_button" data-dismiss="alert">x</button>
   </div>
 
 
@@ -157,7 +155,6 @@
       <i class="fa fa-shopping-cart" aria-hidden="true"></i>
     </h4>
     <p id="flash_notice"><%= flash[:notice] %></p>
-    <button type="button" class="close close_button" data-dismiss="alert">x</button>
   </div>
 
 </div>
