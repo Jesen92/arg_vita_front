@@ -48,6 +48,10 @@
       $("#error-alert").slideUp(500);
   });
 
-  $loader = $('#modal-loader');
-  $loader.removeClass("loader");
+$loader = $('#modal-loader');
+
+$(document).on({
+    ajaxStart: function() { $loader.addClass("loader");    },
+    ajaxStop: function() { $loader.removeClass("loader"); }
+});
 <% end %>

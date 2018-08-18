@@ -25,7 +25,7 @@
   end
 
 
-  g.column name: "Datum kupnje", attribute: 'created_at' do |t|
+  g.column name: "Datum kupnje", attribute: 'created_at', filter_type: :bootstrap_datepicker do |t|
     t.created_at.strftime("%d.%m.%Y %H:%M")
   end
 

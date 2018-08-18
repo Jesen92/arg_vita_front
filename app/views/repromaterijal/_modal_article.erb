@@ -130,11 +130,10 @@
                         </div>
 
                         <div class="row" >
-
                           <div class="col-md-6 artikli_margin_none">
-                            <div class="productboxcolor">Količina*</div>
+                            <div class="productboxcolor">Količina* (max: <%= article.amount %>)</div>
 
-                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1} %>
+                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1, max: article.amount} %>
 
                           </div>
                         </div>

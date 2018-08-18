@@ -264,6 +264,213 @@ module Ajax
       end
     end
 
+    def destroy_item
+      @article = Article.find(params[:id])
+      amount = params[:amount].to_i
+
+      cookies[:page_number] = params[:page_number]
+      #binding.pry
+      puts "usao sam u destroy!!!!"
+
+      if current_user == nil
+
+        if @no_user_articles.has_key?(@article.id.to_s)
+
+          @no_user_articles.each do |k, v|
+
+            if k == @article.id.to_s
+              puts "ulazi u if"
+
+              if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
+                @items_cost -= @article.cost*amount
+
+              else
+
+                @items_cost -= (@article.cost- (@article.cost*@article.discount/100))*amount
+
+              end
+
+              @no_user_articles.delete(k)
+            end
+
+          end
+        end
+
+      else
+        @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
+
+        if @carts_article.nil?
+          @message = "Artikl se ne nalazi u košarici!"
+          respond_to do |format|
+            format.js
+          end
+        end
+
+        @shopping_cart.current_cost -= @carts_article.cost*amount
+
+        @shopping_cart.save
+
+        @carts_article.destroy!
+      end
+
+      respond_to do |format|
+        format.js {flash[:warning] = "Artikl maknut iz košarice!" }
+      end
+    end
+
+    def destroy
+      @article = Article.find(params[:id])
+
+      cookies[:page_number] = params[:page_number]
+      puts "usao sam u destroy!!!!"
+
+      if current_user == nil
+
+        if @no_user_articles.has_key?(@article.id.to_s)
+
+          @no_user_articles.each do |k, v|
+
+            if k == @article.id.to_s && v.to_i > 1
+              puts "ulazi u if"
+              @no_user_articles[k] -= 1
+              if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
+                @items_cost -= @article.cost
+              else
+                @items_cost -= (@article.cost- (@article.cost*@article.discount/100))
+              end
+            end
+
+            if k == @article.id.to_s && v.to_i == 1
+              puts "ulazi u else"
+              if @article.on_discount.nil? || @article.on_discount == false || @article.discount == 0
+                @items_cost -= @article.cost
+
+              else
+                @items_cost -= (@article.cost- (@article.cost*@article.discount/100))
+
+              end
+              @no_user_articles.delete(k)
+            end
+
+          end
+        end
+
+      else
+
+        @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
+
+        if @carts_article.nil?
+          @message = "Artikl se ne nalazi u košarici!"
+          respond_to do |format|
+            format.js
+          end
+        end
+
+        @shopping_cart.current_cost -= @carts_article.cost
+
+        @shopping_cart.save
+
+        if @carts_article.amount > 1
+          @carts_article.amount -= 1
+          @carts_article.save
+        else
+          @carts_article.destroy!
+        end
+      end
+
+      respond_to do |format|
+        format.js {flash[:warning] = "Komad Artikla maknut iz košarice!" }
+      end
+    end
+
+    def destroy_single
+      @single_article = SingleArticle.find(params[:id])
+      amount = params[:amount].to_i
+
+      cookies[:page_number] = params[:page_number]
+      if current_user == nil
+        if @no_user_single_articles.has_key?(@single_article.id)
+          @no_user_single_articles.each do |k, v|
+            if k == @single_article.id
+
+              @no_user_single_articles[k] -= 1
+              if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
+                @items_cost -= @single_article.article.cost
+              else
+                @items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
+              end
+
+              @no_user_single_articles.delete(k) if amount < 1
+            end
+          end
+        end
+      else
+        @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
+
+        if @carts_article.nil?
+          @message = "Artikl se ne nalazi u košarici!"
+          respond_to do |format|
+            format.js
+          end
+        end
+
+        @shopping_cart.current_cost -= @carts_article.cost
+
+        @shopping_cart.save
+
+        if amount == 1
+          @carts_article.destroy!
+        else
+          @carts_article.amount -= 1
+          @carts_article.save
+        end
+      end
+
+      respond_to do |format|
+        format.js {flash[:warning] = "Komad Artikla maknut iz košarice!" }
+      end
+    end
+
+    def destroy_single_item
+      @single_article = SingleArticle.find(params[:id])
+      amount = params[:amount].to_i
+
+      cookies[:page_number] = params[:page_number]
+      if current_user == nil
+        if @no_user_single_articles.has_key?(@single_article.id)
+          @no_user_single_articles.each do |k, v|
+
+            if k == @single_article.id
+
+              if @single_article.article.on_discount.nil? || @single_article.article.on_discount == false || @single_article.article.discount == 0
+                @items_cost -= @single_article.article.cost*amount
+              else
+                @items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
+              end
+
+              @no_user_single_articles.delete(k)
+            end
+          end
+        end
+
+      else
+        @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
+
+        @shopping_cart.current_cost -= @carts_article.cost*@carts_article.amount
+
+        @shopping_cart.save
+        @carts_article.destroy!
+      end
+
+      respond_to do |format|
+        format.js {flash[:warning] = "Artikl maknut iz košarice!" }
+      end
+    end
+
     private
 
     def set_ajax_article_session

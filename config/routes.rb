@@ -194,9 +194,11 @@ Rails.application.routes.draw do
       member do
         put "create" => "carts_articles#create", defaults: { format: 'js' }
         put "create_single" => "carts_articles#create_single", defaults: { format: 'js' }
+        put "destroy_amount" => "carts_articles#destroy", defaults: { format: 'js' }
+        put "destroy_item" => "carts_articles#destroy_item", defaults: { format: 'js' }
+        put "destroy_single_item" => "carts_articles#destroy_single_item", defaults: { format: 'js' }
+        put "destroy_single_amount" => "carts_articles#destroy_single", defaults: { format: 'js' }
       end
-      post :create
-      post :create_single
     end
   end
 

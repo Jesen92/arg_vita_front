@@ -3702,6 +3702,14 @@ font-family: 'Exo 2', sans-serif;
     width: 15%;
 }
 
+#warning-alert {
+    position: fixed;
+    z-index: 9999;
+    right: 20%;
+    top: 1%;
+    width: 15%;
+}
+
 .close_button {
     top: 30%!important;
     right: -16%!important;

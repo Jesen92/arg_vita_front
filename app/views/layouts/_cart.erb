@@ -40,10 +40,10 @@
                     <span class="quantity">stavki: <%= "#{v}" %></span>
                     <div class="row">
                       <div class="col-md-6">
-                        <%= link_to 'remove 1', shopping_carts_destroy_path(a.id ), style: "color: #1abc9c;" %>
+                        <%= link_to 'ukloni 1', destroy_amount_ajax_carts_article_path(id: a.id ), :method => :put, style: "color: #1abc9c;" %>
                       </div>
                       <div class="col-md-6">
-                        <%= link_to 'remove item', destroy_item_path(id: a.id, amount: v ), method: :put, style: "color: #1abc9c;" %>
+                        <%= link_to 'ukloni', destroy_item_ajax_carts_article_path(id: a.id, amount: v ), method: :put, style: "color: #1abc9c;" %>
                       </div>
                     </div>
                     <!--<%= link_to 'remove', shopping_carts_destroy_path(a.id ), style: "color: #1abc9c;" %>-->
@@ -74,13 +74,12 @@
 
                         <span class="item-price"><%= number_to_currency(sa.article.on_discount? && !sa.article.discount.nil? && sa.article.discount > 0 ? (sa.article.cost- (sa.article.cost*sa.article.discount/100)) : sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
                         <span class="quantity">stavki: <%= "#{v}" %></span>
-                        <!--<%= link_to 'remove', min_no_user_carts_articles_path(sa.id ), :method => :put, style: "color: #1abc9c;" %> -->
                         <div class="row">
                           <div class="col-md-6">
-                            <%= link_to 'remove 1', destroy_single_shopping_carts_path(id: sa.id, amount: v ), :method => :put, style: "color: #1abc9c;" %>
+                            <%= link_to 'ukloni 1', destroy_single_shopping_carts_path(id: sa.id, amount: v ), :method => :put, style: "color: #1abc9c;" %>
                           </div>
                           <div class="col-md-6">
-                            <%= link_to 'remove item', destroy_single_item_path(id: sa.id, amount: v ), :method => :put, style: "color: #1abc9c;" %>
+                            <%= link_to 'ukloni', destroy_single_item_path(id: sa.id, amount: v ), :method => :put, style: "color: #1abc9c;" %>
                           </div>
                         </div>
                       </li>

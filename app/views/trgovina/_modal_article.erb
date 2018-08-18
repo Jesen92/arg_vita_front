@@ -132,9 +132,9 @@
                         <div class="row" >
 
                           <div class="col-md-6 artikli_margin_none">
-                            <div class="productboxcolor">Količina*</div>
+                            <div class="productboxcolor">Količina* (max: <%= article.amount %>)</div>
 
-                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1} %>
+                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1, max: article.amount} %>
 
                           </div>
                         </div>
@@ -204,9 +204,5 @@
     function submitForm<%= article.id.to_s %>() {
         $('form#edit_article_<%= article.id %>').trigger('submit.rails');
     }
-
-    $('form#edit_article_<%= article.id %>').on('ajax:success', function(event, xhr, settings) {
-        xhr.setRequestHeader('X-Awesome', 'enabled');
-    });
 </script>
 

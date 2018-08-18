@@ -143,16 +143,24 @@
 
 <div>
 
-  <div id="error-alert" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+  <div id="error-alert" class="alert alert-danger alert-dismissible text-center" role="alert" style="display: none">
     <strong id="flash_error"><%= flash[:error] %></strong>
   </div>
 
-
-  <div id="success-alert" class="alert alert-success alert-dismissible" role="alert" style="display: none">
+  <div id="warning-alert" class="alert alert-warning alert-dismissible text-center" role="alert" style="display: none">
     <h4>
-      <i class="fa fa-diamond" aria-hidden="true"></i>
-      <i class="fa fa-arrow-right" aria-hidden="true"></i>
-      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      <i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+      <i class="fa fa-diamond fa-2x" aria-hidden="true"></i>
+      <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
+    </h4>
+    <p id="flash_warning"><%= flash[:warning] %></p>
+  </div>
+
+  <div id="success-alert" class="alert alert-success alert-dismissible text-center" role="alert" style="display: none">
+    <h4>
+      <i class="fa fa-diamond fa-2x" aria-hidden="true"></i>
+      <i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i>
+      <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
     </h4>
     <p id="flash_notice"><%= flash[:notice] %></p>
   </div>
@@ -539,6 +547,7 @@
 $(document).ready(function(){
     $("#success-alert").hide(0);
     $("#error-alert").hide(0);
+    $("#warning-alert").hide(0);
 
   $(window).load(function(){
     // Remove the # from the hash, as different browsers may or may not include it
