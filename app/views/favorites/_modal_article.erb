@@ -1,0 +1,209 @@
+<style>
+  .img-li {
+    display: block;
+    float: left;
+    margin-right: 6px;
+    cursor:pointer;
+  }
+  img {
+    display: block;
+  }
+
+  .gumb_kupnja:hover {
+    -moz-transition: all .4s ease-in;
+    -o-transition: all .4s ease-in;
+    -webkit-transition: all .4s ease-in;
+    transition: all .4s ease-in;
+    background-color: rgb(26, 205, 173);
+  }
+</style>
+
+<div id="<%= "ModalId"+article.id.to_s %>" class="modal fade" role="dialog" >
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container-fluid">
+          <button type="button" class="close" data-dismiss="modal" style="color: black;">x</button>
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="modal-title"><%= article.title %></h4>
+            </div>
+            <div class="col-md-6">
+              <% if !article.discount.nil? && article.discount > 0 %>
+                  <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost-(article.cost*article.discount/100), :unit => 'Kn', :format => "%n %u") %></span></div></h3><span class=" item_price" style="text-decoration: line-through;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span><% if article.on_discount? %> <div class="productboxkat"><strong><div data-countdown="<%= article.end_date.strftime("%Y/%m/%d %H:%M") %>"></div></strong></div><% end %>
+              <% else %>
+                  <h3><div class=""><span class=" item_price" style="color: #1abc9c;"><%= number_to_currency(article.cost, :unit => 'Kn', :format => "%n %u") %></span></div></h3>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-body" >
+        <div class="single contact" style="padding: 5px;">
+          <div class="container">
+            <div class="single-main">
+              <div class="row">
+
+                <div class="col-md-4 single-top-left">
+                  <% if !article.discount.nil? && article.discount > 0 %>
+                      <div class="dialog-srch srch" style="top: 39px;">
+                        -<%= article.discount %>%
+                      </div>
+                  <% end %>
+                  <!--TODO: postotak na modal dialogu-->
+                  <ul id="imageGallery<%= article.id.to_s %>" style="min-width: 340px; min-height: 400px;">
+                    <% if article.pictures.present? %>
+                        <% @ind = article.pictures.first.image.url(:picture) %>
+                        <li data-thumb="<%=  article.picture.image.url(:thumbgal) %>" data-src="<%=  article.picture.image.url(:original) %>" class="img-li">
+                          <%= image_tag(article.picture.image.url(:picture)) %>
+                        </li>
+                        <% article.pictures.each do |pic| %>
+
+                            <% if @ind != pic.image.url(:picture) %>
+                                <li data-thumb="<%=  pic.image.url(:thumbgal) %>" data-src="<%=  pic.image.url(:original) %>" style="min-width: 72px; min-height: 72px;" class="img-li">
+                                  <%= image_tag(pic.image.url(:picture)) %>
+                                </li>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+
+                <div class="col-md-7 details">
+
+                  <div class="product-bottom" style="margin: 0; padding: 0;">
+                    <div class="productboxkat"><%= article.material.title unless article.material.blank? %></div>
+
+                    <div class="row">
+                      <div class="productboxkata"><strong>Kod Artikla:</strong> <%= article.code %></div>
+                    </div>
+                    <div class="productboxopis-site">
+                      <p><%= article.description %></p>
+                    </div>
+                    <div class="productboxopis-site">
+                      <p><%= article.short_description %></p>
+                    </div>
+                    <div class="productboxopis-site">
+                      <% if !article.weight.nil? %>
+                          <p><strong>Težina:</strong> <%= article.weight %>g </p>
+                      <% end %>
+
+                      <% if !article.dimension.nil? && article.dimension != "" %>
+                          <p><strong>Dimenzije:</strong> <%= article.dimension %></p>
+                      <% end %>
+                    </div>
+
+                    <%=
+                      simple_form_for article,
+                                      :remote => true,
+                                      url: article.single_articles.first != nil ?  create_single_ajax_carts_article_path(id: article.id) : ajax_carts_article_path(id: article.id),
+                                      :method => :put,
+                                      :format => :json,
+                                      :authenticity_token => true,
+                                      html: {class: "", remote: true} do |f|
+                    %>
+
+                        <%= f.input :id, :as => :hidden %>
+
+                        <div class="row" >
+
+                          <% if article.single_articles.first != nil %>
+                              <% if article.single_articles.first.size != "" && article.single_articles.first.size != nil %>
+
+                                  <div class="col-md-6 artikli_margin_none">
+                                    <div class="productboxcolor">
+                                      <% if article.color_or_size.present? %>
+                                          <%= "Boja*" if article.color_or_size.downcase.include?('color') %>
+                                          <%= "Veličina*" if article.color_or_size.downcase.include?('size') %>
+                                          <%= "Oblik*" if article.color_or_size.downcase.include?('shape') %>
+                                          <%= "Broj*" if article.color_or_size.downcase.include?('number') %>
+                                      <% end %>
+                                    </div>
+
+                                    <%= f.input :size, label: false, collection: article.single_articles.pluck(:size), class: "ddboje",:include_blank => false  %>
+
+                                  </div>
+                              <% end %>
+                          <% end %>
+
+                        </div>
+
+                        <div class="row" >
+
+                          <div class="col-md-6 artikli_margin_none">
+                            <div class="productboxcolor">Količina* (max: <%= article.amount %>)</div>
+
+                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1, max: article.amount} %>
+
+                          </div>
+                        </div>
+
+                        <div class="row ">
+                          <div class="col-md-6 artikli_margin_none">
+                            <div class="hcart">
+                              <h4><span><%= button_tag(type: 'submit',  class: 'btn btn-default gumb_kupnja', name: "page_number", value: @page_number, onclick: "submitForm#{article.id.to_s}()") do %> <i></i>Dodaj u košaricu <% end %></span></h4>
+                            </div>
+                          </div>
+
+                        </div>
+
+
+                        </div>
+                        </div>
+                        <div class="clearfix"> </div>
+
+                        </div>
+
+                        </div>
+                    <% end %>
+                    </div>
+        </div>
+        <!--end-single-->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $('[data-countdown]').each(function () {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $this.html(event.strftime('%D dana %H:%M:%S'));
+        });
+    });
+
+    $('#imageGallery<%= article.id.to_s %>').lightSlider({
+        usingCss:true,
+        gallery:true,
+        item:1,
+        loop:true,
+        thumbItem:4,
+        slideMargin:0,
+        enableDrag: false,
+        currentPagerPosition:'left',
+        onSliderLoad: function(el) {
+            $('#imageGallery<%= article.id.to_s %>').removeClass('cS-hidden');
+            el.lightGallery({
+                selector: '#imageGallery<%= article.id.to_s %> .lslide'
+            });
+        }
+    });
+
+    $(document).ready(function() {
+        //option A
+        alert("tu");
+        $("#edit_article_<%= article.id %>").submit(function(e){
+            e.preventDefault();
+        });
+    });
+
+    function submitForm<%= article.id.to_s %>() {
+        $('#edit_article_<%= article.id %>').trigger('submit.rails');
+    }
+</script>
+
