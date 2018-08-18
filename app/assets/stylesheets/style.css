@@ -3685,3 +3685,25 @@ font-family: 'Exo 2', sans-serif;
 
 
 /*------favorite TAB end-----*/
+
+#success-alert {
+    position: fixed;
+    z-index: 9999;
+    left: 40%;
+    top: 40%;
+    width: 25%;
+}
+
+#error-alert {
+    position: fixed;
+    z-index: 9999;
+    left: 40%;
+    top: 40%;
+    width: 15%;
+}
+
+.close_button {
+    top: 30%!important;
+    right: -16%!important;
+    position: absolute!important;
+}

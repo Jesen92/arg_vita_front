@@ -1,0 +1,11 @@
+<% js = escape_javascript(
+  render(partial: 'layouts/cart', locals:
+    {
+    no_user_articles: @no_user_articles,
+    no_articles: @no_articles,
+    sa: @sa,
+    no_user_single_articles: @no_user_single_articles
+    })
+) %>
+
+$("#cart_partial").html("<%= js %>");

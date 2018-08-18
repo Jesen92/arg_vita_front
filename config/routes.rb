@@ -189,6 +189,17 @@ Rails.application.routes.draw do
     put :index_of, on: :collection
   end
 
+  namespace :ajax do
+    resources :carts_articles do
+      member do
+        put "create" => "carts_articles#create", defaults: { format: 'js' }
+        put "create_single" => "carts_articles#create_single", defaults: { format: 'js' }
+      end
+      post :create
+      post :create_single
+    end
+  end
+
   devise_for :users, controllers: { registrations: "users/registrations"}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
