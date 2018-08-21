@@ -27,8 +27,6 @@ $("#warning-alert").fadeTo(2000, 500).slideUp(500, function(){
     })
 ) %>
 
-$('#<%= "ModalId"+@article.id.to_s %>').modal('hide');
-
 $("#cart_partial").html("<%= js %>");
 
 $("#warning-alert").attr('display: block;');

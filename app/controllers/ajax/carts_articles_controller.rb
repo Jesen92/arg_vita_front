@@ -402,7 +402,7 @@ module Ajax
                 @items_cost -= (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
               end
 
-              @no_user_single_articles.delete(k) if amount < 1
+              @no_user_single_articles.delete(k) if v-amount < 1
             end
           end
         end

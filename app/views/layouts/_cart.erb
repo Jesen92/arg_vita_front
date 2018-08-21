@@ -76,10 +76,10 @@
                         <span class="quantity">stavki: <%= "#{v}" %></span>
                         <div class="row">
                           <div class="col-md-6">
-                            <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;" %>
+                            <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(id: sa.id, amount: v ), :method => :put, remote: true, style: "color: #1abc9c;" %>
                           </div>
                           <div class="col-md-6">
-                            <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;" %>
+                            <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(id: sa.id, amount: v ), :method => :put, remote: true, style: "color: #1abc9c;" %>
                           </div>
                         </div>
                       </li>
