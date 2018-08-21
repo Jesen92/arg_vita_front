@@ -200,6 +200,16 @@ Rails.application.routes.draw do
         put "destroy_single_amount" => "carts_articles#destroy_single", defaults: { format: 'js' }
       end
     end
+    resources :shopping_carts do
+      member do
+        put "create" => "shopping_carts#create", defaults: { format: 'js' }
+        put "create_single" => "shopping_carts#create_single", defaults: { format: 'js' }
+        put "destroy_amount" => "shopping_carts#destroy", defaults: { format: 'js' }
+        put "destroy_item" => "shopping_carts#destroy_item", defaults: { format: 'js' }
+        put "destroy_single_item" => "shopping_carts#destroy_single_item", defaults: { format: 'js' }
+        put "destroy_single_amount" => "shopping_carts#destroy_single", defaults: { format: 'js' }
+      end
+    end
   end
 
   devise_for :users, controllers: { registrations: "users/registrations"}
