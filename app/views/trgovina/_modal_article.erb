@@ -94,7 +94,15 @@
                       <% end %>
                     </div>
 
-                    <%= simple_form_for article, url: article.single_articles.first != nil ?  create_single_carts_articles_path : carts_articles_path, :method => :post, html: {class: ""} do |f| %>
+                    <%=
+                      simple_form_for article,
+                      :remote => true,
+                      url: article.single_articles.first != nil ?  create_single_ajax_carts_article_path(id: article.id) : ajax_carts_article_path(id: article.id),
+                      :method => :put,
+                      :format => :json,
+                      :authenticity_token => true,
+                      html: {class: "", remote: true} do |f|
+                    %>
 
                         <%= f.input :id, :as => :hidden %>
 
@@ -124,9 +132,9 @@
                         <div class="row" >
 
                           <div class="col-md-6 artikli_margin_none">
-                            <div class="productboxcolor">Količina*</div>
+                            <div class="productboxcolor">Količina* (max: <%= article.amount %>)</div>
 
-                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1} %>
+                            <%= f.input :amount, label: false ,input_html: { value: 1, min: 1, max: article.amount} %>
 
                           </div>
                         </div>
@@ -134,7 +142,7 @@
                         <div class="row ">
                           <div class="col-md-6 artikli_margin_none">
                             <div class="hcart">
-                              <h4><span><%= button_tag(type: 'submit', class: 'btn btn-default gumb_kupnja', name: "page_number", value: @page_number) do %> <i></i>Dodaj u košaricu <% end %></span></h4>
+                              <h4><span><%= button_tag(type: 'submit',  class: 'btn btn-default gumb_kupnja', name: "page_number", value: @page_number, onclick: "submitForm#{article.id.to_s}()") do %> <i></i>Dodaj u košaricu <% end %></span></h4>
                             </div>
                           </div>
 
@@ -185,5 +193,16 @@
             });
         }
     });
+
+    $(document).ready(function() {
+        //option A
+        $("form#edit_article_<%= article.id %>").submit(function(e){
+            e.preventDefault();
+        });
+    });
+
+    function submitForm<%= article.id.to_s %>() {
+        $('form#edit_article_<%= article.id %>').trigger('submit.rails');
+    }
 </script>
 

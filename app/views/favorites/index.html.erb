@@ -35,7 +35,7 @@
 <!--prdt-starts-->
 
 
-<%= form_for_filterrific @filterrific, remote: false do |f| %>
+<%= form_for_filterrific @filterrific, remote: true do |f| %>
     <div class="prdt" style="padding-top: 35px;" id="articles_container_prdt">
       <div class="container">
         <h2><i class="fa fa-heart heart_liked fa-2x"></i> Moji Favoriti</h2>
@@ -93,8 +93,13 @@
 </div><!--product-end-->
 <!--kraj sidebara -->
 <!--product-end-->
-
 <script>
+
+    <% js = escape_javascript(
+      render(partial: 'favorites/show_pics', locals: { articles: @articles })
+    ) %>
+
+    $("#filterrific_results").html("<%= js %>");
 
     $('[data-countdown]').each(function () {
         var $this = $(this), finalDate = $(this).data('countdown');
@@ -102,7 +107,28 @@
             $this.html(event.strftime('%D dana %H:%M:%S'));
         });
     });
+
+    function changeClass() {
+        var range_slider = document.getElementById("range").value;
+
+        document.getElementById("cost_field_slider").value = range_slider;
+        document.removeEventListener('mouseup');
+    }
+
+    function mouseevent_up(){
+        document.addEventListener('mouseup',changeClass);
+        //alert('usao');
+    }
+
+    window.onload = function () {
+        var classname = document.getElementsByClassName("irs-slider");
+
+        for(i = 0; i < classname.length; i++){
+            classname[i].addEventListener('mousedown', mouseevent_up);
+        }
+    }
 </script>
+
 
 <script>
     night_day = sessionStorage.getItem("night_day");

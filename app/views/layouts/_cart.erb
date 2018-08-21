@@ -1,0 +1,94 @@
+<a href="#" title="View your shopping cart" class="cart-link">
+  <i><%=image_tag("cart-2.png") %></i>
+
+  <span class="amount"><%=   number_to_currency(@items_cost, :unit => 'Kn', :format => "%n %u") %></span>
+  <% a=0 %>
+  <%  no_user_articles.each do |k, v| %>
+
+      <% a+=v.to_i %>
+
+  <% end %>
+
+  <%  no_user_single_articles.each do |k, v| %>
+
+      <% a+=v.to_i %>
+
+  <% end %>
+
+  <span class="contents">stavki: <%= a %></span>
+</a>
+
+<div class="cart">
+
+  <div class="cart-items">
+    <ul>
+
+      <%  no_user_articles.each do |k, v| %>
+          <% no_articles.each do |a| %>
+              <% if a.id.to_s == k %>
+                  <li class="clearfix">
+
+                    <%= link_to a.title, trgovina_show_path(a.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
+
+                    <% if a.picture != nil %>
+                        <%=image_tag(a.picture.image.url(:table), class: "productimg") %>
+                    <% else %>
+                        <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                    <% end %>
+
+                    <span class="item-price"><%= number_to_currency(a.on_discount? && a.discount > 0 ? (a.cost- (a.cost*a.discount/100)) : a.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                    <span class="quantity">stavki: <%= "#{v}" %></span>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <%= link_to 'ukloni 1', destroy_amount_ajax_carts_article_path(id: a.id ), method: :put, remote: true, style: "color: #1abc9c;" %>
+                      </div>
+                      <div class="col-md-6">
+                        <%= link_to 'ukloni', destroy_item_ajax_carts_article_path(id: a.id, amount: v ), method: :put, remote: true, style: "color: #1abc9c;" %>
+                      </div>
+                    </div>
+                    <!--<%= link_to 'remove', shopping_carts_destroy_path(a.id ), style: "color: #1abc9c;" %>-->
+                  </li>
+              <% end %>
+          <% end %>
+      <% end %>
+
+      <% if !sa.nil? %>
+          <% no_user_single_articles.each do |k,v| %>
+              <% puts "Usao je u petlju" %>
+              <%  sa.each do |sa| %>
+                  <% puts "Usao je u drugu petlju" %>
+                  <% puts "#{sa.id}" %>
+                  <% puts "#{k}" %>
+                  <% if sa.id == k %>
+                      <% puts "Pronasao je isti id kao i key" %>
+                      <li class="clearfix">
+                        <%= link_to sa.title, trgovina_show_path(sa.article.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
+
+                        <% if sa.pictures.first != nil %>
+                            <%=image_tag(sa.pictures.first.image.url(:table), class: "productimg") %>
+                        <% elsif sa.article.picture != nil %>
+                            <%=image_tag(sa.article.picture.image.url(:table), class: "productimg" ) %>
+                        <% else %>
+                            <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                        <% end %>
+
+                        <span class="item-price"><%= number_to_currency(sa.article.on_discount? && !sa.article.discount.nil? && sa.article.discount > 0 ? (sa.article.cost- (sa.article.cost*sa.article.discount/100)) : sa.article.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                        <span class="quantity">stavki: <%= "#{v}" %></span>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;" %>
+                          </div>
+                          <div class="col-md-6">
+                            <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;" %>
+                          </div>
+                        </div>
+                      </li>
+                  <% end %>
+              <% end %>
+          <% end %>
+      <% end %>
+    </ul>
+  </div>
+  <!-- end cart-items -->
+  <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout", method: :get %>
+</div>

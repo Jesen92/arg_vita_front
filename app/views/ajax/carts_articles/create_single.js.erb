@@ -1,0 +1,59 @@
+<% if @message.blank? %>
+
+$("#flash_notice").html("<%= flash[:notice] %>");
+
+<% if @shopping_cart.present? %>
+<% js = escape_javascript(
+   render(partial: 'layouts/cart_user', locals: {shopping_cart: @shopping_cart})
+ ) %>
+
+$("#cart_user_partial").html("<%= js %>");
+
+$('#<%= "ModalId"+@article.id.to_s %>').modal('hide');
+
+$("#cart_partial").html("<%= js %>");
+
+$("#success-alert").attr('display: block;');
+
+$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#success-alert").slideUp(500);
+});
+<% else %>
+<% js = escape_javascript(
+  render(partial: 'layouts/cart', locals:
+    {
+    no_user_articles: @no_user_articles,
+    no_articles: @no_articles,
+    sa: @sa,
+    no_user_single_articles: @no_user_single_articles
+    })
+) %>
+
+$('#<%= "ModalId"+@article.id.to_s %>').modal('hide');
+
+$("#cart_partial").html("<%= js %>");
+
+$("#success-alert").attr('display: block;');
+
+$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#success-alert").slideUp(500);
+});
+
+<% end %>
+
+<% else %>
+$("#flash_error").html("Nema dovoljne količine u dućanu!");
+
+$("#error-alert").attr('display: block;');
+
+$("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#error-alert").slideUp(500);
+});
+
+$loader = $('#modal-loader');
+
+$(document).on({
+    ajaxStart: function() { $loader.addClass("loader");    },
+    ajaxStop: function() { $loader.removeClass("loader"); }
+});
+<% end %>

@@ -7,6 +7,9 @@ class ShoppingCartsController < ApplicationController
   end
 
   def show
+    gon.current_min, gon.current_max = 0
+    gon.min, gon.max = 0
+
     if current_user == nil
       flash[:notice] = "Molimo registrirajte se prije izvršenja kupnje!"
       return redirect_to :root
@@ -354,7 +357,7 @@ class ShoppingCartsController < ApplicationController
   def check_coupon
     coupon = Coupon.find_by("code = ? AND infinite_uses = ? OR code = ? AND number_of_uses > 0", coupon_params[:code], true, coupon_params[:code])
     
-    return render json: { coupon: nil }, status: 400 unless coupon.present?
+    return render json: { coupon: nil }, status: 204 unless coupon.present?
     render json: { coupon: coupon }, status: 200
   end
 

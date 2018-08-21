@@ -3685,3 +3685,59 @@ font-family: 'Exo 2', sans-serif;
 
 
 /*------favorite TAB end-----*/
+
+#success-alert {
+     position: fixed;
+     z-index: 9999;
+     left: 40%;
+     top: 40%;
+     width: 25%;
+ }
+
+#purchase-complete-alert {
+     position: fixed;
+     z-index: 9999;
+     left: 25%;
+     top: 25%;
+     padding-top: 5em;
+     padding-bottom: 5em;
+     width: 50%;
+     height: auto;
+     text-align: center;
+     vertical-align: middle;
+ }
+
+
+#error-alert {
+    position: fixed;
+    z-index: 9999;
+    left: 40%;
+    top: 40%;
+    width: 15%;
+}
+
+#warning-alert {
+    position: fixed;
+    z-index: 9999;
+    right: 20%;
+    top: 1%;
+    width: 15%;
+}
+
+.close_button {
+    top: 30%!important;
+    right: -16%!important;
+    position: absolute!important;
+}
+
+.close {
+    top: -40px!important;
+    right: -60px!important;
+}
+
+.middle-text {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}

@@ -60,7 +60,7 @@
 <!--prdt-starts-->
 
 
-<%= form_for_filterrific @filterrific, remote: false do |f| %>
+<%= form_for_filterrific @filterrific, remote: true do |f| %>
     <div class="prdt" id="articles_container_prdt">
       <div class="container">
         <div class="prdt-top">
@@ -319,7 +319,6 @@ window.onscroll=testScroll;
     (function ($) {
         var element = $('.follow-scroll'),
             originalY = element.offset().top + 170;
-
 
         // Space between element and top of screen (when scrolling)
         var topMargin = 0;

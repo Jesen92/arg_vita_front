@@ -189,7 +189,30 @@ Rails.application.routes.draw do
     put :index_of, on: :collection
   end
 
-  devise_for :users, controllers: { registrations: "users/registrations"}
+  namespace :ajax do
+    resources :carts_articles do
+      member do
+        put "create" => "carts_articles#create", defaults: { format: 'js' }
+        put "create_single" => "carts_articles#create_single", defaults: { format: 'js' }
+        put "destroy_amount" => "carts_articles#destroy", defaults: { format: 'js' }
+        put "destroy_item" => "carts_articles#destroy_item", defaults: { format: 'js' }
+        put "destroy_single_item" => "carts_articles#destroy_single_item", defaults: { format: 'js' }
+        put "destroy_single_amount" => "carts_articles#destroy_single", defaults: { format: 'js' }
+      end
+    end
+    resources :shopping_carts do
+      member do
+        put "create" => "shopping_carts#create", defaults: { format: 'js' }
+        put "create_single" => "shopping_carts#create_single", defaults: { format: 'js' }
+        put "destroy_amount" => "shopping_carts#destroy", defaults: { format: 'js' }
+        put "destroy_item" => "shopping_carts#destroy_item", defaults: { format: 'js' }
+        put "destroy_single_item" => "shopping_carts#destroy_single_item", defaults: { format: 'js' }
+        put "destroy_single_amount" => "shopping_carts#destroy_single", defaults: { format: 'js' }
+      end
+    end
+  end
+
+  devise_for :users, controllers: { registrations: "users/registrations", sessions: "users/sessions"}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

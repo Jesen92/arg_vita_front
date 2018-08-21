@@ -1,0 +1,73 @@
+<a href="#" title="View your shopping cart" class="cart-link">
+  <i><%=image_tag("cart-2.png") %></i>
+  <span class="amount"><%=   number_to_currency(@shopping_cart.current_cost, :unit => 'Kn', :format => "%n %u") %></span>
+  <% i=0 %>
+  <% @shopping_cart.carts_articles.each do |cart| %>
+      <% i +=cart.amount %>
+  <% end %>
+  <span class="contents">stavki: <%= i %></span>
+</a>
+
+<div class="cart">
+
+  <div class="cart-items" style="overflow: <%= 'none' if shopping_cart.carts_articles.blank? %>">
+    <ul>
+
+      <% shopping_cart.carts_articles.each do |i| %>
+
+          <% if !i.article.nil? %>
+              <li class="clearfix">
+                <%= link_to i.article.title, trgovina_show_path(i.article.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
+
+                <% if i.article.picture != nil %>
+                    <%=image_tag(i.article.picture.image.url(:table), class: "productimg") %>
+                <% else %>
+                    <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                <% end %>
+
+
+                <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                <span class="quantity">stavki: <%= i.amount %></span>
+                <div class="row">
+                  <div class="col-md-6">
+                    <%= link_to 'ukloni 1', destroy_amount_ajax_carts_article_path(id: i.article.id ), :method => :put, remote: true, style: "color: #1abc9c;" %>
+                  </div>
+                  <div class="col-md-6">
+                    <%= link_to 'ukloni', destroy_item_ajax_carts_article_path(id: i.article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;"%>
+                  </div>
+                </div>
+                <!--<%= link_to 'remove', shopping_carts_destroy_path(i.article.id ), style: "color: #1abc9c;" %>-->
+              </li>
+          <% elsif i.single_article != nil %>
+
+              <li class="clearfix">
+                <%= link_to i.single_article.title, trgovina_show_path(i.single_article.article.id), method: :get, class: "item-title", style: "color: #1abc9c;" %>
+
+                <% if i.single_article.pictures.first != nil %>
+                    <%=image_tag(i.single_article.pictures.first.image.url(:table), class: "productimg") %>
+                <% elsif i.single_article.article.picture != nil %>
+                    <%=image_tag(i.single_article.article.picture.image.url(:table), class: "productimg" ) %>
+                <% else %>
+                    <%=image_tag("default-placeholder.png", class: "productimg" ) %>
+                <% end %>
+                <!-- TODO napravi da se prikazuje slika od tocno tog single_article-a, a ne od cijelokupnog artikla -->
+                <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
+                <span class="quantity">stavki: <%= i.amount %></span>
+                <div class="row">
+                  <div class="col-md-6">
+                    <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;"%>
+                  </div>
+                  <div class="col-md-6">
+                    <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, style: "color: #1abc9c;" %>
+                  </div>
+                </div>
+              </li>
+
+          <% end %>
+      <% end %>
+
+    </ul>
+  </div>
+  <!-- end cart-items -->
+  <%= link_to 'Košarica', shopping_carts_show_path, class: "checkout", method: :get %>
+</div>

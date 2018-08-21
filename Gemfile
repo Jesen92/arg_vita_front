@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 ruby '2.3.1'
+
 gem 'bootstrap-datepicker-rails'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'

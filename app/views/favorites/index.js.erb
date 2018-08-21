@@ -1,11 +1,11 @@
 
 <% js = escape_javascript(
-  render(partial: 'favorites/show_pics', locals: { articles: @articles })
+  render(partial: 'trgovina/show_pics', locals: { articles: @articles })
 ) %>
 
 if(typeof append_or_html === 'undefined' || append_or_html === null || append_or_html != 1){
     $("#filterrific_results").html("<%= js %>");
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 500);
 }else{
     $("#filterrific_results").append("<%= js %>");
     append_or_html = 0;

@@ -30,7 +30,7 @@
             <%= f.input :remark, label: "Napomena", as: :text %>
             <%= f.label "Način plaćanja" %>
             <div class="row">
-r
+
             <%= f.collection_radio_buttons(:payment_method, [ ['Credit card', 'credit-card.png'], ['Pri pouzeću', 'pouzece.png'], ['Plaćanje virmanom', 'invoice.png']],
                                            :first, :last, :checked => ['Credit card', 'credit-card.png'], :item_wrapper_class => 'horizontal', :required => true,
                                            :onclick => 'alert_if_option_selected()', :id => 'payment_method_select') do |method| %>

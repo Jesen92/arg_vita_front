@@ -1,0 +1,26 @@
+<% if @message.blank? %>
+
+$("#flash_warning").html("<%= flash[:warning] %>");
+
+<% if @shopping_cart.present? %>
+<% js = escape_javascript(
+   render(partial: 'shopping_carts/shopping_cart_content', locals: {shopping_cart: @shopping_cart})
+ ) %>
+
+$("#shopping-cart-content").html("<%= js %>");
+
+$("#warning-alert").attr('display: block;');
+
+$("#warning-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#warning-alert").slideUp(500);
+});
+
+<% end %>
+
+<% else %>
+$("#flash_error").html("Nema dovoljne količine u dućanu!");
+
+$("#error-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#error-alert").slideUp(500);
+});
+<% end %>

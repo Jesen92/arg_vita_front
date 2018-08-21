@@ -22,13 +22,10 @@
 <!--about-end-->
 
 <!--product-starts-->
-<div class="product">
+<div class="prdt" id="articles_container_prdt">
   <div class="container">
-    <div class="product-top">
-
-      <%= render partial: 'trgovina/modal_article', locals: {article: @articles.first} unless @articles.empty? %>
-      <% @articles.first(8).each do |art| %>
-
+    <div class="prdt-top">
+      <% @articles.each do |art| %>
           <div class="product-one col-md-3 product-left ">
             <% if art.on_discount == true && art.end_date != nil %>
                 <div class="timer_popust" >
@@ -63,7 +60,7 @@
                     <h4>-</h4>
                 <% end %>
 
-                <% if art.on_discount == true && art.discount.present? && art.discount > 0 %>
+                <% if art.discount.present? && art.discount > 0 %>
                     <h4>
                       <a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i> </a><span class=" item_price"><%= number_to_currency(art.cost-(art.cost*art.discount/100), :unit => 'Kn', :format => "%n %u") %></span>
                       <span class=" item_price_light" style="text-decoration: line-through; color: grey;"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span>
@@ -73,14 +70,14 @@
                     <h4><a data-toggle="modal" data-target="#ModalId<%= art.id %>" onclick="$(window).trigger('resize'); $(window).trigger('resize');">  <i></i></a><span class=" item_price"><%= number_to_currency(art.cost, :unit => 'Kn', :format => "%n %u") %></span></h4>
                 <% end %>
               </div>
-              <% if art.on_discount == true && art.discount.present? && art.discount > 0 %>
+              <% if art.discount.present? && art.discount > 0 %>
                   <div class="srch">
                     <span style="padding: 12px 8px;">-<%= art.discount %>%</span>
                   </div>
               <% end %>
             </div>
           </div>
-          <%= render partial: 'trgovina/modal_article', locals: {article: art} %>
+          <%= render partial: 'home/modal_article', locals: {article: art} %>
       <% end %>
 
     </div>
@@ -88,8 +85,7 @@
 </div>
 
 <script>
-
-  $('[data-countdown]').each(function() {
+    $('[data-countdown]').each(function() {
     var $this = $(this), finalDate = $(this).data('countdown');
     $this.countdown(finalDate, function(event) {
       $this.html(event.strftime('%D dana %H:%M:%S'));
@@ -107,6 +103,19 @@
             like.classList.add("heart_liked");
             like.setAttribute('href',"/articles/" + e + "/dislike");
         }
+    }
+</script>
+
+<script>
+
+    var purchase = "<%= flash[:purchase] %>";
+
+    if (purchase.trim()) {
+        $("#purchase-complete-alert").attr('display: block;');
+
+        $("#purchase-complete-alert").fadeTo(8000, 500).slideUp(1000, function(){
+            $("#purchase-complete-alert").slideUp(5000);
+        });
     }
 </script>
 
