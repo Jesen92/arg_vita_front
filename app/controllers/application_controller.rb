@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def clear_flashes
-    flash[:notice],flash[:warning],flash[:error] = nil
+    flash[:notice],flash[:warning] = nil
   end
 
   def set_user
