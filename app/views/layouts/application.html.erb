@@ -132,10 +132,10 @@
         </div>
     <% end %>
 
-    <% if flash[:notice] %>
+    <% if flash[:success] %>
         <div class="alert alert-success" role="alert" style="margin: 15px 35px 15px 35px">
           <span class="sr-only">Success:</span>
-          <strong><%= flash[:notice] %></strong>
+          <strong><%= flash[:success] %></strong>
         </div>
     <% end %>
 
@@ -163,6 +163,20 @@
       <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
     </h4>
     <p id="flash_notice"><%= flash[:notice] %></p>
+  </div>
+
+  <div id="purchase-complete-alert" class="alert alert-success alert-dismissible text-center" role="alert" style="display: none">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="text-middle">
+      <h4>
+        <i class="fa fa-shopping-cart fa-4x" aria-hidden="true"> </i>
+        <i class="fa fa-arrow-right fa-4x" aria-hidden="true"> </i>
+        <i class="fa fa-home fa-4x" aria-hidden="true"> </i>
+      </h4>
+      <h3 id="purchase_complete"><%= flash[:purchase] %></h3>
+    </div>
   </div>
 
 </div>
@@ -548,6 +562,7 @@ $(document).ready(function(){
     $("#success-alert").hide(0);
     $("#error-alert").hide(0);
     $("#warning-alert").hide(0);
+    $("#purchase-complete-alert").hide(0);
 
   $(window).load(function(){
     // Remove the # from the hash, as different browsers may or may not include it
@@ -564,6 +579,8 @@ $(document).ready(function(){
        }
    });
 });
+
+
 </script>
 
 </body>

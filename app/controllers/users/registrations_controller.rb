@@ -18,6 +18,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
      set_user_for_adding_items_to_shopping_cart(params[:user][:email])
 
      add_session_items_to_shopping_cart unless @user.blank? || !@user.shopping_cart.carts_articles.empty?
+     flash[:success] = "Uspješno ste se registrirali!"
    end
 
   # GET /resource/edit

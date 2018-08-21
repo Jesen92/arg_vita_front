@@ -106,6 +106,19 @@
     }
 </script>
 
+<script>
+
+    var purchase = "<%= flash[:purchase] %>";
+
+    if (purchase.trim()) {
+        $("#purchase-complete-alert").attr('display: block;');
+
+        $("#purchase-complete-alert").fadeTo(8000, 500).slideUp(1000, function(){
+            $("#purchase-complete-alert").slideUp(5000);
+        });
+    }
+</script>
+
 
 
 

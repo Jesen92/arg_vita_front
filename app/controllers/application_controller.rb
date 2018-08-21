@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :set_user, :set_cart, :set_article_raw_session
+  before_action :set_user, :set_cart, :set_article_raw_session, :clear_flashes
 
   def default_url_options
     if Rails.env.production?
@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
 
   def set_article_raw_session
     cookies[:article_raw] = nil
+  end
+
+  def clear_flashes
+    flash[:notice],flash[:warning],flash[:error] = nil
   end
 
   def set_user

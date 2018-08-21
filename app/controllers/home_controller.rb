@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index
     add_breadcrumb "Home", :root_path
 
-    @articles = Article.where(raw: false, for_sale: true).order('created_at DESC').first(8)
+    @articles = Article.where("raw= false and for_sale= true and amount > 0").order('created_at DESC').first(8)
 
     discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
     p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }

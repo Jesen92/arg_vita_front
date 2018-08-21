@@ -11,6 +11,7 @@ class Users::SessionsController < Devise::SessionsController
     #set_user_for_adding_items_to_shopping_cart(params[:user][:email])
     #sign_in_count = @user.blank? ? 0 : @user.sign_in_count
     super
+    flash[:success] = "Uspješno ste se prijavili!"
 
     #add_session_items_to_shopping_cart unless @user.blank? || @user.sign_in_count < sign_in_count
   end

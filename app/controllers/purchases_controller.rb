@@ -40,11 +40,11 @@ class PurchasesController < ApplicationController
       return render :create
     elsif params[:users_purchase][:payment_method].downcase.include? "virman"
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
-      flash[:notice] = "Uspješno se obavili kupnju! Na email ćete dobiti virman sa informacijama za uplatu!"
+      flash[:purchase] = "Uspješno se obavili kupnju! Na email ćete dobiti virman sa informacijama za uplatu!"
       return redirect_to root_path
     else
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
-      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+      flash[:purchase] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
       return redirect_to root_path
     end
 
@@ -60,7 +60,7 @@ class PurchasesController < ApplicationController
 
     if payment.execute( payer_id: params[:PayerID] )
       # Success Message
-      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+      flash[:purchase] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
 
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
 
@@ -75,7 +75,7 @@ class PurchasesController < ApplicationController
 
   def purchase_success_credit_card
     if params[:success] == 'true'
-      flash[:notice] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
+      flash[:purchase] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
 
       SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23, params[:approval_code]).succesful_payment
     else
