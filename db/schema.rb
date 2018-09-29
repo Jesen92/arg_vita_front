@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180505011546) do
+ActiveRecord::Schema.define(version: 20180929093915) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -421,9 +421,10 @@ ActiveRecord::Schema.define(version: 20180505011546) do
     t.string   "unconfirmed_email",       limit: 255
     t.datetime "created_at",                                                                 null: false
     t.datetime "updated_at",                                                                 null: false
-    t.decimal  "purchase_sum",                        precision: 10, scale: 2, default: 0.0
+    t.decimal  "purchase_sum",                        precision: 30, scale: 2, default: 0.0
     t.boolean  "articles_newsletter"
     t.boolean  "raw_articles_newsletter"
+    t.integer  "personal_discount",       limit: 4
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -431,7 +432,7 @@ ActiveRecord::Schema.define(version: 20180505011546) do
 
   create_table "users_purchases", force: :cascade do |t|
     t.integer  "user_id",        limit: 4
-    t.decimal  "total_purchase",             precision: 5, scale: 2
+    t.decimal  "total_purchase",             precision: 30, scale: 2
     t.string   "email",          limit: 255
     t.string   "country",        limit: 255
     t.string   "city",           limit: 255
@@ -442,9 +443,9 @@ ActiveRecord::Schema.define(version: 20180505011546) do
     t.string   "remark",         limit: 255
     t.string   "payment_method", limit: 255
     t.string   "approval_code",  limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-    t.decimal  "shipping_cost",              precision: 5, scale: 2
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.decimal  "shipping_cost",              precision: 5,  scale: 2
     t.integer  "coupon_id",      limit: 4
   end
 
