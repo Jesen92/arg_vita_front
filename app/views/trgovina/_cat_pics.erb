@@ -4,18 +4,23 @@
     <div class="container">
       <div class="about-top grid-1">
         <% materials.each do |material| %>
-            <div class="col-md-4 about-left">
+            <div class="col-md-4 about-left" style="margin-bottom: 15px;">
               <%= link_to index_of_trgovina_index_path(id: material.id), :method => :get do %>
                   <figure class="effect-bubba shadow">
                     <% if material.avatar_file_name.nil? %>
+                        <div style="color: white; font-size: 16px;">
+                          <%= material.title %>
+                        </div>
                       <%=image_tag("slika_kateg.jpg", class: "img-responsive" ) %>
                     <% else %>
+                        <div style="color: white; font-size: 16px;">
+                          <%= material.title %>
+                        </div>
                       <%= image_tag(material.avatar.url(:index), class: "img-responsive") %>
                     <% end %>
                     <!--TODO: upisati naziv kategorije-->
                     <figcaption>
                       <h2><%= material.title %></h2>
-                      <p>Kratki opis kategorije</p>
                     </figcaption>
                   </figure>
               <% end %>
@@ -28,7 +33,6 @@
 
 </div>
 
-<%= paginate materials %>
 
 <script>
 

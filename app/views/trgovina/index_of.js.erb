@@ -1,14 +1,29 @@
-/**
- * Created by Stroj on 15.2.2016..
- */
+
 <% js = escape_javascript(
   render(partial: 'trgovina/show_pics', locals: { articles: @articles })
 ) %>
-$("#filterrific_results").html("<%= js %>");
+
+if(typeof append_or_html === 'undefined' || append_or_html === null || append_or_html != 1){
+    $("#filterrific_results").html("<%= js %>");
+    window.scrollTo(0, 500);
+}else{
+    $("#filterrific_results").append("<%= js %>");
+    append_or_html = 0;
+}
+
+// Update pagination link
+<% if @articles.last_page? %>
+$('.pagination').html("");
+<% else %>
+$('.pagination')
+    .html("<hr><%=j link_to_next_page(@articles, 'Next', :remote => true,id: "next_page_infinite", class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_to_next();") %>");
+<% end %>
+
 
 $('[data-countdown]').each(function () {
-  var $this = $(this), finalDate = $(this).data('countdown');
-  $this.countdown(finalDate, function (event) {
-    $this.html(event.strftime('%D dana %H:%M:%S'));
-  });
+    var $this = $(this), finalDate = $(this).data('countdown');
+    $this.countdown(finalDate, function (event) {
+        $this.html(event.strftime('%D dana %H:%M:%S'));
+    });
 });
+

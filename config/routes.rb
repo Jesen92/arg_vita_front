@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
 
+  get 'trgovina_category/index'
+
+  get 'trgovina_category/show'
+
   get 'favorites/index'
 
   get 'accounts/my_account'

@@ -257,3 +257,22 @@ $red: #e74c3c;
 .heart_:hover {
   cursor: pointer;
 }
+
+.dropdown-item:hover {
+  color: #16181b;
+  text-decoration: none;
+  background-color: #1ad7b6;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}

@@ -18,6 +18,7 @@ module Ajax
       discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
       p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
       @article = p.call(@article)
+      binding.pry
 
       if amount > @article.amount
         @message = "Nema dovoljne kolicine artikla u ducanu"
@@ -116,7 +117,7 @@ module Ajax
 
         elsif current_user != nil
 
-          cost = (@article.cost- (@article.cost*@article.discount/100))
+          cost = (@article.cost- (@article.cost*@article.discount/100)).round(2)
 
           @shopping_cart.current_cost += cost*amount
           @shopping_cart.save
@@ -244,7 +245,7 @@ module Ajax
         @items_cost += (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
 
       else
-        cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
+        cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100)).round(2)
 
         @shopping_cart.current_cost += cost*amount
         @shopping_cart.save

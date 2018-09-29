@@ -1,0 +1,352 @@
+<script>
+    $(function () {
+        $("#range").ionRangeSlider({
+            hide_min_max: true,
+            keyboard: false,
+            min: gon.min,
+            max: gon.max,
+            from_max: gon.max-1,
+            to_min: gon.min+1,
+            from: gon.current_min,
+            to: gon.current_max,
+            type: 'double',
+            step: 10,
+            postfix: " kn",
+            grid: true
+        });
+
+    });
+
+</script>
+<style>
+  .next_page_button {
+    font-size: 1.2em;
+    padding: 4px 11px;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .next_page_button:hover {
+    background-color: #1abc9c;
+    color: white;
+  }
+
+  .follow-scroll.fixed{
+    position:fixed;
+    top:0;
+  }
+
+</style>
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+<!--bottom-header-->
+<!--start-breadcrumbs-->
+
+<!--end-breadcrumbs-->
+<!--prdt-starts-->
+
+
+<%= form_for_filterrific @filterrific, remote: true do |f| %>
+    <div class="prdt" id="articles_container_prdt">
+      <div class="container">
+        <div class="prdt-top">
+          <div class="col-md-9 prdt-left">
+            <%= render_filterrific_spinner %>
+            <div class="infinite-table">
+              <table>
+                <tr></tr>
+
+                <%= render(
+                        partial: 'trgovina/show_pics',
+                        locals: { articles: @articles }
+                    ) %>
+
+              </table>
+
+
+              <p class="pagination" style="width: 100%; margin-top: 50px;">
+                <%= link_to_next_page(@articles, "Next", :remote => true,id: "next_page_infinite", class: "btn btn-default next_page_button", style: "width: 100%;", onclick: "append_or_html = 1;") %>
+              </p>
+            </div>
+            <div id="modal-loader" style="position: absolute; left: 45%;"></div>
+          </div>
+
+
+          <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+          <div class="col-md-3 prdt-right follow-scroll">
+            <div class="w_sidebar" id="filter_sidebar">
+
+              <section class="sky-form">
+                <h4>Pretraga</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <%= f.text_field(
+                            :search_query,
+                            class: 'form-control filterrific-periodically-observed', placeholder: "pretraga proizvoda..."
+                        ) %>
+
+                  </div>
+                </div>
+              </section>
+
+              <section class="sky-form">
+                <h4>Sortiraj po</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <%= f.select(
+                            :sorted_by,
+                            @filterrific.select_options[:sorted_by],
+                            { include_blank: false }, class: 'form-control filterrific-periodically-observed'
+                        )%>
+
+                  </div>
+                </div>
+              </section>
+
+              <section class="sky-form">
+                <h4>Kategorije</h4>
+                <div class="row1 scroll-pane">
+
+                  <div class="col col-4">
+                    <% @categories.each do |a| %>
+                        <label class="checkbox">
+                          <%= f.check_box(:with_category_id, {multiple: true, class: 'filterrific-periodically-observed', autocomplete: "off"}, a.id, false ) %><i></i> <%= a.title %></label>
+                    <% end %>
+
+                  </div>
+                </div>
+              </section>
+
+
+              <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+
+              <section class="sky-form">
+                <h4>CIJENA</h4>
+                <div id="range">
+                  <%= f.text_field(
+                          :min_cost, type: :hidden,
+                          class: 'form-control filterrific-periodically-observed row1', id: 'cost_field_slider', multiple: true
+                      ) %>
+
+                </div>
+              </section>
+
+
+
+            </div>
+          </div>
+
+          <div id="articles_end"></div>
+<% end %>
+<div id=""class="clearfix"></div>
+
+</div>
+</div>
+</div><!--product-end-->
+<!--kraj sidebara -->
+<!--product-end-->
+
+<script>
+
+    $('[data-countdown]').each(function () {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $this.html(event.strftime('%D dana %H:%M:%S'));
+        });
+    });
+</script>
+
+
+
+<script>
+
+    <% js = escape_javascript(
+      render(partial: 'trgovina/show_pics', locals: { articles: @articles })
+    ) %>
+
+    $("#filterrific_results").html("<%= js %>");
+
+    $('[data-countdown]').each(function () {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $this.html(event.strftime('%D dana %H:%M:%S'));
+        });
+    });
+
+    function changeClass() {
+        var range_slider = document.getElementById("range").value;
+
+        document.getElementById("cost_field_slider").value = range_slider;
+        document.removeEventListener('mouseup');
+    }
+
+    function mouseevent_up(){
+        document.addEventListener('mouseup',changeClass);
+        //alert('usao');
+    }
+
+    window.onload = function () {
+        var classname = document.getElementsByClassName("irs-slider");
+
+        for(i = 0; i < classname.length; i++){
+            classname[i].addEventListener('mousedown', mouseevent_up);
+        }
+    }
+</script>
+
+<script>
+    night_day = sessionStorage.getItem("night_day");
+
+    function night_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+
+        night_day = "night";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    function day_mode(){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+
+        night_day = "day";
+        sessionStorage.setItem("night_day", night_day);
+    }
+
+    var cols =     document.getElementsByClassName('row1');
+    for(i=0; i<cols.length; i++) {
+        cols[i].style.backgroundColor =    'white';
+    }
+    var cols2 =     document.getElementsByClassName('js-irs-0');
+    for(i=0; i<cols2.length; i++) {
+        cols2[i].style.backgroundColor =    'white';
+    }
+
+    if(night_day === "night"){
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        var path = window.location.host;
+        document.body.style.background = 'url(/assets/assault.png) top left repeat';
+        var cols =     document.getElementsByClassName('row1');
+        for(i=0; i<cols.length; i++) {
+            cols[i].style.backgroundColor =    'white';
+        }
+        var cols2 =     document.getElementsByClassName('js-irs-0');
+        for(i=0; i<cols2.length; i++) {
+            cols2[i].style.backgroundColor =    'white';
+        }
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Dnevni način";
+        button.setAttribute( "onClick", "javascript: day_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'white';
+    }else{
+        //$('body').css('background', 'url("/assets/low_contrast_linen.png") top left repeat');
+        document.body.style.background = 'url(/assets/swirl.png) top left repeat';
+
+        var button = document.getElementById('NightAndDay');
+        button.innerHTML = "Noćni način";
+        button.setAttribute( "onClick", "javascript: night_mode();" );
+
+        var topTitle = document.getElementById('topTitle');
+        topTitle.style.color = 'black';
+    }
+</script>
+
+<script>
+    function testScroll(ev){
+        if(window.pageYOffset>250) document.getElementById('NightAndDay').style.opacity = .4;
+        if(window.pageYOffset<20) document.getElementById('NightAndDay').style.opacity = 1;
+    }
+    window.onscroll=testScroll;
+</script>
+
+<script>
+
+    (function ($) {
+        var element = $('.follow-scroll'),
+            originalY = element.offset().top + 170;
+
+        // Space between element and top of screen (when scrolling)
+        var topMargin = 0;
+
+        // Should probably be set in CSS; but here just for emphasis
+        element.css('position', 'relative');
+        //alert(element.height());
+
+        $(window).on('scroll', function (event) {
+            var scrollTop = $(window).scrollTop();
+            var element_height = $('#articles_container_prdt');
+            //alert(scrollTop);
+            if(scrollTop < element_height.height()-210){
+                element.stop(false, false).animate({
+                    top: scrollTop < originalY ?
+                        0 : scrollTop - originalY + topMargin
+                }, 350);}
+        });
+    })(jQuery);
+
+    //$(".follow-scroll").stick_in_parent();
+
+    function append_to_next(){
+        append_or_html = 1;
+        $("#next_page_infinite").attr("disabled", "disabled");
+    }
+
+    $("form :input").change(function() {
+        append_or_html = 0;
+    });
+
+    $loader = $('#modal-loader');
+
+    $(document).on({
+        ajaxStart: function() { $loader.addClass("loader");    },
+        ajaxStop: function() { $loader.removeClass("loader"); }
+    });
+
+    $(document).ready(function () {
+        $("#next_page_infinite").on("click", function() {
+            $(this).attr("disabled", "disabled");
+        });
+    });
+</script>
+

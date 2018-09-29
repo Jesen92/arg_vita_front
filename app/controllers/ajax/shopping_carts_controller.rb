@@ -116,7 +116,7 @@ module Ajax
 
       elsif current_user != nil
 
-        cost = (@article.cost- (@article.cost*@article.discount/100))
+        cost = (@article.cost- (@article.cost*@article.discount/100)).round(2)
 
         @shopping_cart.current_cost += cost*amount
         @shopping_cart.save
@@ -242,7 +242,7 @@ module Ajax
         @items_cost += (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
 
       else
-        cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))
+        cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100)).round(2)
 
         @shopping_cart.current_cost += cost*amount
         @shopping_cart.save

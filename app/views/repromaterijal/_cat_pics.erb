@@ -4,18 +4,23 @@
     <div class="container">
       <div class="about-top grid-1">
         <% subcategories.each do |subcategory| %>
-            <div class="col-md-4 about-left">
+            <div class="col-md-4 about-left" style="margin-bottom: 15px;">
               <%= link_to index_of_repromaterijal_index_path(id: subcategory.id), :method => :get do %>
                   <figure class="effect-bubba shadow">
                     <% if subcategory.avatar_file_name.nil? %>
-                      <%=image_tag("slika_kateg.jpg", class: "img-responsive" ) %>
+                        <div style="color: white; font-size: 16px;">
+                          <%= subcategory.title %>
+                        </div>
+                        <%=image_tag("slika_kateg.jpg", class: "img-responsive" ) %>
                     <% else %>
-                      <%=image_tag(subcategory.avatar.url(:index), class: "img-responsive" ) %>
+                        <div style="color: white; font-size: 16px;">
+                          <%= subcategory.title %>
+                        </div>
+                        <%= image_tag(subcategory.avatar.url(:index), class: "img-responsive") %>
                     <% end %>
                     <!--TODO: upisati naziv kategorije-->
                     <figcaption>
                       <h2><%= subcategory.title %></h2>
-                      <p>Kratki opis kategorije</p>
                     </figcaption>
                   </figure>
               <% end %>
@@ -28,4 +33,13 @@
 
 </div>
 
-<%= paginate subcategories %>
+
+<script>
+
+    $('[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+            $this.html(event.strftime('%D dana %H:%M:%S'));
+        });
+    })
+</script>

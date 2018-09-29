@@ -107,6 +107,23 @@ class Article < ActiveRecord::Base
   }
 
 
+  scope :with_multiple_ssubcategory_id, lambda { |category_ids|
+    #where(category_id: [*category_ids])
+
+    # get a reference to the join table
+    art_cat = ArticleCategory.arel_table
+    # get a reference to the filtered table
+    articles = Article.arel_table
+    # let AREL generate a complex SQL query
+    where(
+        ArticleCategory \
+                              .where(art_cat[:article_id].eq(articles[:id])) \
+                              .where(art_cat[:category_id].in([*category_ids].map(&:to_i))) \
+                              .exists
+    )
+  }
+
+
   scope :with_color_id, lambda { |color_ids|
     where(color_id: [*color_ids])
   }

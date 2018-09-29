@@ -1,11 +1,20 @@
-
-
-
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
 
 <%= render(
         partial: 'trgovina/cat_pics',
         locals: { materials: @materials }
-    ) %>
+) %>
 
 
 
