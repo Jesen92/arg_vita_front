@@ -76,6 +76,12 @@ class TrgovinaController < ApplicationController
 
     articles = Article.where("raw= false and for_sale= true and amount > 0 and material_id = ?", @material_id).includes(:pictures, :picture)
 
+    if articles.blank?
+      flash[:error] = "Trenutno nema artikla u toj kategoriji!"
+
+      return redirect_to categories_trgovina_index_path
+    end
+
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                             with_category_id: Category.options_for_select,
                                                                                             with_material_id: Material.options_for_select,

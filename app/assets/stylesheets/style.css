@@ -228,7 +228,7 @@ span.simpleCart_total {
 	user-select: none;
 }
 .dropdown.open{
-	z-index: 2;
+	z-index: 5;
 }
 .dropdown:hover,
 .dropdown.focus{

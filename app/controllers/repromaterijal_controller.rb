@@ -35,6 +35,8 @@ class RepromaterijalController < ApplicationController
       @subcategory_id = session[:subcategory_id]
     end
 
+    return redirect_to categories_repromaterijal_index_path if params[:id].blank? && session[:subcategory_id].blank?
+
     if cookies[:article_raw].nil? || cookies[:article_raw].include?('false')
       session[:page_number] = nil
       cookies[:article_raw] = true
@@ -82,6 +84,12 @@ class RepromaterijalController < ApplicationController
 
     articles = Article.where("raw = true and for_sale = true and amount > 0 and subcategory_id = ?", @subcategory_id).includes(:picture)
 
+    if articles.blank?
+      flash[:error] = "Trenutno nema artikla u toj kategoriji!"
+
+      return redirect_to categories_repromaterijal_index_path
+    end
+
     @filterrific = initialize_filterrific(articles, params[:filterrific], select_options: {sorted_by: Article.options_for_sorted_by,
                                                                                            with_subcategory_id: Subcategory.options_for_select,
                                                                                            with_ssubcategory_id: Ssubcategory.options_for_select,
@@ -118,10 +126,11 @@ class RepromaterijalController < ApplicationController
   end
 
   def index
-    if cookies[:article_raw].nil? || cookies[:article_raw].include?('false')
+    if session[:subcategory_id].present? || cookies[:article_raw].nil? || cookies[:article_raw].include?('false')
       #binding.pry
       session[:page_number] = nil
       cookies[:article_raw] = true
+      session[:subcategory_id] = nil
       ( redirect_to(reset_filterrific_url(format: :html))and  return) unless (session[:voting].present? && (env["HTTP_REFERER"].exclude?('trgovina/index') || env["HTTP_REFERER"].exclude?('favorites/index')))
     end
 

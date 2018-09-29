@@ -199,7 +199,7 @@
               <a class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: #000; font-weight: 400;">
                 Nakit <i class="fa fa-caret-down fa-2" aria-hidden="true"></i>
               </a>
-              <div class="dropdown-menu" style="height: inherit; background-color: white;">
+              <div class="dropdown-menu" style="height: inherit; background-color: white; z-index: 99999999;">
                 <p><%= link_to 'Svi Proizvodi', trgovina_index_path, :method => :get, class: 'dropdown-item' %></p>
                 <p><%= link_to 'Popis Kategorija', categories_trgovina_index_path, :method => :get, class: 'dropdown-item' %></p>
               </div>
@@ -209,7 +209,7 @@
               <a class="dropdown-toggle" data-toggle="dropdown" style="font-size: 16px; color: #000; font-weight: 400;">
                 Repromaterijal <i class="fa fa-caret-down fa-2" aria-hidden="true"></i>
               </a>
-              <div class="dropdown-menu" style="height: inherit; background-color: white;">
+              <div class="dropdown-menu" style="height: inherit; background-color: white; z-index: 99999999;">
                 <p><%= link_to 'Svi Proizvodi', repromaterijal_index_path, :method => :get, class: 'dropdown-item' %></p>
                 <p><%= link_to 'Popis Kategorija', categories_repromaterijal_index_path, :method => :get, class: 'dropdown-item' %></p>
               </div>
