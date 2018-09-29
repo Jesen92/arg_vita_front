@@ -7,7 +7,12 @@ $("#flash_notice").html("<%= flash[:notice] %>");
    render(partial: 'shopping_carts/shopping_cart_content', locals: {shopping_cart: @shopping_cart})
  ) %>
 
+<% modal = escape_javascript(
+   render(partial: 'shopping_carts/modal_information', locals: {shopping_cart: @shopping_cart})
+ ) %>
+
 $("#shopping-cart-content").html("<%= js %>");
+$("#modal-information").html("<%= modal %>");
 
 $("#success-alert").attr('display: block;');
 

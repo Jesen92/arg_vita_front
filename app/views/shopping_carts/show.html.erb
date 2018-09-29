@@ -1,5 +1,6 @@
-<%= render partial: 'modal_information' if user_signed_in?%>
-
+<div id="modal-information">
+  <%= render partial: 'modal_information' if user_signed_in?%>
+</div>
 <style>
   .hidden_button {
     visibility: hidden;
@@ -97,8 +98,20 @@ $("#submitCoupon").click(function(){
         if (status == "success") {
           $("#couponValue").val(parseInt(data.coupon.id));
           var price = parseFloat($("#totalPrice").attr("value")).toFixed(2);
+          var shippingPrice = parseFloat($("#shippingCost").attr("value")).toFixed(2);
+
+          if (typeof $("#shippingCost").attr("value") !== 'undefined') {
+              price -= shippingPrice;
+          }
           var discount = price*parseFloat(data.coupon.discount/100).toFixed(2);
           var discountedPrice = price-discount;
+
+          if (typeof $("#shippingCost").attr("value") !== 'undefined') {
+              discountedPrice = parseFloat(discountedPrice) + parseFloat(shippingPrice);
+          }
+
+          $("#extra_cost").val((price > 400) ? 0 : 28);
+
           $("#discount").text("-"+parseFloat(discount).toFixed(2)+" Kn");
           $("#discountTotalPrice").text("Cijena s kuponom: "+parseFloat(discountedPrice).toFixed(2)+" Kn");
           $("#pouzeceCijena").text(parseFloat(discountedPrice+5).toFixed(2)+" Kn");
