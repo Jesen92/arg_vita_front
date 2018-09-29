@@ -62,6 +62,7 @@ class SuccessfulPurchase
     delivery_info.merge!({purchase_id: @user_purchase_id})
     
     UserMailer.checkout_mail(user, delivery_info).deliver_now
+    coupon.update(used: true) if delivery_info[:coupon_id].present?
 
     @carts_article.destroy_all
     @shopping_cart.current_cost = 0
