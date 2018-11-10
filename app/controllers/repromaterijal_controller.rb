@@ -103,6 +103,7 @@ class RepromaterijalController < ApplicationController
     ( redirect_to(reset_filterrific_url(format: :html))and  return) if @articles.blank?
 
     gon.min, gon.max = articles.order(cost: :desc).pluck(:cost).to_a.minmax
+    gon.min, gon.max = 0 if gon.min < 1 && gon.max < 1
 
     gon.current_min, gon.current_max = @filterrific.find.order(cost: :desc).pluck(:cost).to_a.minmax
 

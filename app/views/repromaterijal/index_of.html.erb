@@ -65,7 +65,7 @@
 
 
           <div class="col-md-3 prdt-right">
-            <div class="w_sidebar follow-scroll">
+            <div class="w_sidebar">
 
               <section class="sky-form">
                 <h4>Pretraga</h4>
@@ -184,22 +184,20 @@
 
 <script>
     $(function () {
-
-        $("#range").ionRangeSlider({
-            hide_min_max: true,
-            keyboard: false,
-            min: parseFloat(gon.min).toFixed(2),
-            max: parseFloat(gon.max).toFixed(2),
-            from_max: gon.max-1,
-            to_min: gon.min+1,
-            from: gon.current_min,
-            to: gon.current_max,
-            type: 'double',
-            step: 1,
-            postfix: " kn",
-            grid: true
-        });
-
+            $("#range").ionRangeSlider({
+                hide_min_max: true,
+                keyboard: false,
+                min: parseFloat(gon.min).toFixed(2),
+                max: parseFloat(gon.max).toFixed(2),
+                from_max: gon.max - 1,
+                to_min: gon.min + 1,
+                from: gon.current_min,
+                to: gon.current_max,
+                type: 'double',
+                step: 1,
+                postfix: " kn",
+                grid: true
+            });
     });
 
     function changeClass() {

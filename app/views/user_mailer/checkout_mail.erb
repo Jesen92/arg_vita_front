@@ -56,6 +56,10 @@
 
             </div>
 
+            <div class="col-md-1">
+
+            </div>
+
             <div class=" col-md-4">
               <div class="item-title"> Naziv Artikla </div>
             </div>
@@ -68,7 +72,7 @@
               <div class="item-title"  style="text-align: right;"> Pojedinačna Cijena </div>
             </div>
 
-            <div class=" col-md-3" style="text-align: right;">
+            <div class=" col-md-2" style="text-align: right;">
               <div class="item-title"> Cijena </div>
             </div>
           </div>
@@ -76,12 +80,16 @@
 
         <% if @user != nil %>
 
-            <% @shopping_cart.carts_articles.each do |a| %>
+            <% @shopping_cart.carts_articles.each_with_index do |a, index| %>
 
                 <!-- #TODO popusti -->
                 <li class="list-group-item"  >
                   <div class="row" >
                     <% if !a.article.nil? %>
+                        <div class="col-md-1">
+                          <%= index+1 %>.
+                        </div>
+
                         <div class=" col-md-1" >
                           <% if a.article.picture != nil %>
                               <%= image_tag(a.article.picture.image.url(:table)) %>
@@ -103,12 +111,14 @@
                           <div class="item-title" style="text-align: right;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
-                        <div class=" col-md-3" style="text-align: right;">
+                        <div class=" col-md-2" style="text-align: right;">
                           <div class="item-title"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: a.article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
                     <% elsif !a.single_article.nil? %>
-
+                        <div class="col-md-1">
+                          <%= index+1 %>.
+                        </div>
                         <div class=" col-md-1" >
                           <% if a.single_article.article.picture != nil %>
                               <%= image_tag(a.single_article.article.picture.image.url(:table)) %>
@@ -130,12 +140,14 @@
                           <div class="item-title" style="text-align: center;"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
-                        <div class=" col-md-3" style="text-align: center;">
+                        <div class=" col-md-2" style="text-align: center;">
                           <div class="item-title"><%=  number_to_currency(CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: a.single_article.id ).cost*a.amount, :unit => 'Kn', :format => "%n %u")  %></div>
                         </div>
 
                     <% else %>
-
+                        <div class="col-md-1">
+                          <%= index+1 %>.
+                        </div>
                         <div class=" col-md-1" >
                           <% if a.complement.picture != nil %>
                               <%= image_tag(a.complement.picture.image.url(:table)) %>
@@ -200,7 +212,7 @@
         <% end %>
 
       </ul>
-
+      <h3>Ukupan broj različitih artikla: <span style="font-weight: normal"> <%= @shopping_cart.carts_articles.count %></span></h3>
     </div>
     <div class="container">
       <hr>
