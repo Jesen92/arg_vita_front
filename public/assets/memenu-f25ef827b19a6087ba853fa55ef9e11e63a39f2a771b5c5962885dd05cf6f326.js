@@ -2,7 +2,7 @@ $(document).ready(function (){
 $.fn.memenu = function (e) {
     function r() {
         $(".memenu").find("li, a").unbind();
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 768 || screen.width <= 768) {
             o();
             s();
             $(".memenu li").each(function() {

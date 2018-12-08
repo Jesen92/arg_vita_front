@@ -17,6 +17,7 @@
   <%= favicon_link_tag "safari-pinned-tab.svg?v=3eKgN5PbGq", rel: "mask-icon", color:"#5bbad5" %>
   <%= favicon_link_tag "favicon.ico?v=3eKgN5PbGq", rel:"shortcut icon" %>
   <%= favicon_link_tag  "assets/site.manifest", rel:"manifest"%>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
   <meta
@@ -50,31 +51,26 @@
 
 
 <div class="top-header row" id="top_">
-  <div class="top-header-main col-md-12">
-    <div class="col-md-8">
-      <div class="nlogo">
-        <div class="col-md-6">
-          <%= link_to root_path do %><%=image_tag("av-color.png", class: "logoav") %><% end %>
-        </div>
-        <div class="col-md-6">
-          <% if params[:action] != 'about_us_page' && params[:action] != 'contact_page' %><div style="margin-top: 10px;"><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm logoav" style="background-color: #1abc9c;">Noćni način</a></div><% end %>
-        </div>
-      </div>
+  <div class="top-header-main skyblue">
+            <%= link_to root_path do %><%=image_tag("av-color.png", class: "logoav") %><% end %>
+            <% if params[:action] != 'about_us_page' && params[:action] != 'contact_page' %><a onclick="night_mode()" id="NightAndDay" class="btn btn-primary btn-sm" style="background-color: #1abc9c; position: absolute;left: 70px;top: 10px;">Noćni način</a><% end %>
+    <% if !user_signed_in? && params[:controller].exclude?("sessions") && params[:action].exclude?("about") && params[:action].exclude?("contact") %>
+          <a data-toggle="modal" data-target="#LoginForm" class="btn btn-primary btn-sm btnlogin" style="background-color: #1abc9c">Prijava
+          </a>
+        <% if !user_signed_in? && params[:controller].exclude?("users") && params[:action].exclude?("about") && params[:action].exclude?("contact")  %>
+              <a data-toggle="modal" data-target="#RegistrationForm" class="btn btn-primary btn-sm btnregistration" style="background-color: #1abc9c">Registracija
+              </a>
+        <% end %>
+    <% end %>
 
-    </div>
+    <% if user_signed_in? %>
+          <%= link_to "Odjava", destroy_user_session_path, :method => :delete,class: "btn btn-primary btn-sm btnlogin", style:"background-color: #1abc9c"%>
+    <% end %>
+</div>
 
-    <div class="col-md-3">
-
-      <div> <% if !user_signed_in? && params[:controller].exclude?("sessions") && params[:action].exclude?("about") && params[:action].exclude?("contact") %><a data-toggle="modal" data-target="#LoginForm" class="btn btn-primary btn-sm btnlogin" style="background-color: #1abc9c">Prijava</a><% end %></div>
-
-      <div> <% if user_signed_in? %><%= link_to "Odjava", destroy_user_session_path, :method => :delete,class: "btn btn-primary btn-sm btnlogin", style:"background-color: #1abc9c"%> <% end %></div>
-
-      <div> <% if !user_signed_in? && params[:controller].exclude?("users") && params[:action].exclude?("about") && params[:action].exclude?("contact")  %><a data-toggle="modal" data-target="#RegistrationForm" class="btn btn-primary btn-sm btnregistration" style="background-color: #1abc9c">Registracija</a><% end %></div>
-
-    </div>
 
     <% if params[:controller].exclude?("shopping_cart")%>
-    <div class="cart-tab visible" >
+    <div class="cart-tab visible" style="top: 60px; z-index: 9998;">
       <% if current_user != nil %>
 
           <div id="cart_user_partial">
@@ -105,8 +101,8 @@
 
     <!-- //////////////////////////////////////////////////////////////////// -->
     <% if user_signed_in? %>
-      <div class="cart-tab visible" style="top: 60px; z-index: 9998;">
-        <a href="#" title="View your favorites" class="cart-link">
+      <div class="cart-tab visible favorites" style="top: 120px; z-index: 9998;">
+        <a title="View your favorites" class="cart-link">
           <style>
             .favorites_heart::before {
               top: 10px;
@@ -196,13 +192,9 @@
 <div class="header-bottom">
   <div class="container">
     <div class="header">
-      <div class="col-md-9 header-left">
+      <div class="col-md-9 header-left" id="pages-links">
         <div class="top-nav">
           <ul class="memenu skyblue">
-
-
-
-
             <li class="<%= params[:controller]== 'home' && params[:action] == 'index' ? 'active' : '' %>" ><%= link_to 'Početna', root_path, :method => :get%></li>
 
             <li class="<%= params[:controller]== 'trgovina' ? 'active' : '' %>"> <%= link_to 'Nakit', categories_trgovina_index_path, :method => :get %>
@@ -219,7 +211,7 @@
         </div>
         <div class="clearfix"> </div>
       </div>
-      <div class="col-md-3 header-right">
+      <div class="col-md-3 header-right" id="search-bar">
         <%= simple_form_for Article.new, url: search_art_articles_path, :method => :put do |f| %>
         <div class="search-bar showTooltipPayment" title="Pretražite po nazivu ili kodu artikla">
           <%= f.input :title, label: false, placeholder: 'pretraga svih artikla...' %>
@@ -589,6 +581,14 @@ $(document).ready(function(){
 });
 
 
+</script>
+
+<script>
+  $(document).ready(function () {
+    if (window.innerWidth <= 768) {
+        $('#search-bar').removeClass('header-right').addClass('header-left');
+    }
+  });
 </script>
 
 </body>

@@ -10,6 +10,9 @@ class RepromaterijalController < ApplicationController
     @page_title = "Artikli"
     @subcategories = Subcategory.all
 
+    gon.min = 0;
+    gon.max = 0;
+
     respond_to do |format|
       format.html
       format.js

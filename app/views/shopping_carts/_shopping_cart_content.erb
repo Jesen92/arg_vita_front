@@ -1,3 +1,10 @@
+<style>
+  .picture-set {
+    height: 50px;
+    width: 50px;
+  }
+</style>
+
 <% if current_user != nil %>
     <% if shopping_cart.carts_articles.empty?%>
         <li class="list-group-item"  >
@@ -22,20 +29,21 @@
         <li class="list-group-item"  >
           <div class="row" >
             <% if !a.article.nil? %>
-                <div class="col-xs-6 col-md-1" >
+                <div class="col-xs-12 col-md-1 picture-set" >
                   <% if a.article.picture != nil %>
-                      <%= image_tag(a.article.picture.image.url(:table)) %>
+                      <%= image_tag(a.article.picture.image.url(:index), class: 'picture-set' )%>
                   <% else %>
                       <%=image_tag("default-placeholder.png", class: "productimg" ) %>
                   <% end %>
 
+
                 </div>
 
-                <div class="col-xs-6 col-md-3" >
+                <div class="col-xs-12 col-md-3" >
                   <div class="item-title"> <%=  a.article.title+" (#{a.article.code})" %> </div>
                 </div>
 
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-12 col-md-4">
                   <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
                     <%= link_to '-', destroy_amount_ajax_shopping_cart_path(id: a.article.id ), :method => :put, remote: true, class: "btn btn-default quantity " %>
                   </div>
@@ -48,8 +56,8 @@
                     <%= link_to '+', ajax_shopping_cart_path(id: a.article.id, :article => {:amount => 1, :id => a.article.id}), :method => :put, remote: true, class: "btn btn-default quantity " %>
                   </div>
 
-                  <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                    <%= link_to 'remove item', destroy_item_ajax_shopping_cart_path(id: a.article.id, amount: a.amount ), method: :put, remote: true, style: "color: #1abc9c;", class: "" %>
+                  <div class="col-xs-12 col-md-2 remove" style="width: auto; height: auto;">
+                    <%= link_to 'ukloni artikl', destroy_item_ajax_shopping_cart_path(id: a.article.id, amount: a.amount ), method: :put, remote: true, style: "color: #1abc9c;", class: "" %>
                   </div>
                 </div>
 
@@ -63,19 +71,19 @@
                 </div>
 
             <% elsif !a.single_article.nil? %>
-                <div class="col-xs-6 col-md-1" >
+                <div class="col-xs-12 col-md-1" >
                   <% if a.single_article.article.picture != nil %>
-                      <%= image_tag(a.single_article.article.picture.image.url(:table)) %>
+                      <%= image_tag(a.single_article.article.picture.image.url(:index), class: 'picture-set') %>
                   <% else %>
                       <%=image_tag("default-placeholder-2.png", class: "productimg" ) %>
                   <% end %>
                 </div>
 
-                <div class="col-xs-6 col-md-3" >
+                <div class="col-xs-12 col-md-3" >
                   <div class="item-title"> <%=  a.single_article.title+" (#{a.single_article.code})"  %> </div>
                 </div>
 
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-12 col-md-4">
                   <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
                     <%= link_to '-', destroy_single_amount_ajax_shopping_cart_path(id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, class: "btn btn-default quantity " %>
                   </div>
@@ -88,8 +96,8 @@
                     <%= link_to '+', create_single_ajax_shopping_cart_path(id: a.single_article.id), :method => :put, remote: true, class: "btn btn-default quantity " %>
                   </div>
 
-                  <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                    <%= link_to 'remove item', destroy_single_item_ajax_shopping_cart_path(id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, style: "color: #1abc9c;", class: "" %>
+                  <div class="col-xs-12 col-md-2 remove" style="width: auto; height: auto;">
+                    <%= link_to 'ukloni artikl', destroy_single_item_ajax_shopping_cart_path(id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, style: "color: #1abc9c;", class: "" %>
                   </div>
                 </div>
 
@@ -104,19 +112,19 @@
             <% else %>
 
 
-                <div class="col-xs-6 col-md-1" >
+                <div class="col-xs-12 col-md-1" >
                   <% if a.complement.picture != nil %>
-                      <%= image_tag(a.complement.picture.image.url(:table)) %>
+                      <%= image_tag(a.complement.picture.image.url(:index), class: 'picture-set') %>
                   <% else %>
                       <%=image_tag("default-placeholder-2.png", class: "productimg" ) %>
                   <% end %>
                 </div>
 
-                <div class="col-xs-6 col-md-3" >
+                <div class="col-xs-12 col-md-3" >
                   <div class="item-title"> <%=  a.complement.title  %> </div>
                 </div>
 
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-12 col-md-4">
                   <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
                     <%= link_to '-', destroy_complement_shopping_carts_path(a.complement.id ), :method => :put, class: "btn btn-default quantity " %>
                   </div>
@@ -130,21 +138,20 @@
                   </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-12 col-md-2">
                   <div class="item-price" style="text-align: right;"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.complement.discount/100)), :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
 
-                <div class="col-xs-6 col-md-2" style="text-align: right;">
+                <div class="col-xs-12 col-md-2" style="text-align: right;">
                   <div class="item-price"><%if !a.complement.on_discount.nil? && !a.complement.on_discount? && a.complement.discount != 0 %> <%=  number_to_currency((a.complement.cost-(a.complement.cost*a.single_article.article.discount/100))*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% else %> <%=  number_to_currency(a.complement.cost*a.amount, :unit => 'Kn', :format => "%n %u")  %> <% end %></div>
                 </div>
-
             <% end %>
           </div>
         </li>
     <% end %>
     <li class="list-group-item"  >
       <div class="row" >
-        <div class="col-xs-6 col-md-12">
+        <div class="col-xs-6 col-md-12 summary-price">
           <div class="item-title" style="text-align: right;">Ukupna cijena izabranih proizvoda je:</div>
 
           <% if current_user != nil %>
@@ -216,7 +223,7 @@
                       </div>
 
                       <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                        <%= link_to 'remove item', destroy_item_path(id: a.id, amount: a.amount ), method: :put, style: "color: #1abc9c;", class: "" %>
+                        <%= link_to 'ukloni artikl', destroy_item_path(id: a.id, amount: a.amount ), method: :put, style: "color: #1abc9c;", class: "" %>
                       </div>
                     </div>
 
@@ -269,7 +276,7 @@
                       </div>
 
                       <div class="col-xs-6 col-md-2" style="width: auto; height: auto;">
-                        <%= link_to 'remove item', destroy_item_path(id: a.article.id, amount: a.amount ), method: :put, style: "color: #1abc9c;", class: "" %>
+                        <%= link_to 'ukloni artikl', destroy_item_path(id: a.article.id, amount: a.amount ), method: :put, style: "color: #1abc9c;", class: "" %>
                       </div>
                     </div>
 

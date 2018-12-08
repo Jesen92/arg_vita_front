@@ -23,6 +23,9 @@ class ArticlesController < ApplicationController
   end
 
   def search_art
+    gon.min = 0;
+    gon.max = 0;
+
     if current_user == nil
       @no_articles = Article.where(id: @no_user_articles.keys)
       @sa = SingleArticle.where(id: @no_user_single_articles.keys)
