@@ -245,7 +245,6 @@ span.simpleCart_total {
 	border-top: 4px solid #fff;
 	z-index: 1;
 	-webkit-transform-origin: 50% 20%;
-	-ms-transform-origin: 50% 20%;
 	transform-origin: 50% 20%;
 }
 .dropdown:hover .carat:after{
@@ -259,7 +258,6 @@ span.simpleCart_total {
 }
 .dropdown.open .carat{
 	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 /* OLD SELECT (HIDDEN) */
@@ -516,8 +514,6 @@ ul.callbacks_tabs.callbacks2_tabs {
 	color: #fff;
 	font-size: 1.25em;
 	-webkit-backface-visibility: hidden;
-	-o-backface-visibility: hidden;
-	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
 }
 .about-left figure figcaption::before,
@@ -547,28 +543,30 @@ figure.effect-bubba figcaption::after {
 	content: '';
 	opacity: 0;
 	-webkit-transition: opacity 0.35s,-webkit-transform 0.35s;
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, -webkit-transform 0.35s;
 	transition: opacity 0.35s, transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s, -webkit-transform 0.35s;
 }
 figure.effect-bubba figcaption::before {
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #fff;
 	-webkit-transform: scale(0,1);
-	-ms-transform: scale(0,1);
 	transform: scale(0,1);
 }
 figure.effect-bubba figcaption::after {
 	border-right: 1px solid #fff;
 	border-left: 1px solid #fff;
 	-webkit-transform: scale(1,0);
-	-ms-transform: scale(1,0);
 	transform: scale(1,0);
 }
 figure.effect-bubba h4,figure.effect-bubba h2 {
 	padding-top: 22%;
 	-webkit-transition: -webkit-transform 0.35s;
+	transition: -webkit-transform 0.35s;
 	transition: transform 0.35s;
+	transition: transform 0.35s, -webkit-transform 0.35s;
 	-webkit-transform: translate3d(0,-20px,0);
-	-ms-transform: translate3d(0,-20px,0);
 	transform: translate3d(0,-20px,0);
 	opacity:0;
 	color:#fff;
@@ -582,9 +580,10 @@ figure.effect-bubba p {
 	padding: 0px 3.5em;
 	opacity: 0;
 	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, -webkit-transform 0.35s;
 	transition: opacity 0.35s, transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s, -webkit-transform 0.35s;
 	-webkit-transform: translate3d(0,20px,0);
-	-ms-transform: translate3d(0,20px,0);
 	transform: translate3d(0,20px,0);
 	color:#fff;
 	font-size: 1em;
@@ -594,14 +593,12 @@ figure.effect-bubba:hover figcaption::before,
 figure.effect-bubba:hover figcaption::after {
 	opacity: 1;
 	-webkit-transform: scale(1);
-	-ms-transform: scale(1);
 	transform: scale(1);
 }
 figure.effect-bubba:hover h4,
 figure.effect-bubba:hover p,figure.effect-bubba:hover h2 {
 	opacity: 1;
 	-webkit-transform: translate3d(0,0,0);
-	-ms-transform: translate3d(0,0,0);
 	transform: translate3d(0,0,0);
 }
 /*--about-end--*/
@@ -3198,7 +3195,6 @@ ul.tag-men {
       -webkit-perspective-origin: 317.5px 11px;
       perspective-origin: 317.5px 11px;
       -webkit-transform-origin: 317.5px 11px;
-      -ms-transform-origin: 317.5px 11px;
       transform-origin: 317.5px 11px;
       border: 0px none rgb(51, 51, 51);
       font: normal normal normal normal 13px / 22px;
@@ -3217,7 +3213,6 @@ ul.tag-men {
   -webkit-perspective-origin: 317.5px 30px;
   perspective-origin: 317.5px 30px;
   -webkit-transform-origin: 317.5px 30px;
-  -ms-transform-origin: 317.5px 30px;
   transform-origin: 317.5px 30px;
   border: 0px none rgb(68, 68, 68);
   font: normal normal normal normal 13px / 18.5714px 'Exo 2', sans-serif;
@@ -3236,7 +3231,6 @@ ul.tag-men {
   -webkit-perspective-origin: 317.5px 11px;
   perspective-origin: 317.5px 11px;
   -webkit-transform-origin: 317.5px 11px;
-  -ms-transform-origin: 317.5px 11px;
   transform-origin: 317.5px 11px;
   border: 0px none rgb(51, 51, 51);
   font: normal normal normal normal 13px / 22px;
@@ -3269,7 +3263,6 @@ ul.tag-men {
   -webkit-perspective-origin: 13px 13px;
   perspective-origin: 13px 13px;
   -webkit-transform-origin: 13px 13px;
-  -ms-transform-origin: 13px 13px;
   transform-origin: 13px 13px;
   background: rgb(0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box;
   -webkit-transition: all 0.4s ease 0s;
@@ -3289,7 +3282,6 @@ ul.tag-men {
   -webkit-perspective-origin: 13px 13px;
   perspective-origin: 13px 13px;
   -webkit-transform-origin: 13px 13px;
-  -ms-transform-origin: 13px 13px;
   transform-origin: 13px 13px;
   background: rgb(163, 0, 20) none repeat scroll 0% 0% / auto padding-box border-box;
   -webkit-transition: all 0.4s ease 0s;
@@ -3308,7 +3300,6 @@ ul.tag-men {
   -webkit-perspective-origin: 13px 13px;
   perspective-origin: 13px 13px;
   -webkit-transform-origin: 13px 13px;
-  -ms-transform-origin: 13px 13px;
   transform-origin: 13px 13px;
   background: rgb(200, 194, 88) none repeat scroll 0% 0% / auto padding-box border-box;
   -webkit-transition: all 0.4s ease 0s;
@@ -3327,7 +3318,6 @@ ul.tag-men {
   -webkit-perspective-origin: 13px 13px;
   perspective-origin: 13px 13px;
   -webkit-transform-origin: 13px 13px;
-  -ms-transform-origin: 13px 13px;
   transform-origin: 13px 13px;
   background: rgb(47, 60, 77) none repeat scroll 0% 0% / auto padding-box border-box;
   -webkit-transition: all 0.4s ease 0s;
@@ -3346,7 +3336,6 @@ ul.tag-men {
   -webkit-perspective-origin: 13px 13px;
   perspective-origin: 13px 13px;
   -webkit-transform-origin: 13px 13px;
-  -ms-transform-origin: 13px 13px;
   transform-origin: 13px 13px;
   background: rgb(195, 194, 192) none repeat scroll 0% 0% / auto padding-box border-box;
   -webkit-transition: all 0.4s ease 0s;
