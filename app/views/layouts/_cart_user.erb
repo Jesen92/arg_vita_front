@@ -29,10 +29,10 @@
                 <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
                 <span class="quantity">stavki: <%= i.amount %></span>
                 <div class="row">
-                  <div class="col-xs-6 col-md-6">
+                  <div class="col-xs-5 col-md-6">
                     <%= link_to 'ukloni 1', destroy_amount_ajax_carts_article_path(id: i.article.id ), :method => :put, remote: true, class: 'remove-single', style: "color: #1abc9c;" %>
                   </div>
-                  <div class="col-xs-6 col-md-6">
+                  <div class="col-xs-4 col-md-6">
                     <%= link_to 'ukloni', destroy_item_ajax_carts_article_path(id: i.article.id, amount: i.amount ), :method => :put, remote: true, class: 'remove-article-from-cart', style: "color: #1abc9c;"%>
                   </div>
                 </div>
@@ -54,10 +54,10 @@
                 <span class="item-price"><%=  number_to_currency(i.cost, :unit => 'Kn', :format => "%n %u") %></span>
                 <span class="quantity">stavki: <%= i.amount %></span>
                 <div class="row">
-                  <div class="col-xs-6 col-md-6">
+                  <div class="col-xs-5 col-md-6">
                     <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, class: 'remove-single', style: "color: #1abc9c;"%>
                   </div>
-                  <div class="col-xs-6 col-md-6">
+                  <div class="col-xs-4 col-md-6">
                     <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, class: 'remove-article-from-cart', style: "color: #1abc9c;" %>
                   </div>
                 </div>

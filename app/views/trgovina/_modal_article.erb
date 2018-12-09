@@ -193,16 +193,5 @@
             });
         }
     });
-
-    $(document).ready(function() {
-        //option A
-        $("form#edit_article_<%= article.id %>").submit(function(e){
-            e.preventDefault();
-        });
-    });
-
-    function submitForm<%= article.id.to_s %>() {
-        $('form#edit_article_<%= article.id %>').trigger('submit.rails');
-    }
 </script>
 

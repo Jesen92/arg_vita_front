@@ -91,3 +91,9 @@ $(function () {
     });
 
 });
+
+$(document).ready(function() {
+    if (window.innerWidth <= 768) {
+        $(window).resize();
+    }
+});
