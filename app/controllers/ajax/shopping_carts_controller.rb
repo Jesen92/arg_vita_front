@@ -313,7 +313,7 @@ module Ajax
       end
 
       respond_to do |format|
-        format.js {flash[:warning] = "Artikl maknut iz košarice!" }
+        format.js {flash[:warning] = "Artikl uklonjen iz košarice!" }
       end
     end
 
@@ -379,7 +379,7 @@ module Ajax
       end
 
       respond_to do |format|
-        format.js {flash[:warning] = "Komad Artikla maknut iz košarice!" }
+        format.js {flash[:warning] = "Komad Artikla uklonjen iz košarice!" }
       end
     end
 
@@ -428,7 +428,7 @@ module Ajax
       end
 
       respond_to do |format|
-        format.js {flash[:warning] = "Komad Artikla maknut iz košarice!" }
+        format.js {flash[:warning] = "Komad Artikla uklonjen iz košarice!" }
       end
     end
 
@@ -465,7 +465,7 @@ module Ajax
       end
 
       respond_to do |format|
-        format.js {flash[:warning] = "Artikl maknut iz košarice!" }
+        format.js {flash[:warning] = "Artikl uklonjen iz košarice!" }
       end
     end
 
