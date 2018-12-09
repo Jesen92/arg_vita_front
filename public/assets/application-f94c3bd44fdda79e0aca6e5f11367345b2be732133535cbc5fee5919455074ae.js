@@ -21436,8 +21436,71 @@ Released under the MIT License
                 h.detach()),b={position:"",width:"",top:""},a.css(b).removeClass(t).trigger("sticky_kit:unstick")),B&&(b=f.height(),u+q>b&&!v&&(c-=l,c=Math.max(b-u,c),c=Math.min(q,c),m&&a.css({top:c+"px"})))):e>F&&(m=!0,b={position:"fixed",top:c},b.width="border-box"===a.css("box-sizing")?a.outerWidth()+"px":a.width()+"px",a.css(b).addClass(t),null==p&&(a.after(h),"left"!==r&&"right"!==r||h.append(a)),a.trigger("sticky_kit:stick")),m&&w&&(null==k&&(k=e+u+c>C+n),!v&&k)))return v=!0,"static"===g.css("position")&&g.css({position:"relative"}),
         a.css({position:"absolute",bottom:d,top:"auto"}).trigger("sticky_kit:bottom")},y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scroll",l);f.off("resize",y);b(document.body).off("sticky_kit:recalc",y);a.off("sticky_kit:detach",H);a.removeData("sticky_kit");a.css({position:"",bottom:"",top:"",width:""});g.position("position","");if(m)return null==p&&("left"!==r&&"right"!==r||a.insertAfter(h),h.remove()),a.removeClass(t)},f.on("touchmove",l),f.on("scroll",l),f.on("resize",
         y),b(document.body).on("sticky_kit:recalc",y),a.on("sticky_kit:detach",H),setTimeout(l,0)}};n=0;for(K=this.length;n<K;n++)d=this[n],J(b(d));return this}}).call(this);
-$.fn.memenu=function(e){function r(){$(".memenu").find("li, a").unbind();if(window.innerWidth<=768){o();s();if(n==0){$(".memenu > li:not(.showhide)").hide(0)}}else{u();i()}}function i(){$(".memenu li").bind("mouseover",function(){$(this).children(".dropdown, .mepanel").stop().fadeIn(t.interval)}).bind("mouseleave",function(){$(this).children(".dropdown, .mepanel").stop().fadeOut(t.interval)})}function s(){$(".memenu > li > a").bind("click",function(e){if($(this).siblings(".dropdown, .mepanel").css("display")=="none"){$(this).siblings(".dropdown, .mepanel").slideDown(t.interval);$(this).siblings(".dropdown").find("ul").slideDown(t.interval);n=1}else{$(this).siblings(".dropdown, .mepanel").slideUp(t.interval)}})}function o(){$(".memenu > li.showhide").show(0);$(".memenu > li.showhide").bind("click",function(){if($(".memenu > li").is(":hidden")){$(".memenu > li").slideDown(300)}else{$(".memenu > li:not(.showhide)").slideUp(300);$(".memenu > li.showhide").show(0)}})}function u(){$(".memenu > li").show(0);$(".memenu > li.showhide").hide(0)}var t={interval:250};var n=0;$(".memenu").prepend("<li class='showhide'><span class='title'>MENU</span><span class='icon1'></span><span class='icon2'></span></li>");r();$(window).resize(function(){r()})}
-;
+$(document).ready(function (){
+$.fn.memenu = function (e) {
+    function r() {
+        $(".memenu").find("li, a").unbind();
+        if (window.innerWidth <= 768) {
+            $(window).resize();
+            o();
+            s();
+            $(".memenu li").each(function() {
+                $(this).css("display", "block");
+            });
+            if (n == 0) {
+                $(".memenu > li:not(.showhide)").hide(0)
+            }
+        } else {
+            u();
+            i()
+        }
+    }
+
+    function i() {
+        $(".memenu li").bind("mouseover", function () {
+            $(this).children(".dropdown, .mepanel").stop().fadeIn(t.interval)
+        }).bind("mouseleave", function () {
+            $(this).children(".dropdown, .mepanel").stop().fadeOut(t.interval)
+        })
+    }
+
+    function s() {
+        $(".memenu > li > a").bind("click", function (e) {
+            if ($(this).siblings(".dropdown, .mepanel").css("display") == "none") {
+                $(this).siblings(".dropdown, .mepanel").slideDown(t.interval);
+                $(this).siblings(".dropdown").find("ul").slideDown(t.interval);
+                n = 1
+            } else {
+                $(this).siblings(".dropdown, .mepanel").slideUp(t.interval)
+            }
+        })
+    }
+
+    function o() {
+        $(".memenu > li.showhide").show(0);
+        $(".memenu > li.showhide").bind("click", function () {
+            if ($(".memenu > li").is(":hidden")) {
+                $(".memenu > li").slideDown(300);
+            } else {
+                $(".memenu > li:not(.showhide)").slideUp(300);
+                $(".memenu > li.showhide").show(0)
+            }
+        })
+    }
+
+    function u() {
+        $(".memenu > li").show(0);
+        $(".memenu > li.showhide").hide(0)
+    }
+
+    var t = {interval: 250};
+    var n = 0;
+    $(".memenu").prepend("<li class='showhide'><span class='title'>MENU</span><span class='icon1'></span><span class='icon2'></span></li>");
+    r();
+    $(window).resize(function () {
+        r()
+    })
+}});
 /*
  *  jQuery OwlCarousel v1.3.3
  *

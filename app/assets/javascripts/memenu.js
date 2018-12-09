@@ -3,6 +3,7 @@ $.fn.memenu = function (e) {
     function r() {
         $(".memenu").find("li, a").unbind();
         if (window.innerWidth <= 768) {
+            $(window).resize();
             o();
             s();
             $(".memenu li").each(function() {

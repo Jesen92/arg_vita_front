@@ -1,11 +1,14 @@
-$(window).ready(function (){
+$(document).ready(function (){
 $.fn.memenu = function (e) {
     function r() {
         $(".memenu").find("li, a").unbind();
         if (window.innerWidth <= 768) {
-            alert("tu");
+            $(window).resize();
             o();
             s();
+            $(".memenu li").each(function() {
+                $(this).css("display", "block");
+            });
             if (n == 0) {
                 $(".memenu > li:not(.showhide)").hide(0)
             }
@@ -39,7 +42,7 @@ $.fn.memenu = function (e) {
         $(".memenu > li.showhide").show(0);
         $(".memenu > li.showhide").bind("click", function () {
             if ($(".memenu > li").is(":hidden")) {
-                $(".memenu > li").slideDown(300)
+                $(".memenu > li").slideDown(300);
             } else {
                 $(".memenu > li:not(.showhide)").slideUp(300);
                 $(".memenu > li.showhide").show(0)
