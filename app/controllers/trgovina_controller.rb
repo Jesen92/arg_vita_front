@@ -214,6 +214,9 @@ class TrgovinaController < ApplicationController
   def show
     @article = Article.find_by(id: params[:format], for_sale: true)
 
+    gon.min = 0;
+    gon.max = 0;
+
     if @article != nil
 
       rel_art_ids = []
