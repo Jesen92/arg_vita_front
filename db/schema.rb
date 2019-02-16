@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180929093915) do
+ActiveRecord::Schema.define(version: 20190216084737) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -388,6 +388,13 @@ ActiveRecord::Schema.define(version: 20180929093915) do
     t.datetime "avatar_updated_at"
     t.boolean  "has_types"
     t.boolean  "has_colors"
+  end
+
+  create_table "sum_discounts", force: :cascade do |t|
+    t.integer  "sum",        limit: 4
+    t.integer  "discount",   limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "types", force: :cascade do |t|

@@ -21,7 +21,7 @@ class DiscountPercentage
     user_sum_discount = current_user.nil? || current_user.purchase_sum < 500 ? 0 : get_user_sum_discount
     shopping_cart_sum_discount = get_shopping_cart_sum_discount
 
-    [user_sum_discount, shopping_cart_sum_discount, article_discount].max
+    [user_sum_discount, shopping_cart_sum_discount, article_discount, get_sum_discount].max
   end
 
   def get_user_sum_discount
@@ -34,6 +34,12 @@ class DiscountPercentage
   def get_shopping_cart_sum_discount
     return 0 unless shopping_cart_sum >= 1000
     shopping_cart_sum > 2000 ? 30 : 20
+  end
+
+  def get_sum_discount
+    sum_discount = SumDiscount.where('? > sum', shopping_cart_sum).maximum('discount')
+
+    return sum_discount ? sum_discount : 0
   end
 
 end
