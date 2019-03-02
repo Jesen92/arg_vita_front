@@ -7,7 +7,7 @@ class DiscountPercentage
 
   def get_discount
     if current_user.present? && current_user.personal_discount.present? && current_user.personal_discount > 0
-      return current_user.personal_discount
+      return {discount: current_user.personal_discount, discount_type: 'user_account_personal'}
     end
 
     get_maximum_discount
