@@ -7,7 +7,12 @@ class HomeController < ApplicationController
     @articles = Article.where("raw= false and for_sale= true and amount > 0").order('created_at DESC').first(8)
 
     discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    p = Proc.new {|article|
+      discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+      calculated_discount = get_discount(discount_params)
+      article.discount = calculated_discount[:discount]
+      article.discount_type = calculated_discount[:discount_type]
+      article }
     gon.current_min, gon.current_max = 0
 
     @articles.collect!(&p)

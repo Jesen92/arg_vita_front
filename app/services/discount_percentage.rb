@@ -21,7 +21,12 @@ class DiscountPercentage
     user_sum_discount = current_user.nil? || current_user.purchase_sum < 500 ? 0 : get_user_sum_discount
     shopping_cart_sum_discount = get_shopping_cart_sum_discount
 
-    [user_sum_discount, shopping_cart_sum_discount, article_discount, get_sum_discount].max
+    [
+        {discount: user_sum_discount, discount_type: 'personal'},
+        {discount: shopping_cart_sum_discount, discount_type: 'shopping_cart_sum'},
+        {discount: article_discount, discount_type: 'article'},
+        {discount: get_sum_discount, discount_type: 'sum_discount'}
+    ].max_by {|v| v[:discount]}
   end
 
   def get_user_sum_discount

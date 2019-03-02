@@ -32,7 +32,12 @@ class CartsArticlesController < ApplicationController
     @article = Article.find(art_id)
 
     discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    p = Proc.new {|article|
+      discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+      calculated_discount = get_discount(discount_params)
+      article.discount = calculated_discount[:discount]
+      article.discount_type = calculated_discount[:discount_type]
+      article }
     @article = p.call(@article)
 
     (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if @amount != nil && amount > @article.amount
@@ -119,11 +124,13 @@ class CartsArticlesController < ApplicationController
         @shopping_cart.save
 
         @carts_article.cost = cost
+        @carts_article.discount = @article.discount
+        @carts_article.discount_type = @article.discount_type
         @carts_article.save
 
       end
     end
-    #binding.pry
+
     redirect_to :back
   end
 
@@ -236,9 +243,6 @@ class CartsArticlesController < ApplicationController
     @shopping_cart.save
     end
 
-
-
-
     if current_user == nil # dodaje single article u hash single article ##############################################################
       if @sa != nil
         puts "single article nije nil"
@@ -263,7 +267,6 @@ class CartsArticlesController < ApplicationController
     end
 ############################################################################################################################################
 
-
     redirect_to trgovina_index_path
   end
 
@@ -280,7 +283,12 @@ class CartsArticlesController < ApplicationController
       amount = params[:article].blank? ? 1 : params[:article][:amount].to_i
 
     discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-    p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+    p = Proc.new {|article|
+      discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+      calculated_discount = get_discount(discount_params)
+      article.discount = calculated_discount[:discount]
+      article.discount_type = calculated_discount[:discount_type]
+      article }
     @article = p.call(@single_article.article)
 
     (flash[:error] = "Nema dovoljne kolicine artikla u ducanu" and return redirect_to :back) if amount > @single_article.amount
@@ -365,6 +373,8 @@ class CartsArticlesController < ApplicationController
         @shopping_cart.save
 
         @carts_article.cost = cost
+        @carts_article.discount = @article.discount
+        @carts_article.discount_type = @article.discount_type
         @carts_article.save
       end
     end
@@ -414,35 +424,27 @@ class CartsArticlesController < ApplicationController
 
     if @complement.on_discount.nil? || @complement.on_discount == false || @complement.discount != 0
       if current_user == nil
-
         @items_cost += @complement.cost
-
       end
 
       if current_user != nil
           @shopping_cart.current_cost += @complement.cost
           @shopping_cart.save
-
       end
-
 
     else
       if current_user == nil
-
         @items_cost += (@complement.cost- (@complement.cost*@complement.discount/100))
-
       end
       @shopping_cart.current_cost += (@complement.cost- (@complement.cost*@complement.discount/100))
       @shopping_cart.save
     end
 
     redirect_to shopping_carts_show_path
-
   end
 
 
   def plus_no_user
-
 
     #if current_user == nil
     #  flash[:error] = "Morate biti ulogirani da bi stavljali artikle u kosaricu!"

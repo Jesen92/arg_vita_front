@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190216084737) do
+ActiveRecord::Schema.define(version: 20190302082712) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20190216084737) do
     t.string   "short_description",     limit: 255
     t.string   "short_description_eng", limit: 255
     t.string   "color_or_size",         limit: 255
+    t.string   "discount_type",         limit: 255
   end
 
   create_table "auctions", force: :cascade do |t|
@@ -97,12 +98,14 @@ ActiveRecord::Schema.define(version: 20190216084737) do
   create_table "carts_articles", force: :cascade do |t|
     t.integer  "shopping_cart_id",  limit: 4
     t.integer  "single_article_id", limit: 4
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
     t.integer  "article_id",        limit: 4
-    t.integer  "amount",            limit: 4,                          default: 0
+    t.integer  "amount",            limit: 4,                            default: 0
     t.integer  "complement_id",     limit: 4
-    t.decimal  "cost",                        precision: 10, scale: 2
+    t.decimal  "cost",                          precision: 10, scale: 2
+    t.integer  "discount",          limit: 4
+    t.string   "discount_type",     limit: 255
   end
 
   create_table "categories", force: :cascade do |t|

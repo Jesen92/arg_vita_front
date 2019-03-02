@@ -16,7 +16,12 @@ module Ajax
       @article = Article.find(art_id)
 
       discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-      p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+      p = Proc.new {|article|
+        discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+        calculated_discount = get_discount(discount_params)
+        article.discount = calculated_discount[:discount]
+        article.discount_type = calculated_discount[:discount_type]
+        article }
       @article = p.call(@article)
 
       if amount > @article.amount
@@ -122,6 +127,8 @@ module Ajax
         @shopping_cart.save
 
         @carts_article.cost = cost
+        @carts_article.discount = @article.discount
+        @carts_article.discount_type = @article.discount_type
         @carts_article.save
 
       end
@@ -148,7 +155,12 @@ module Ajax
       amount = params[:article].blank? ? 1 : params[:article][:amount].to_i
 
       discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-      p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+      p = Proc.new {|article|
+        discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+        calculated_discount = get_discount(discount_params)
+        article.discount = calculated_discount[:discount]
+        article.discount_type = calculated_discount[:discount_type]
+        article }
       @article = p.call(@single_article.article)
 
       if amount > @single_article.amount
@@ -248,6 +260,8 @@ module Ajax
         @shopping_cart.save
 
         @carts_article.cost = cost
+        @carts_article.discount = @article.discount
+        @carts_article.discount_type = @article.discount_type
         @carts_article.save
       end
       end
@@ -311,6 +325,8 @@ module Ajax
 
         @carts_article.destroy!
       end
+
+      check_if_sum_discount_is_valid
 
       respond_to do |format|
         format.js {flash[:warning] = "Artikl uklonjen iz košarice!" }
@@ -378,6 +394,8 @@ module Ajax
         end
       end
 
+      check_if_sum_discount_is_valid
+
       respond_to do |format|
         format.js {flash[:warning] = "Komad Artikla uklonjen iz košarice!" }
       end
@@ -427,6 +445,8 @@ module Ajax
         end
       end
 
+      check_if_sum_discount_is_valid
+
       respond_to do |format|
         format.js {flash[:warning] = "Komad Artikla uklonjen iz košarice!" }
       end
@@ -463,6 +483,8 @@ module Ajax
         @shopping_cart.save
         @carts_article.destroy!
       end
+
+      check_if_sum_discount_is_valid
 
       respond_to do |format|
         format.js {flash[:warning] = "Artikl uklonjen iz košarice!" }

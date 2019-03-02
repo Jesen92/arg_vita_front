@@ -1,6 +1,15 @@
 <% if @message.blank? %>
 
   $("#flash_notice").html("<%= flash[:notice] %>");
+$("#left-to-discount").hide();
+
+<% if flash[:left_to_discount] %>
+<% discount = escape_javascript(flash[:left_to_discount].html_safe) %>
+$("#left-to-discount-msg").html("<%= discount %>")
+
+$("#left-to-discount").show();
+<% end %>
+
 
   <% if @shopping_cart.present? %>
     <% js = escape_javascript(

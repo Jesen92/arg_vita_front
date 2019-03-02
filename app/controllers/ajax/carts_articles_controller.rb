@@ -16,11 +16,18 @@ module Ajax
       @article = Article.find(art_id)
 
       discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-      p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+      p = Proc.new {|article|
+        discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+        calculated_discount = get_discount(discount_params)
+        article.discount = calculated_discount[:discount]
+        article.discount_type = calculated_discount[:discount_type]
+        article }
       @article = p.call(@article)
 
       if amount > @article.amount
         @message = "Nema dovoljne kolicine artikla u ducanu"
+
+        flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
 
         respond_to do |format|
           return format.js {flash[:error] = @message}
@@ -35,6 +42,9 @@ module Ajax
             if k == @article.id.to_s
               if @no_user_articles[k]+amount > @article.amount
                 @message = "Nema dovoljne kolicine artikla u ducanu"
+
+                flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+
                 respond_to do |format|
                   return format.js {flash[:error] = @message}
                 end
@@ -63,6 +73,8 @@ module Ajax
           else
             @message = "Nema dovoljne kolicine artikla u ducanu"
 
+            flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+
             respond_to do |format|
               return format.js {flash[:error] = @message}
             end
@@ -82,6 +94,9 @@ module Ajax
 
         else
           @message = "Nema dovoljne kolicine artikla u ducanu"
+
+          flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+
           respond_to do |format|
             return format.js {flash[:error] = @message}
           end
@@ -116,12 +131,14 @@ module Ajax
 
         elsif current_user != nil
 
-          cost = (@article.cost- (@article.cost*@article.discount/100)).round(2)
+          cost = (@article.cost - (@article.cost*@article.discount/100)).round(2)
 
           @shopping_cart.current_cost += cost*amount
           @shopping_cart.save
 
           @carts_article.cost = cost
+          @carts_article.discount = @article.discount
+          @carts_article.discount_type = @article.discount_type
           @carts_article.save
 
         end
@@ -131,6 +148,8 @@ module Ajax
         @no_articles = Article.where(id: @no_user_articles.keys)
         @sa = SingleArticle.where(id: @no_user_single_articles.keys)
       end
+
+      flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
 
       respond_to do |format|
         format.js {flash[:notice] = "Artikl dodan u košaricu" }
@@ -150,11 +169,18 @@ module Ajax
       amount = params[:article].blank? ? 1 : params[:article][:amount].to_i
 
       discount_params = {current_user: user_signed_in? ? current_user : nil, shopping_cart_sum: user_signed_in? ? @shopping_cart.current_cost : @items_cost}
-      p = Proc.new {|article| discount_params[:article_discount] = article.on_discount? ? article.discount : 0; article.discount = get_discount(discount_params); article }
+      p = Proc.new {|article|
+        discount_params[:article_discount] = article.on_discount? ? article.discount : 0
+        calculated_discount = get_discount(discount_params)
+        article.discount = calculated_discount[:discount]
+        article.discount_type = calculated_discount[:discount_type]
+        article }
       @article = p.call(@single_article.article)
 
       if amount > @single_article.amount
         @message = "Nema dovoljne kolicine artikla u ducanu"
+
+        flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
 
         respond_to do |format|
           return format.js {flash[:error] = @message}
@@ -179,6 +205,8 @@ module Ajax
           else
             @message = "Nema dovoljne kolicine artikla u ducanu"
 
+            flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+
             respond_to do |format|
               return format.js {flash[:error] = @message}
             end
@@ -191,6 +219,8 @@ module Ajax
             @carts_article.save
           else
             @message = "Nema dovoljne kolicine artikla u ducanu"
+
+            flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
 
             respond_to do |format|
               return format.js {flash[:error] = @message}
@@ -205,6 +235,8 @@ module Ajax
             if k == @single_article.id
               if amount+@no_user_single_articles[k] > @single_article.amount
                 @message = "Nema dovoljne kolicine artikla u ducanu"
+
+                flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
 
                 respond_to do |format|
                   return format.js {flash[:error] = @message}
@@ -250,6 +282,8 @@ module Ajax
         @shopping_cart.save
 
         @carts_article.cost = cost
+        @carts_article.discount = @article.discount
+        @carts_article.discount_type = @article.discount_type
         @carts_article.save
       end
       end
@@ -258,6 +292,8 @@ module Ajax
         @no_articles = Article.where(id: @no_user_articles.keys)
         @sa = SingleArticle.where(id: @no_user_single_articles.keys)
       end
+
+      flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
 
       respond_to do |format|
         format.js {flash[:notice] = "Artikl dodan u košaricu" }
@@ -297,13 +333,13 @@ module Ajax
         end
 
       else
-        @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
+        @shopping_cart = current_user.shopping_cart
         @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
 
         if @carts_article.nil?
-          @message = "Artikl se ne nalazi u košarici!"
+          @message = "Artikl se ne nalazi u košarici! Molimo osvježite stranicu!"
           respond_to do |format|
-            format.js
+            return format.js  {flash[:error] = @message}
           end
         end
 
@@ -313,6 +349,9 @@ module Ajax
 
         @carts_article.destroy!
       end
+
+      flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+      check_if_sum_discount_is_valid
 
       respond_to do |format|
         format.js {flash[:warning] = "Artikl uklonjen iz košarice!" }
@@ -380,6 +419,9 @@ module Ajax
         end
       end
 
+      flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+      check_if_sum_discount_is_valid
+
       respond_to do |format|
         format.js {flash[:warning] = "Komad Artikla uklonjen iz košarice!" }
       end
@@ -429,6 +471,9 @@ module Ajax
         end
       end
 
+      flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+      check_if_sum_discount_is_valid
+
       respond_to do |format|
         format.js {flash[:warning] = "Komad Artikla uklonjen iz košarice!" }
       end
@@ -465,6 +510,9 @@ module Ajax
         @shopping_cart.save
         @carts_article.destroy!
       end
+
+      flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
+      check_if_sum_discount_is_valid
 
       respond_to do |format|
         format.js {flash[:warning] = "Artikl uklonjen iz košarice!" }
