@@ -45,7 +45,7 @@
 
                 <div class="col-xs-12 col-md-4">
                   <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-                    <%= link_to '-', destroy_amount_ajax_shopping_cart_path(id: a.article.id ), :method => :put, remote: true, class: "btn btn-default quantity " %>
+                    <%= link_to '-', destroy_amount_ajax_shopping_cart_path(cart_article_id: a.id, id: a.article.id ), :method => :put, remote: true, class: "btn btn-default quantity " %>
                   </div>
 
                   <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -57,7 +57,7 @@
                   </div>
 
                   <div class="col-xs-12 col-md-2 remove" style="width: auto; height: auto;">
-                    <%= link_to 'ukloni artikl', destroy_item_ajax_shopping_cart_path(id: a.article.id, amount: a.amount ), method: :put, remote: true, style: "color: #1abc9c;", class: "" %>
+                    <%= link_to 'ukloni artikl', destroy_item_ajax_shopping_cart_path(cart_article_id: a.id, id: a.article.id, amount: a.amount ), method: :put, remote: true, style: "color: #1abc9c;", class: "" %>
                   </div>
                 </div>
 
@@ -85,7 +85,7 @@
 
                 <div class="col-xs-12 col-md-4">
                   <div class="col-xs-6 col-md-1" style="width: auto; height: auto;">
-                    <%= link_to '-', destroy_single_amount_ajax_shopping_cart_path(id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, class: "btn btn-default quantity " %>
+                    <%= link_to '-', destroy_single_amount_ajax_shopping_cart_path(cart_article_id: a.id, id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, class: "btn btn-default quantity " %>
                   </div>
 
                   <div class="col-xs-6 col-md-2" style="width: auto; height:auto;">
@@ -97,7 +97,7 @@
                   </div>
 
                   <div class="col-xs-12 col-md-2 remove" style="width: auto; height: auto;">
-                    <%= link_to 'ukloni artikl', destroy_single_item_ajax_shopping_cart_path(id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, style: "color: #1abc9c;", class: "" %>
+                    <%= link_to 'ukloni artikl', destroy_single_item_ajax_shopping_cart_path(cart_article_id: a.id, id: a.single_article.id, amount: a.amount ), :method => :put, remote: true, style: "color: #1abc9c;", class: "" %>
                   </div>
                 </div>
 

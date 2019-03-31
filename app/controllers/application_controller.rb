@@ -69,6 +69,7 @@ class ApplicationController < ActionController::Base
   def left_to_discount
     shopping_cart_sum = user_signed_in? ? current_user.shopping_cart.current_cost : @items_cost
     @sum_discount = SumDiscount.where('? < sum', shopping_cart_sum).order('sum ASC').first
+
     if @sum_discount
       sum_left = number_to_currency((@sum_discount.sum -  shopping_cart_sum) , :unit => 'Kn', :format => "%n %u")
       @sum_until_discount = '<span style="color: #348877;"><span style="font-size: 150%; color: #515151;"> '+ sum_left +'</span> preostalo do popusta od <span style="font-size: 150%; color: #515151;"> '+@sum_discount.discount.to_s+'%</span> na svaki sljedeći artikl</span>'
@@ -110,11 +111,11 @@ class ApplicationController < ActionController::Base
           end
 
           article.save
-
-          @shopping_cart.current_cost = carts_articles.sum(:cost)
-          @shopping_cart.save
         end
       end
+
+      @shopping_cart.current_cost = carts_articles.map {|a| a.cost*a.amount}.inject(:+)
+      @shopping_cart.save
     end
   end
 

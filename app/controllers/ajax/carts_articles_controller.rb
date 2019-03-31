@@ -23,6 +23,7 @@ module Ajax
         article.discount_type = calculated_discount[:discount_type]
         article }
       @article = p.call(@article)
+      cost = (@article.cost - (@article.cost*@article.discount/100)).round(2)
 
       if amount > @article.amount
         @message = "Nema dovoljne kolicine artikla u ducanu"
@@ -62,14 +63,14 @@ module Ajax
 
         @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
 
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: art_id )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: art_id, cost: cost )
 
         puts @carts_article
 
         if @carts_article == nil
           if @article.amount.present? && amount <= @article.amount
-            CartsArticle.create(shopping_cart_id: @shopping_cart.id, article_id: art_id, amount: params[:article] ? params[:article][:amount] : 1 )
-            @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: art_id )
+            @carts_article = CartsArticle.new(shopping_cart_id: @shopping_cart.id, article_id: art_id, amount: params[:article] ? params[:article][:amount] : 1 )
+            @carts_article.save
           else
             @message = "Nema dovoljne kolicine artikla u ducanu"
 
@@ -131,8 +132,6 @@ module Ajax
 
         elsif current_user != nil
 
-          cost = (@article.cost - (@article.cost*@article.discount/100)).round(2)
-
           @shopping_cart.current_cost += cost*amount
           @shopping_cart.save
 
@@ -176,8 +175,9 @@ module Ajax
         article.discount_type = calculated_discount[:discount_type]
         article }
       @article = p.call(@single_article.article)
+      cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100)).round(2)
 
-      if amount > @single_article.amount
+      if amount > (@single_article.amount || @single_article.article.amount)
         @message = "Nema dovoljne kolicine artikla u ducanu"
 
         flash[:left_to_discount] = get_left_to_discount(user_signed_in? ? @shopping_cart.current_cost : @items_cost)
@@ -191,7 +191,7 @@ module Ajax
 
         @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
 
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: @single_article.id )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: @single_article.id, cost: cost )
 
         article_amount = @single_article.amount.nil? ? 9999 : @single_article.amount
 
@@ -200,8 +200,8 @@ module Ajax
           puts "Samo jedan takav artikl postoji!"
           if article_amount >= amount
 
-            @carts_article = CartsArticle.create(shopping_cart_id: @shopping_cart.id, single_article_id: @single_article.id, amount: amount)
-
+            @carts_article = CartsArticle.new(shopping_cart_id: @shopping_cart.id, single_article_id: @single_article.id, amount: amount)
+            @carts_article.save
           else
             @message = "Nema dovoljne kolicine artikla u ducanu"
 
@@ -276,7 +276,6 @@ module Ajax
         @items_cost += (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100))*amount
 
       else
-        cost = (@single_article.article.cost- (@single_article.article.cost*@single_article.article.discount/100)).round(2)
 
         @shopping_cart.current_cost += cost*amount
         @shopping_cart.save
@@ -301,7 +300,7 @@ module Ajax
     end
 
     def destroy_item
-      @article = Article.find(params[:id])
+      @article = Article.find(params[:id]) unless params[:cart_article_id]
       amount = params[:amount].to_i
 
       cookies[:page_number] = params[:page_number]
@@ -333,8 +332,10 @@ module Ajax
         end
 
       else
+        @carts_article = CartsArticle.find(params[:cart_article_id]) if params[:cart_article_id]
+
         @shopping_cart = current_user.shopping_cart
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] ) unless params[:cart_article_id]
 
         if @carts_article.nil?
           @message = "Artikl se ne nalazi u košarici! Molimo osvježite stranicu!"
@@ -359,7 +360,7 @@ module Ajax
     end
 
     def destroy
-      @article = Article.find(params[:id])
+      @article = Article.find(params[:id]) unless params[:cart_article_id]
 
       cookies[:page_number] = params[:page_number]
       puts "usao sam u destroy!!!!"
@@ -396,9 +397,10 @@ module Ajax
         end
 
       else
+        @carts_article = CartsArticle.find(params[:cart_article_id]) if params[:cart_article_id]
 
         @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, article_id: params[:id] )  unless params[:cart_article_id]
 
         if @carts_article.nil?
           @message = "Artikl se ne nalazi u košarici!"
@@ -428,7 +430,7 @@ module Ajax
     end
 
     def destroy_single
-      @single_article = SingleArticle.find(params[:id])
+      @single_article = SingleArticle.find(params[:id]) unless params[:cart_article_id]
       amount = params[:amount].to_i
 
       cookies[:page_number] = params[:page_number]
@@ -449,8 +451,10 @@ module Ajax
           end
         end
       else
+        @carts_article = CartsArticle.find(params[:cart_article_id])
+
         @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] ) unless params[:cart_article_id]
 
         if @carts_article.nil?
           @message = "Artikl se ne nalazi u košarici!"
@@ -480,7 +484,7 @@ module Ajax
     end
 
     def destroy_single_item
-      @single_article = SingleArticle.find(params[:id])
+      @single_article = SingleArticle.find(params[:id]) unless params[:cart_article_id]
       amount = params[:amount].to_i
 
       cookies[:page_number] = params[:page_number]
@@ -502,8 +506,10 @@ module Ajax
         end
 
       else
+        @carts_article = CartsArticle.find(params[:cart_article_id])
+
         @shopping_cart = ShoppingCart.find_by(user_id: current_user.id)
-        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] )
+        @carts_article = CartsArticle.find_by(shopping_cart_id: @shopping_cart.id, single_article_id: params[:id] ) unless params[:cart_article_id]
 
         @shopping_cart.current_cost -= @carts_article.cost*@carts_article.amount
 

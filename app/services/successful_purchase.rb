@@ -44,10 +44,9 @@ class SuccessfulPurchase
         past_purchase.save
         article = SingleArticle.find(art.single_article.id)
 
-        article.amount -= art.amount
+        article.amount -= art.amount if article.amount
         article.save
       end
-
     end
 
 

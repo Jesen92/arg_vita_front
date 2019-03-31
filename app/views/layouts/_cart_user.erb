@@ -30,10 +30,10 @@
                 <span class="quantity">stavki: <%= i.amount %></span>
                 <div class="row">
                   <div class="col-xs-5 col-md-6">
-                    <%= link_to 'ukloni 1', destroy_amount_ajax_carts_article_path(id: i.article.id ), :method => :put, remote: true, class: 'remove-single', style: "color: #1abc9c;" %>
+                    <%= link_to 'ukloni 1', destroy_amount_ajax_carts_article_path(cart_article_id: i.id, id: i.article.id ), :method => :put, remote: true, class: 'remove-single', style: "color: #1abc9c;" %>
                   </div>
                   <div class="col-xs-4 col-md-6">
-                    <%= link_to 'ukloni', destroy_item_ajax_carts_article_path(id: i.article.id, amount: i.amount ), :method => :put, remote: true, class: 'remove-article-from-cart', style: "color: #1abc9c;"%>
+                    <%= link_to 'ukloni', destroy_item_ajax_carts_article_path(cart_article_id: i.id, amount: i.amount, id: i.article.id ), :method => :put, remote: true, class: 'remove-article-from-cart', style: "color: #1abc9c;"%>
                   </div>
                 </div>
                 <!--<%= link_to 'remove', shopping_carts_destroy_path(i.article.id ), style: "color: #1abc9c;" %>-->
@@ -55,10 +55,10 @@
                 <span class="quantity">stavki: <%= i.amount %></span>
                 <div class="row">
                   <div class="col-xs-5 col-md-6">
-                    <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, class: 'remove-single', style: "color: #1abc9c;"%>
+                    <%= link_to 'ukloni 1', destroy_single_amount_ajax_carts_article_path(cart_article_id: i.id, amount: i.amount, id: i.single_article.id ), :method => :put, remote: true, class: 'remove-single', style: "color: #1abc9c;"%>
                   </div>
                   <div class="col-xs-4 col-md-6">
-                    <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(id: i.single_article.id, amount: i.amount ), :method => :put, remote: true, class: 'remove-article-from-cart', style: "color: #1abc9c;" %>
+                    <%= link_to 'ukloni', destroy_single_item_ajax_carts_article_path(cart_article_id: i.id, amount: i.amount, id: i.single_article.id  ), :method => :put, remote: true, class: 'remove-article-from-cart', style: "color: #1abc9c;" %>
                   </div>
                 </div>
               </li>
