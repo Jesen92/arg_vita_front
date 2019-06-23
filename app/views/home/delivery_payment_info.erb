@@ -1,0 +1,36 @@
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+
+<div class="container">
+  <div class="page-header head-page">
+  <h2>Dostava</h2>
+  </div>
+  <p>
+    Dostavu vršimo preko dostavne službe <a href="https://gls-group.eu/HR/hr/home#">GLS</a>.
+    Ako kupovinu obavit u prijepodnevnim satima, u 90% slučajeva pošiljku dobivate već prvog idućeg radnog dana.
+    Izuzetak su neki otoci i neka manja mjesta gdje dostava ne ide svaki dan.
+    Cijena dostave ukoliko plaćate pouzećem iznosi <b>28,00 kn</b>,
+    a ukoliko plaćate karticom ili uplatom na naš račun cijena dostave je <b>23,00 kn</b>.
+  </p>
+  <br>
+  <p>
+    Za sve narudžbe preko <b>400,00 kn</b> dostava je <b>besplatna</b>.
+  </p>
+  <br>
+  <p>
+    Naručene artikle možete podići i u našoj trgovini na adresi: Prilaz Ivana Visina bb, 10020 Zagreb.
+    Ukoliko se odlučite sami podići narudžbu u našoj trgovini, molim vas da nas o tome obavijestite mailom,
+    telefonom ili to napišite u komentaru prilikom zaključivanja narudžbe.
+  </p>
+  <br>
+</div>

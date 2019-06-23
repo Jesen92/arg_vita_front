@@ -3,6 +3,7 @@ class ArticlesController < ApplicationController
 
 
   def index
+    redirect_to root_path
     @page_title = "Artikli"
     @filterrific = initialize_filterrific(Article.where(raw: false, for_sale: true), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                              with_category_id: Category.options_for_select,
@@ -58,6 +59,7 @@ class ArticlesController < ApplicationController
   end
 
   def index_subcategories
+    redirect_to root_path
     @page_title = "Artikli"
     @filterrific = initialize_filterrific(Article.where(raw: true,for_sale: true), params[:filterrific], select_options: { sorted_by: Article.options_for_sorted_by,
                                                                                                              with_subcategory_id: Category.options_for_select,
@@ -85,14 +87,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    if current_user == nil
-      @articles = Article.where(id: @no_user_articles.keys)
-      @sa = SingleArticle.where(id: @no_user_single_articles.keys)
-    end
-
-    @article = Article.find(params[:id])
-   # @article = Article.all
-    #@article.increment!(:counter)
+    redirect_to root_path
   end
 
   def upvote

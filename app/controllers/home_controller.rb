@@ -43,6 +43,14 @@ class HomeController < ApplicationController
 
   end
 
+  def delivery_payment_info
+
+  end
+
+  def loyalty_program
+
+  end
+
   def contact_us
     unless check_service_captcha(params["g-recaptcha-response"])
       flash[:recaptcha_error] = "Označite captcha-u!"

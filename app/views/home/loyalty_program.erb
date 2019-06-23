@@ -1,0 +1,47 @@
+<div class="bnr" id="home">
+  <div id="top" class="callbacks_container">
+    <ul class="rslides" id="slider4">
+      <% ShopBanner.where(active: true).each do |bann| %>
+          <li>
+            <%=image_tag(bann.image.url(:bannsm)) %>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+
+<div class="container">
+  <div class="page-header head-page">
+    <h2>Kako ostvariti pravo na osobni popust?</h2>
+  </div>
+  <div style="font-size: 16px">
+    <p>
+      Dragi naši kupci, svaka vaša kupovina na našoj web trgovini bilježi se i akumulira,
+      a kada ostvarite pravo automatski vam se obračunava popust.
+    </p>
+    <br>
+    <p>
+      Ukoliko ste u <b>zadnjih godinu dana</b> kupili na našoj stranici artikala u vrijednosti:
+      <ul style="list-style-type: disc; padding-left: 40px;">
+        <li><b>500 kn</b> ostvarili ste pravo na <b>5%</b> popusta</li>
+        <li><b>1.000 kn</b> ostvarili ste pravo na <b>10%</b> popusta</li>
+        <li><b>1.500 kn</b> ostvarili ste pravo na <b>15%</b> popusta</li>
+        <li><b>2.000 kn</b> ostvarili ste pravo na <b>20%</b> popusta</li>
+        <li><b>2.500 kn</b> ostvarili ste pravo na <b>25%</b> popusta</li>
+        <li><b>3.000 kn</b> ostvarili ste pravo na <b>30%</b> popusta</li>
+        <li>Ukoliko ste potrošili više od  <b>5.000 kn</b> dogovaramo sa Vama poseban popust</li>
+      </ul>
+    </p>
+    <br>
+    <p>
+      Popusti se ne zbrajaju sa trenutnim akcijskim popustima. Uvijek se obračunava popust koji je povoljniji za Vas.
+    </p>
+    <p style="margin-bottom: 50px;">
+      Na primjer, ukoliko je na metalnim elementima akcijski popust od 30%,
+      a vi imate osobni popust od 20%.
+      U tom slučaju na metalnim elementima će vam se obračunati 30% popusta,
+      a na svim ostalim artiklima koje kupite obračunati će se vaš osobni popust od 20%.
+    </p>
+  </div>
+</div>

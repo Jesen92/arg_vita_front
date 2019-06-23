@@ -150,16 +150,18 @@ Rails.application.routes.draw do
     get :general, on: :collection
     get :download_pdf, on: :collection
     post :contact_us, on: :collection
+    get :delivery_payment_info, on: :collection
+    get :loyalty_program, on: :collection
   end
   resources :purchases do
     get :purchase_success, on: :collection
     post :purchase_success_credit_card, on: :collection
     get :purchase_success_credit_card, on: :collection
   end
-  resources :auctions do
-    put :new_bid, on: :collection
-    put :complement_show, on: :collection
-  end
+  #resources :auctions do
+  #  put :new_bid, on: :collection
+  #  put :complement_show, on: :collection
+  #end
   resources :articles do
     member do
       put "like" => "articles#downvote"

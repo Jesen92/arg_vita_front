@@ -210,11 +210,14 @@
 
             <li class="<%= params[:controller]== 'repromaterijal' ? 'active' : '' %>"> <%= link_to 'Repromaterijal', categories_repromaterijal_index_path, :method => :get %>
 
-            <li class="<%= params[:controller]== 'auctions' ? 'active' : '' %>"> <%= link_to 'Aukcije', auctions_index_path, :method => :get %></li>
+            <!-- <li class="<%= params[:controller]== 'auctions' ? 'active' : '' %>"> <%= link_to 'Aukcije', auctions_index_path, :method => :get %></li> -->
 
             <li class="<%= params[:controller]== 'home' && params[:action] == 'about_us_page' ? 'active' : '' %>"><%= link_to 'O nama', about_us_page_path, :method => :get %>
             </li>
             <li class="<%= params[:controller]== 'home' && params[:action] == 'contact_page' ? 'active' : '' %>"><%= link_to 'Kontakt', contact_page_path, :method => :get %>
+            </li>
+            <li class="<%= params[:controller]== 'home' && params[:action] == 'loyalti_program' ? 'active' : '' %>">
+              <%= link_to 'Kako ostvariti osobne popuste?', loyalty_program_home_index_path, :method => :get, style: 'color: turquoise' %>
             </li>
           </ul>
         </div>
@@ -300,6 +303,11 @@
           <li>
             <%= link_to payment_methods_path do %>
               <p>Načini plaćanja</p>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to delivery_payment_info_home_index_path do %>
+              <p>Dostava</p>
             <% end %>
           </li>
         </ul>
