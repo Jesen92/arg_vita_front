@@ -143,6 +143,7 @@ GEM
     country_select (2.5.2)
       countries (~> 1.2.0)
       sort_alphabetical (~> 1.0)
+    crass (1.0.5)
     css_parser (1.6.0)
       addressable
     currencies (0.4.2)
@@ -213,7 +214,8 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    loofah (2.0.3)
+    loofah (2.3.1)
+      crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
@@ -222,7 +224,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99)
     mimemagic (0.3.0)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.1.0)
     minitest (5.8.4)
     money (6.7.0)
       i18n (>= 0.6.4, <= 0.7.0)
@@ -232,12 +234,12 @@ GEM
     mysql2 (0.3.21)
     mysql2 (0.3.21-x64-mingw32)
     mysql2 (0.3.21-x86-mingw32)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
-    nokogiri (1.6.7.2-x64-mingw32)
-      mini_portile2 (~> 2.0.0.rc2)
-    nokogiri (1.6.7.2-x86-mingw32)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8.1)
+      mini_portile2 (~> 2.1.0)
+    nokogiri (1.6.8.1-x64-mingw32)
+      mini_portile2 (~> 2.1.0)
+    nokogiri (1.6.8.1-x86-mingw32)
+      mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
     paperclip (4.3.2)
       activemodel (>= 3.2.0)
@@ -415,7 +417,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form
-  sprockets
   sucker_punch (~> 1.0)
   turbolinks
   tzinfo-data
