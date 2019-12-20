@@ -261,7 +261,7 @@ GEM
       slop (~> 3.4)
     public_suffix (3.0.2)
     puma (3.10.0)
-    rack (1.6.10)
+    rack (1.6.12)
     rack-mini-profiler (0.10.5)
       rack (>= 1.2.0)
     rack-test (0.6.3)
@@ -415,7 +415,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form
-  sprockets
   sucker_punch (~> 1.0)
   turbolinks
   tzinfo-data
