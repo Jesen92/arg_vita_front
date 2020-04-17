@@ -415,7 +415,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form
-  sprockets
   sucker_punch (~> 1.0)
   turbolinks
   tzinfo-data
@@ -423,9 +422,6 @@ DEPENDENCIES
   web-console (~> 2.0)
   whenever
   wice_grid (= 3.6.0.pre4)
-
-RUBY VERSION
-   ruby 2.3.1p112
 
 BUNDLED WITH
    1.16.2
