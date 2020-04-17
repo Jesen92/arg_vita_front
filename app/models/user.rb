@@ -8,7 +8,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable #,:confirmable
 
-
   after_save :subscribe_user_to_mailing_list
 
   after_create { |user|
@@ -20,6 +19,7 @@ class User < ActiveRecord::Base
   }
 
   validates :name, :address, :state, :postcode, :phone, :city, :email, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   private
 
