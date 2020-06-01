@@ -72,7 +72,7 @@
 
             <% elsif !a.single_article.nil? %>
                 <div class="col-xs-12 col-md-1" >
-                  <% if a.single_article.article.picture != nil %>
+                  <% if a.single_article.present? && a.single_article.article.picture != nil %>
                       <%= image_tag(a.single_article.article.picture.image.url(:index), class: 'picture-set') %>
                   <% else %>
                       <%=image_tag("default-placeholder-2.png", class: "productimg" ) %>
@@ -110,10 +110,8 @@
                 </div>
 
             <% else %>
-
-
                 <div class="col-xs-12 col-md-1" >
-                  <% if a.complement.picture != nil %>
+                  <% if a.complement.present? && a.complement.picture != nil %>
                       <%= image_tag(a.complement.picture.image.url(:index), class: 'picture-set') %>
                   <% else %>
                       <%=image_tag("default-placeholder-2.png", class: "productimg" ) %>
@@ -250,7 +248,7 @@
                   <div class="row" >
 
                     <div class="col-xs-6 col-md-1" >
-                      <% if a.article.pictures.first != nil %>
+                      <% if a.article.present? && a.article.pictures.first != nil %>
                           <%= image_tag(a.article.pictures.first.image.url(:table)) %>
                       <% else %>
                           <%=image_tag("default-placeholder.png", class: "productimg" ) %>

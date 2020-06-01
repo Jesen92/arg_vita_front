@@ -2,7 +2,7 @@ class Article < ActiveRecord::Base
   acts_as_votable
   include IdentityCache
 
-  has_many :carts_articles
+  has_many :carts_articles, :dependent => :destroy
   has_many :shopping_carts, :through => :carts_articles
 
   has_many :article_categories
