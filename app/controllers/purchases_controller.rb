@@ -77,7 +77,9 @@ class PurchasesController < ApplicationController
     if params[:success] == 'true'
       flash[:purchase] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
 
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23, params[:approval_code]).succesful_payment
+      user = ShoppingCart.find_by(last_order_number: params[:order_number]).user
+
+      SuccessfulPurchase.new(session[:delivery_info_params], user, 23, params[:approval_code]).succesful_payment
     else
       flash[:error] = "Greška kod obavljanja kupnje!"
     end
@@ -92,7 +94,11 @@ class PurchasesController < ApplicationController
     @carts_article = CartsArticle.where(shopping_cart_id: @shopping_cart.id)
     coupon = Coupon.find_by(id: delivery_info_params[:coupon_id] ) if delivery_info_params[:coupon_id].present?
 
-    session[:order_number] = (0...21).map { (65 + rand(20)).chr }.join
+    order_number = (0...21).map { (65 + rand(20)).chr }.join
+    session[:order_number] = order_number
+    @shopping_cart.last_order_number = order_number
+    @shopping_cart.save
+
     #session[:order_number] = "order_"+(PastPurchase.last.id+1).to_s
     shipping_cost = @shopping_cart.current_cost >= 400 ? 0 : 23
     sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+number_to_currency(@shopping_cart.current_cost+shipping_cost, unit: "", separator: ".", delimiter: "")+":HRK"
@@ -114,7 +120,7 @@ class PurchasesController < ApplicationController
         :target => '_top',
         :mode => 'form',
         :store_id => ENV['CORVUS_STORE_ID'].to_i,
-        :order_number => session[:order_number],
+        :order_number => order_number,
         :language => 'hr',
         :currency => 'HRK',
         :amount => number_to_currency(amount, unit: "", separator: ".", delimiter: ""),

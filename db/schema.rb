@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190302082712) do
+ActiveRecord::Schema.define(version: 20200911130313) do
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -343,10 +343,11 @@ ActiveRecord::Schema.define(version: 20190302082712) do
   end
 
   create_table "shopping_carts", force: :cascade do |t|
-    t.decimal  "current_cost",           precision: 10, scale: 2, default: 0.0
-    t.integer  "user_id",      limit: 4
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.decimal  "current_cost",                  precision: 10, scale: 2, default: 0.0
+    t.integer  "user_id",           limit: 4
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+    t.string   "last_order_number", limit: 255
   end
 
   create_table "single_articles", force: :cascade do |t|
