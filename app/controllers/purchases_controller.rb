@@ -20,7 +20,7 @@ class PurchasesController < ApplicationController
 
       return redirect_to :back
     end
-    session[:delivery_info_params] = delivery_info_params
+    cookies[:delivery_info_params] = delivery_info_params
 
     if params[:users_purchase][:payment_method].blank?
       flash[:error] = "Molimo odaberite način plaćanja prije izvršavanja kupnje!"
@@ -39,11 +39,11 @@ class PurchasesController < ApplicationController
 
       return render :create
     elsif params[:users_purchase][:payment_method].downcase.include? "virman"
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
+      SuccessfulPurchase.new(cookies[:delivery_info_params], current_user, 23).succesful_payment
       flash[:purchase] = "Uspješno se obavili kupnju! Na email ćete dobiti virman sa informacijama za uplatu!"
       return redirect_to root_path
     else
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
+      SuccessfulPurchase.new(cookies[:delivery_info_params], current_user, 23).succesful_payment
       flash[:purchase] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
       return redirect_to root_path
     end
@@ -62,7 +62,7 @@ class PurchasesController < ApplicationController
       # Success Message
       flash[:purchase] = "Uspješno se obavili kupnju! Dobiti ćete e-mail potvrdu!"
 
-      SuccessfulPurchase.new(session[:delivery_info_params], current_user, 23).succesful_payment
+      SuccessfulPurchase.new(cookies[:delivery_info_params], current_user, 23).succesful_payment
 
       #UserMailer.checkout_mail(current_user).deliver_now #TODO odkomentiraj za slanje mail-a nakon kupnje
     else
@@ -79,7 +79,7 @@ class PurchasesController < ApplicationController
 
       user = ShoppingCart.find_by(last_order_number: params[:order_number]).user
 
-      SuccessfulPurchase.new(session[:delivery_info_params], user, 23, params[:approval_code]).succesful_payment
+      SuccessfulPurchase.new(cookies[:delivery_info_params], user, 23, params[:approval_code]).succesful_payment
     else
       flash[:error] = "Greška kod obavljanja kupnje!"
     end
