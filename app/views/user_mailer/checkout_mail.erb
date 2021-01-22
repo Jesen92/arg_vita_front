@@ -191,11 +191,11 @@
                       <div style="text-align: right"><p>PDV: <%= number_to_currency(@shopping_cart.current_cost - @cijena_bez_pdv, :unit => 'Kn', :format => "%n %u") %> </p></div>
                       
                       <% @shipping_cost = 0 %>  
-                      <% if @shopping_cart.current_cost < 400 %>
+                      <% if @shopping_cart.current_cost < 100 %>
                         <% @shipping_cost = 23 %>
                         <div style="text-align: right"><p>Cijena poštarine: <%= number_to_currency(23, :unit => 'Kn', :format => "%n %u") %> </p></div>
                       <% end %>
-                      <% pouzece = @delivery_info['payment_method'].include?("Pri pouze") && @shopping_cart.current_cost < 400 ? 5 : 0 %>
+                      <% pouzece = @delivery_info['payment_method'].include?("Pri pouze") && @shopping_cart.current_cost < 100 ? 5 : 0 %>
                       <% if pouzece != 0 %><div style="text-align: right"><p>Cijena za pouzeće: <%= number_to_currency(5, :unit => 'Kn', :format => "%n %u") %></p></div><% end %>
                       <div class="item-price"  style="text-align: right; font-size: 200%;"><hr><%= number_to_currency(@shopping_cart.current_cost+@shipping_cost+pouzece, :unit => 'Kn', :format => "%n %u") %></div>                    
                       <% if @coupon %>

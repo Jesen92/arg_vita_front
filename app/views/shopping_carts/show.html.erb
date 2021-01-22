@@ -110,7 +110,7 @@ $("#submitCoupon").click(function(){
               discountedPrice = parseFloat(discountedPrice) + parseFloat(shippingPrice);
           }
 
-          $("#extra_cost").val((price > 400) ? 0 : 28);
+          $("#extra_cost").val((price > 100) ? 0 : 28);
 
           $("#discount").text("-"+parseFloat(discount).toFixed(2)+" Kn");
           $("#discountTotalPrice").text("Cijena s kuponom: "+parseFloat(discountedPrice).toFixed(2)+" Kn");

@@ -104,7 +104,7 @@ class PurchasesController < ApplicationController
     @shopping_cart.save
 
     #session[:order_number] = "order_"+(PastPurchase.last.id+1).to_s
-    shipping_cost = @shopping_cart.current_cost >= 400 ? 0 : 23
+    shipping_cost = @shopping_cart.current_cost >= 100 ? 0 : 23
     sha1_hash = Digest::SHA1.hexdigest ENV['CORVUS_SECRET']+":"+session[:order_number]+":"+number_to_currency(@shopping_cart.current_cost+shipping_cost, unit: "", separator: ".", delimiter: "")+":HRK"
 
     cart = @carts_article.map {|cart|
