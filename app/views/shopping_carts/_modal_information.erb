@@ -42,7 +42,7 @@
               </div>
             <% end %>
 
-              <% extra_cost = @shopping_cart.current_cost < 100 ? 28 : 0 %>
+              <% extra_cost = @shopping_cart.current_cost < 200 ? 28 : 0 %>
               <% if extra_cost > 0 %>
               <div class="alert alert-danger" role="alert" style="display: none;" id="alert_if_extra_cost">
                   Kod odabira plaćanja 'Pri pouzeću' na ukupnu cijenu se dodaje <span style="font-size: 120%; font-weight: bold">5 Kn</span> te vaša ukupna cijena iznosi <span style="font-size: 120%; font-weight: bold" id="pouzeceCijena"> <%= number_to_currency(@shopping_cart.current_cost+extra_cost, :unit => 'Kn', :format => "%n %u") %></span>

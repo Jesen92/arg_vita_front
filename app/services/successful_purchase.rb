@@ -74,7 +74,7 @@ class SuccessfulPurchase
     extra_cost = delivery_info['payment_method'].include?("Pri pouze") ? 5 : 0
 
     @user_purchase_id = UsersPurchase.create(delivery_info
-      .merge({total_purchase: @current_purchase_sum, user_id: user.id, shipping_cost: @current_purchase_sum >= 100 ? 0 : 23+extra_cost })).id
+      .merge({total_purchase: @current_purchase_sum, user_id: user.id, shipping_cost: @current_purchase_sum >= 200 ? 0 : 23+extra_cost })).id
   end
 
 end
