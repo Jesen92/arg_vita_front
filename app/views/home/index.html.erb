@@ -1,5 +1,4 @@
 
-
 <!--bottom-header-->
 
 <!--banner-starts-->
@@ -7,7 +6,7 @@
   <div id="top" class="callbacks_container">
     <ul class="rslides" id="slider4">
       <% HomeBanner.where(active: true).each do |bann| %>
-        <li>
+        <li class="pointer-hover">
           <%=image_tag(bann.image.url(:bann)) %>
         </li>
       <% end %>

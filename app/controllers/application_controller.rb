@@ -9,11 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :set_user, :set_cart, :set_article_raw_session, :clear_flashes, :left_to_discount
 
   def default_url_options
-    if Rails.env.production?
-      {:host => "www.argentumvita.com"}
-    else
-      {}
-    end
+    {}
   end
 
   def set_article_raw_session
