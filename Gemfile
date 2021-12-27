@@ -71,9 +71,10 @@ gem 'rails_12factor'
 
 gem 'meta-tags', '~> 2.1'
 
-gem 'paperclip', '~> 4.3'
+gem 'paperclip', git: 'https://github.com/sd/paperclip', branch: 'remove-mimemagic'
 
 gem 'aws-sdk', '< 2.0'
+gem 'aws-sdk-s3'
 
 gem "recaptcha", require: "recaptcha/rails"
 
