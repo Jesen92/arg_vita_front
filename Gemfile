@@ -78,7 +78,7 @@ gem 'aws-sdk-s3'
 
 gem "recaptcha", require: "recaptcha/rails"
 
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 
 gem 'activerecord-session_store'
 gem 'google-analytics-rails', '1.1.1'
