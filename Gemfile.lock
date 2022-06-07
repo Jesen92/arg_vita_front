@@ -218,7 +218,7 @@ GEM
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     jquery-infinite-pages (0.2.0)
       coffee-script
       jquery-rails
